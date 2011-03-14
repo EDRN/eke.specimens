@@ -1,0 +1,80 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='eke.specimens'>
+    <head>
+        <title>Specimens at Site in Protocol</title>
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <tal:main-macro metal:define-macro='main' tal:define='
+                haveSpecimensInProtocols view/haveSpecimensInProtocols;
+                contents                 view/specimensInProtocols;
+            '>
+                <div tal:replace='structure provider:plone.abovecontenttitle' />
+                <h1 class='documentFirstHeading'> 
+                    <metal:field use-macro='python:context.widget("title", mode="view")'>
+                        Title
+                    </metal:field>
+                </h1>
+
+                <div tal:replace='structure provider:plone.belowcontenttitle' />
+                <!-- No "description" field for objects of this class -->
+                <div tal:replace='structure provider:plone.abovecontentbody' />
+
+                <div>
+                    <label for='parent-fieldname-site' i18n:translate='label_site'>Site:</label>
+                    <metal:field use-macro='python:context.widget("site", mode="view")'>Site</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-specimenCount' i18n:translate='label_specimenCount'>Specimen Count:</label>
+                    <metal:field use-macro='python:context.widget("specimenCount", mode="view")'>3</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-participantCount' i18n:translate='label_participantCount'>Participants:</label>
+                    <metal:field use-macro='python:context.widget("participantCount", mode="view")'>2</metal:field>
+                </div>
+                
+
+                <h2 i18n:translate='sasip_ProtocolsHeader'>Protocols</h2>
+                <p class='discreet' i18n:translate='sasip_noProtocols' tal:condition='not:haveSpecimensInProtocols'>
+                    There are currently no specimen-collecting protocols at this site.
+                </p>
+                <table tal:condition='haveSpecimensInProtocols'>
+                    <thead>
+                        <tr>
+                            <th i18n:translate='sasip_protoTH'>Protocol</th>
+                            <th i18n:translate='sasip_specimensTH'>Specimens</th>
+                            <th i18n:translate='sasip_participantsTH'>Participants</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tal:row repeat='item contents'>
+                            <tal:def define='url item/url; title item/title; cnt item/specimenCount; pcnt item/participantCount;
+                                oddrow repeat/item/odd;'>
+                                <tr tal:attributes='class python:oddrow and "odd" or "even";'>
+                                    <td>
+                                        <a href='#' tal:attributes='href url' tal:content='title'>
+                                            Spiffy Protocol
+                                        </a>
+                                    </td>
+                                    <td tal:content='cnt'>123</td>
+                                    <td tal:content='pcnt'>5</td>
+                                </tr>
+                            </tal:def>
+                        </tal:row>
+                    </tbody>
+                </table>
+                
+                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                    Any related items
+                </div>
+                <div tal:replace='structure provider:plone.belowcontentbody' />
+            </tal:main-macro>
+        </metal:main>
+    </body>
+</html>

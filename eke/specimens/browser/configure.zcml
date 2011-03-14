@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2010 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure xmlns='http://namespaces.zope.org'
+    xmlns:zope='http://namespaces.zope.org/zope'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    i18n_domain='eke.specimens'>
+    <include package='plone.app.contentmenu'/>
+
+    <!-- Specimen Folder -->
+    <browser:resource name='specimen-folder.gif' file='images/specimen-folder.gif'/>
+    <browser:page
+        class='.views.SpecimenFolderView'
+        for='..interfaces.ISpecimenFolder'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:page
+        class='.ingest.SpecimenFolderIngestor'
+        for='..interfaces.ISpecimenFolder'
+        name='ingest'
+        permission='cmf.ManagePortal'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Specimen Folder.'
+        for='..interfaces.ISpecimenFolder'
+        menu='plone_displayviews'
+        title='Specimen Folder view'
+    />
+
+    <!-- Specimens at Site in Protocol -->
+    <browser:resource name='specimens-at-site-in-protocol.gif' file='images/specimens-at-site-in-protocol.gif'/>
+    <browser:page
+        class='.views.SpecimensAtSiteInProtocolView'
+        for='..interfaces.ISpecimensAtSiteInProtocol'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of Specimens at Site in Protocol.'
+        for='..interfaces.ISpecimensAtSiteInProtocol'
+        menu='plone_displayviews'
+        title='Specimens at Site in Protocol view'
+    />
+
+    <!-- Specimens in Protocol -->
+    <browser:resource name='specimens-in-protocol.gif' file='images/specimens-in-protocol.gif'/>
+    <browser:page
+        class='.views.SpecimensInProtocolView'
+        for='..interfaces.ISpecimensInProtocol'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of Specimens in Protocol.'
+        for='..interfaces.ISpecimensInProtocol'
+        menu='plone_displayviews'
+        title='Specimens in Protocol view'
+    />
+
+    <!-- Specimen Record -->
+    <browser:resource name='specimen-record.gif' file='images/specimen-record.gif'/>
+    <browser:page
+        class='.views.SpecimenRecordView'
+        for='..interfaces.ISpecimenRecord'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of Specimen Record.'
+        for='..interfaces.ISpecimenRecord'
+        menu='plone_displayviews'
+        title='Specimen Record view'
+    />
+    <browser:resource
+        name='specimen.css'
+        file='specimen.css'
+    />
+
+    <!-- Vocabularies -->
+    <zope:utility
+        component='.utils.ERNESitesVocabulary'
+        name='eke.specimens.ERNESites'
+    />
+
+</configure>

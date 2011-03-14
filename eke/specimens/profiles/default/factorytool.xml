@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2010 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<object name='portal_factory' meta_type='Plone Factory Tool'>
+    <factorytypes>
+        <type portal_type='Specimen Folder' />
+        <type portal_type='Specimens at Site in Protocol' />
+        <type portal_type='Specimens in Protocol' />
+        <type portal_type='Specimen Record' />
+    </factorytypes>
+</object>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2010 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<object name='portal_types' meta_type='Plone Types Tool'>
+    <object name='Specimen Folder'               meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Specimens at Site in Protocol' meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Specimens in Protocol'         meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Specimen Record'               meta_type='Factory-based Type Information with dynamic views'/>
+</object>

@@ -1,0 +1,61 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='eke.specimens'>
+    <head>
+        <title>Specimens in Protocol</title>
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <tal:main-macro metal:define-macro='main' tal:define='
+                haveSpecimenRecords view/haveSpecimenRecords;
+                contents            view/specimenRecords;
+            '>
+                <div tal:replace='structure provider:plone.abovecontenttitle' />
+                <h1 class='documentFirstHeading'> 
+                    <metal:field use-macro='python:context.widget("title", mode="view")'>
+                        Title
+                    </metal:field>
+                </h1>
+
+                <div tal:replace='structure provider:plone.belowcontenttitle' />
+                <!-- No "description" field for objects of this class -->
+                <div tal:replace='structure provider:plone.abovecontentbody' />
+
+                <div>
+                    <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
+                    <metal:field use-macro='python:context.widget("protocol", mode="view")'>Blah</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-specimenCount' i18n:translate='label_specimenCount'>Specimen Count:</label>
+                    <metal:field use-macro='python:context.widget("specimenCount", mode="view")'>3</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-participantCount' i18n:translate='label_participantCount'>Participants:</label>
+                    <metal:field use-macro='python:context.widget("participantCount", mode="view")'>2</metal:field>
+                </div>
+
+                <h2 i18n:translate='sip_SpecimensHeading'>Specimens</h2>
+                <p class='discreet' tal:condition='not:haveSpecimenRecords'>
+                    There are currently no specimen records for this protocol.
+                </p>
+                <ul tal:condition='haveSpecimenRecords'>
+                    <li tal:repeat='item contents'>
+                        <a href='#' tal:attributes='href item/url' tal:content='item/title'>
+                            342 pieces of crap taken from 1 productive participant who produced tons of it.
+                        </a>
+                    </li>
+                </ul>
+                
+                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                    Any related items
+                </div>
+                <div tal:replace='structure provider:plone.belowcontentbody' />
+            </tal:main-macro>
+        </metal:main>
+    </body>
+</html>

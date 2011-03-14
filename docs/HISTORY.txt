@@ -1,0 +1,42 @@
+Changelog
+=========
+
+What follows is a history of changes from release to release.  Within each
+description, you can find more details about cited issue numbers by visiting
+the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
+
+0.0.3 - TBD
+-----------
+
+This release tackles the following:
+
+* If an ERNE site is down and the ERNE cache returns an HTTP 500 error, don't
+  abort the entire ingest.  Just skip that site and carry on.
+
+
+0.0.2 - A Mixed Bag
+-------------------
+
+This release addresses the following issue:
+
+* CA-698 - "Structural" objects appear in searches
+
+
+0.0.1 - Goodbye, Peter Lin
+--------------------------
+
+This time around, the EKE specimen package provides direct display of ERNE
+specimen data without having to delegate to the ERNE UI web application.
+(There is no corresponding issue in the issue tracker for this new feature; or
+if there is, the issue tracker is down as I write this and can't confirm.)
+
+This release also addresses the following issues:
+
+* CA-683 - Counts are off on specimen search
+* CA-685 - Specimen Tab search results returns records for the same search
+  summary more than one time (should be grouped together)
+
+0.0.0 - Unreleased
+------------------
+
+Initial release into beta.
