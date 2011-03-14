@@ -42,8 +42,9 @@ class SpecimenStatisticsTest(BaseTestCase):
 class TestIngest(BaseTestCase):
     '''Unit tests of ingestion.'''
     def testBadURL(self):
-        '''Ensure ``getSpecimens`` raises an exception on bad URLs'''
-        self.failUnlessRaises(IOError, getSpecimens, 'bogus:url:to-no-where')
+        '''Ensure ``getSpecimens`` returns no specimens for bad URLs'''
+        records = getSpecimens('bogus:url:to-no-where')
+        self.assertEquals(0, len(records))
     def testNormalSpecimens(self):
         '''Check if ``getSpecimens`` returns reasonable results on test data'''
         records = getSpecimens('testscheme://localhost/erne/prod', 'testscheme://localhost/erne/erneQuery')
