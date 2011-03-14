@@ -11,7 +11,8 @@ the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 This release tackles the following:
 
 * If an ERNE site is down and the ERNE cache returns an HTTP 500 error, don't
-  abort the entire ingest.  Just skip that site and carry on.
+  abort the entire ingest.  Just skip that site and go forward.  "Stay calm
+  and carry on."
 
 
 0.0.2 - A Mixed Bag
