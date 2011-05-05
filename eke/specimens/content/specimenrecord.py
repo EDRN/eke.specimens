@@ -75,7 +75,7 @@ SpecimenRecordSchema = ATContentTypeSchema.copy() + CountsSchema.copy() + atapi.
         ),
     ),
     atapi.ComputedField(
-        'siteName',
+        'siteNameField',
         accessor='siteName',
         expression='context._computeSiteName()',
         modes=('view',),

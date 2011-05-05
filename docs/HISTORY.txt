@@ -5,6 +5,13 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+
+1.0.0 - Plone 4
+---------------
+
+This release makes eke.specimens compatible with Plone 4.
+
+
 0.0.3 - NYU
 -----------
 

@@ -9,7 +9,7 @@ import os.path
 # ------------
 
 _name        = 'eke.specimens'
-_version     = '0.0.4'
+_version     = '1.0.0'
 _description = 'ERNE Specimen Management for the EDRN Knowledge Environment'
 _url         = 'http://cancer.jpl.nasa.gov/products/eke-specimens'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
@@ -24,6 +24,8 @@ _requirements = [
     'setuptools',
     'collective.vdexvocabulary',
     'eke.knowledge',
+    'eke.site',
+    'Plone',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',

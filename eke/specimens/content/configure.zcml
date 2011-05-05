@@ -6,21 +6,17 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 <configure xmlns='http://namespaces.zope.org/zope' i18n_domain='eke.specimens'>
     <class class='.specimenfolder.SpecimenFolder'>
         <require permission='zope2.View' interface='..interfaces.ISpecimenFolder'/>
-        <require permission='cmf.ModifyPortalContent' set_schema='..interfaces.ISpecimenFolder'/>
     </class>
     <class class='.specimensatsiteinprotocol.SpecimensAtSiteInProtocol'>
         <require permission='zope2.View' interface='..interfaces.ISpecimensAtSiteInProtocol'/>
-        <require permission='cmf.ModifyPortalContent' set_schema='..interfaces.ISpecimensAtSiteInProtocol'/>
         <require permission='cmf.ModifyPortalContent' interface='..interfaces.IUpdatable'/>
     </class>
     <class class='.specimensinprotocol.SpecimensInProtocol'>
         <require permission='zope2.View' interface='..interfaces.ISpecimensInProtocol'/>
-        <require permission='cmf.ModifyPortalContent' set_schema='..interfaces.ISpecimensInProtocol'/>
         <require permission='cmf.ModifyPortalContent' interface='..interfaces.IUpdatable'/>
     </class>
     <class class='.specimenrecord.SpecimenRecord'>
         <require permission='zope2.View' interface='..interfaces.ISpecimenRecord' />
-        <require permission='cmf.ModifyPortalContent' set_schema='..interfaces.ISpecimenRecord' />
     </class>
     <subscriber
         for='..interfaces.ISpecimensAtSiteInProtocol zope.app.container.interfaces.IContainerModifiedEvent'
