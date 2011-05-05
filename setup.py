@@ -9,7 +9,7 @@ import os.path
 # ------------
 
 _name        = 'eke.specimens'
-_version     = '1.0.0'
+_version     = '1.0.1'
 _description = 'ERNE Specimen Management for the EDRN Knowledge Environment'
 _url         = 'http://cancer.jpl.nasa.gov/products/eke-specimens'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
