@@ -5,6 +5,15 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+ 
+1.0.1 - Upgrade Cleanup
+-----------------------
+
+This release updates the GenericSetup profile to 4, provides upgrade steps to
+that profile, and makes the testing and development harness depend on "trunk"
+level of other eggs instead of on released versions of those eggs.  It also
+takes advantage of factored out common testing setup.
+
 
 1.0.0 - Plone 4
 ---------------
