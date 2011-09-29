@@ -5,8 +5,15 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+
+1.1.0 — Strong Simplification
+-----------------------------
+
+This release simplifies specimens so that only the common attributes between
+Specimen Reference Sets, PRoBE, and ERNE Specimens are represented.
+
  
-1.0.1 - Upgrade Cleanup
+1.0.1 — Upgrade Cleanup
 -----------------------
 
 This release updates the GenericSetup profile to 4, provides upgrade steps to
@@ -15,13 +22,13 @@ level of other eggs instead of on released versions of those eggs.  It also
 takes advantage of factored out common testing setup.
 
 
-1.0.0 - Plone 4
+1.0.0 — Plone 4
 ---------------
 
 This release makes eke.specimens compatible with Plone 4.
 
 
-0.0.3 - NYU
+0.0.3 — NYU
 -----------
 
 This release tackles the following:
@@ -31,7 +38,7 @@ This release tackles the following:
   and carry on."
 
 
-0.0.2 - A Mixed Bag
+0.0.2 — A Mixed Bag
 -------------------
 
 This release addresses the following issue:
@@ -39,7 +46,7 @@ This release addresses the following issue:
 * CA-698 - "Structural" objects appear in searches
 
 
-0.0.1 - Goodbye, Peter Lin
+0.0.1 — Goodbye, Peter Lin
 --------------------------
 
 This time around, the EKE specimen package provides direct display of ERNE
@@ -49,11 +56,11 @@ if there is, the issue tracker is down as I write this and can't confirm.)
 
 This release also addresses the following issues:
 
-* CA-683 - Counts are off on specimen search
-* CA-685 - Specimen Tab search results returns records for the same search
+* CA-683 — Counts are off on specimen search
+* CA-685 — Specimen Tab search results returns records for the same search
   summary more than one time (should be grouped together)
 
-0.0.0 - Unreleased
+0.0.0 — Unreleased
 ------------------
 
 Initial release into beta.

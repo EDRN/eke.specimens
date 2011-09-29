@@ -18,7 +18,7 @@ import Products.CMFCore
 
 def initialize(context):
     '''Initializer called when used as a Zope 2 product.'''
-    from content import specimenfolder, specimensatsiteinprotocol, specimensinprotocol, specimenrecord
+    from content import specimencollectionfolder, specimencollection, specimenset
     contentTypes, constructors, ftis = atapi.process_types(atapi.listTypes(config.PROJECTNAME), config.PROJECTNAME)
     for atype, constructor in zip(contentTypes, constructors):
         Products.CMFCore.utils.ContentInit(
