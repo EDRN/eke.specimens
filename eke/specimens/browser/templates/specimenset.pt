@@ -39,6 +39,10 @@
                     <metal:field use-macro='python:context.widget("shortName", mode="view")'>ANAL-REF</metal:field>
                 </div>
                 <div>
+                    <label for='parent-fieldname-storageType' i18n:translate='label_storageType'>Storage Type:</label>
+                    <span id='parent-fieldname-storageType' tal:content='view/storageTypeLabel'>Goop</span>
+                </div>
+                <div>
                     <label for='parent-fieldname-specimenCount' i18n:translate='label_specimenCount'>Specimen Count:</label>
                     <metal:field use-macro='python:context.widget("specimenCount", mode="view")'>42</metal:field>
                 </div>

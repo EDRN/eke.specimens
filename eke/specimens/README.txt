@@ -195,6 +195,7 @@ So let's open the Specimen Collection we created above and add it there::
     >>> browser.getControl(name='title').value = u'Anal Reference Set'
     >>> browser.getControl(name='description').value = u'Official reference set from the anus.'
     >>> browser.getControl(name='shortName').value = u'ANAL-REF'
+    >>> browser.getControl(name='storageType').displayValue = ['DNA']
     >>> browser.getControl(name='specimenCount').value = u'127'
     >>> browser.getControl(name='numberCases').value = u'90'
     >>> browser.getControl(name='numberControls').value = u'45'
@@ -209,6 +210,8 @@ So let's open the Specimen Collection we created above and add it there::
     'Official reference set from the anus.'
     >>> f.shortName
     'ANAL-REF'
+    >>> f.storageType
+    '9'
     >>> f.specimenCount
     127
     >>> f.numberCases
@@ -260,7 +263,7 @@ A Specimen Set just shows off its various attributes::
 
     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-reference-set')
     >>> browser.contents
-    '...ANAL-REF...127...90...45...Public Safety...'
+    '...ANAL-REF...DNA...127...90...45...Public Safety...'
 
 That's all there is.
 

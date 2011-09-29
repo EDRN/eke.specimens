@@ -6,18 +6,15 @@
 EDRN Knowledge Environment Specimens: views for content types.
 '''
 
-from Acquisition import aq_inner, aq_parent
-from eke.knowledge.browser.views import KnowledgeFolderView
-from eke.specimens import ProjectMessageFactory as _, STORAGE_VOCAB_NAME
+from Acquisition import aq_inner
+from eke.specimens import ProjectMessageFactory as STORAGE_VOCAB_NAME
 from eke.specimens.interfaces import ISpecimenCollection, ISpecimenSet
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from utils import getInventory, SITES
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
-import urllib
 
 class SpecimenCollectionFolderView(BrowserView):
     '''Default view of a Specimen collection folder.'''
@@ -54,4 +51,13 @@ class SpecimenCollectionView(BrowserView):
 class SpecimenSetView(BrowserView):
     '''Default view of a Specimen Set.'''
     __call__ = ViewPageTemplateFile('templates/specimenset.pt')
+    @memoize
+    def storageTypeLabel(self):
+        try:
+            context = aq_inner(self.context)
+            factory = getUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
+            vocab = factory(context)
+            return vocab.getTermByToken(context.storageType).title
+        except LookupError:
+            return u'Unknown' # FIXME: Not i18n
 

@@ -79,6 +79,11 @@ class ISpecimenSet(ISpecimenStatistics):
         description=_(u'A brief name or simple identifier for this specimen set.'),
         required=True,
     )
+    storageType = schema.TextLine(
+        title=_(u'Storage Type'),
+        description=_(u'How the specimens were processed and stored from these participants.'),
+        required=True,
+    )
     numberCases = schema.Int(
         title=_(u'Cases'),
         description=_(u'The number of participant cases from which specimens were drawn in this set.'),

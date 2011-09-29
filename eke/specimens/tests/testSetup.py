@@ -9,6 +9,7 @@ from base import BaseTestCase
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
+from eke.specimens import STORAGE_VOCAB_NAME
 import unittest
 
 class TestSetup(BaseTestCase):
@@ -37,7 +38,12 @@ class TestSetup(BaseTestCase):
         qi = getToolByName(self.portal, 'portal_quickinstaller')
         # TODO: When we migrate from Archetypes to Dexterity, check for plone.app.dexterity
         # self.failUnless(qi.isProductInstalled('plone.app.dexterity'), "Dexterity wasn't installed")
-
+    def testVocabularies(self):
+        '''Ensure our vocabularies are available'''
+        vocabs = (STORAGE_VOCAB_NAME,)
+        for v in vocabs:
+            self.failUnless(queryUtility(IVocabularyFactory, name=v) is not None, 'Vocabulary "%s" not available' % v)
+        
 
 def test_suite():
     suite = unittest.TestSuite()

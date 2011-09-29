@@ -9,7 +9,6 @@ from zope.i18nmessageid import MessageFactory
 
 ProjectMessageFactory = MessageFactory('eke.specimens')
 
-SPECIMEN_TYPE_VOCAB_NAME = u'https://www.compass.fhcrc.org/edrns/cgi-bin/pilot/cde/CDEDetailed.asp?cdeid=524'
 STORAGE_VOCAB_NAME = u'https://www.compass.fhcrc.org/edrns/cgi-bin/pilot/cde/CDEDetailed.asp?cdeid=529'
 
 from eke.specimens import config
@@ -18,7 +17,7 @@ import Products.CMFCore
 
 def initialize(context):
     '''Initializer called when used as a Zope 2 product.'''
-    from content import specimencollectionfolder, specimencollection, specimenset
+    from content import specimencollectionfolder, specimencollection, specimenset # for lame side effect
     contentTypes, constructors, ftis = atapi.process_types(atapi.listTypes(config.PROJECTNAME), config.PROJECTNAME)
     for atype, constructor in zip(contentTypes, constructors):
         Products.CMFCore.utils.ContentInit(

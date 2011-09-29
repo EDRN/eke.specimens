@@ -5,6 +5,7 @@
 '''Specimen set: content implementation.'''
 
 from eke.specimens import ProjectMessageFactory as _
+from eke.specimens import STORAGE_VOCAB_NAME
 from eke.specimens.config import PROJECTNAME
 from eke.specimens.interfaces import ISpecimenSet
 from Products.Archetypes import atapi
@@ -23,6 +24,18 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             label=_(u'Short Name'),
             description=_(u'A brief name or simple identifier for this specimen set.'),
             size=12,
+        ),
+    ),
+    atapi.StringField(
+        'storageType',
+        enforceVocabulary=True,
+        required=True,
+        storage=atapi.AnnotationStorage(),
+        vocabulary_display_path_bound=-1,
+        vocabulary_factory=STORAGE_VOCAB_NAME,
+        widget=atapi.SelectionWidget(
+            label=_(u'Storage Type'),
+            description=_(u'How the specimens were processed and stored from these participants.'),
         ),
     ),
     atapi.IntegerField(
@@ -72,6 +85,7 @@ class SpecimenSet(folder.ATFolder):
     title          = atapi.ATFieldProperty('title')
     description    = atapi.ATFieldProperty('description')
     shortName      = atapi.ATFieldProperty('shortName')
+    storageType    = atapi.ATFieldProperty('storageType')
     specimenCount  = atapi.ATFieldProperty('specimenCount')
     numberCases    = atapi.ATFieldProperty('numberCases')
     numberControls = atapi.ATFieldProperty('numberControls')
