@@ -7,7 +7,7 @@ EDRN Knowledge Environment Specimens: views for content types.
 '''
 
 from Acquisition import aq_inner
-from eke.specimens import ProjectMessageFactory as STORAGE_VOCAB_NAME
+from eke.specimens import STORAGE_VOCAB_NAME
 from eke.specimens.interfaces import ISpecimenCollection, ISpecimenSet
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
