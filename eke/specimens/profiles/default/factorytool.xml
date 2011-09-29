@@ -5,9 +5,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <object name='portal_factory' meta_type='Plone Factory Tool'>
     <factorytypes>
-        <type portal_type='Specimen Folder' />
-        <type portal_type='Specimens at Site in Protocol' />
-        <type portal_type='Specimens in Protocol' />
-        <type portal_type='Specimen Record' />
+        <type portal_type='Specimen Collection Folder' />
+        <type portal_type='Specimen Collection' />
+        <type portal_type='Specimen Set' />
     </factorytypes>
 </object>

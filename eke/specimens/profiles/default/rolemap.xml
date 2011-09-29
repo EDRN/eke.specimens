@@ -5,12 +5,22 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <rolemap>
     <permissions>
-        <permission name='EKE: Add Specimen Folder' acquire='True'>
+        <permission name='EKE: Add Specimen Collection Folder' acquire='True'>
             <role name='Manager' />
             <role name='Owner' />
             <role name='Contributor' />
         </permission>
-        <permission name='EKE: Add Specimens at Site in Protocol' acquire='True'>
+        <permission name='EKE: Add Specimen Collection' acquire='True'>
+            <role name='Manager' />
+            <role name='Owner' />
+            <role name='Contributor' />
+        </permission>
+        <permission name='EKE: Add Specimen Set' acquire='True'>
+            <role name='Manager' />
+            <role name='Owner' />
+            <role name='Contributor' />
+        </permission>
+        <!-- <permission name='EKE: Add Specimens at Site in Protocol' acquire='True'>
             <role name='Manager' />
             <role name='Owner' />
             <role name='Contributor' />
@@ -24,6 +34,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
             <role name='Manager' />
             <role name='Owner' />
             <role name='Contributor' />
-        </permission>
+        </permission> -->
     </permissions>
 </rolemap>
