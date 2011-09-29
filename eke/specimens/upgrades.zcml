@@ -6,6 +6,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 <configure
     xmlns='http://namespaces.zope.org/zope'
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'>
+    <!-- TODO: will null handle it? -->
     <genericsetup:upgradeStep
         source='0'
         destination='4'
