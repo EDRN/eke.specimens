@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'eke.specimens'
-_version     = '1.0.2'
+_version     = '1.1.0'
 _description = 'ERNE Specimen Management for the EDRN Knowledge Environment'
 _url         = 'http://cancer.jpl.nasa.gov/products/eke-specimens'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
@@ -21,10 +21,16 @@ _namespaces  = ['eke']
 _entryPoints = {}
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers eke knowledge specimen erne'
+# TODO: when we migrate from Archetypes to Dexterity, add the following dependencies:
+# * 'plone.app.dexterity [grok]',
+# * 'plone.app.referenceablebehavior',
+# * 'plone.app.relationfield',
+# Note: plone.app.referenceablebehavior requires Plone >= 4.1.
 _externalRequirements = [
     'setuptools',
     'collective.vdexvocabulary',
-    'Plone',
+    'Products.CMFPlone',
+    'Pillow',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',
