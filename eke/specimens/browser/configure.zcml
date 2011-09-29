@@ -9,84 +9,52 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     i18n_domain='eke.specimens'>
     <include package='plone.app.contentmenu'/>
 
-    <!-- Specimen Folder -->
-    <browser:resource name='specimen-folder.gif' file='images/specimen-folder.gif'/>
+    <!-- Specimen Collection Folder -->
+    <browser:resource name='specimen-collection-folder.gif' file='images/specimen-collection-folder.gif'/>
     <browser:page
-        class='.views.SpecimenFolderView'
-        for='..interfaces.ISpecimenFolder'
-        name='view'
-        permission='zope2.View'
-    />
-    <browser:page
-        class='.ingest.SpecimenFolderIngestor'
-        for='..interfaces.ISpecimenFolder'
-        name='ingest'
-        permission='cmf.ManagePortal'
-    />
-    <browser:menuItem
-        action='@@view'
-        description='Default representation of a Specimen Folder.'
-        for='..interfaces.ISpecimenFolder'
-        menu='plone_displayviews'
-        title='Specimen Folder view'
-    />
-
-    <!-- Specimens at Site in Protocol -->
-    <browser:resource name='specimens-at-site-in-protocol.gif' file='images/specimens-at-site-in-protocol.gif'/>
-    <browser:page
-        class='.views.SpecimensAtSiteInProtocolView'
-        for='..interfaces.ISpecimensAtSiteInProtocol'
+        class='.views.SpecimenCollectionFolderView'
+        for='..interfaces.ISpecimenCollectionFolder'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of Specimens at Site in Protocol.'
-        for='..interfaces.ISpecimensAtSiteInProtocol'
+        description='Default representation of a Specimen Collection Folder.'
+        for='..interfaces.ISpecimenCollectionFolder'
         menu='plone_displayviews'
-        title='Specimens at Site in Protocol view'
+        title='Specimen Collection Folder view'
     />
 
-    <!-- Specimens in Protocol -->
-    <browser:resource name='specimens-in-protocol.gif' file='images/specimens-in-protocol.gif'/>
+    <!-- Specimen Collection -->
+    <browser:resource name='specimen-collection.gif' file='images/specimen-collection.gif'/>
     <browser:page
-        class='.views.SpecimensInProtocolView'
-        for='..interfaces.ISpecimensInProtocol'
+        class='.views.SpecimenCollectionView'
+        for='..interfaces.ISpecimenCollection'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of Specimens in Protocol.'
-        for='..interfaces.ISpecimensInProtocol'
+        description='Default representation of a Specimen Collection.'
+        for='..interfaces.ISpecimenCollection'
         menu='plone_displayviews'
-        title='Specimens in Protocol view'
+        title='Specimen Collection view'
     />
 
-    <!-- Specimen Record -->
-    <browser:resource name='specimen-record.gif' file='images/specimen-record.gif'/>
+    <!-- Specimen Set -->
+    <browser:resource name='specimen-set.gif' file='images/specimen-set.gif'/>
     <browser:page
-        class='.views.SpecimenRecordView'
-        for='..interfaces.ISpecimenRecord'
+        class='.views.SpecimenSetView'
+        for='..interfaces.ISpecimenSet'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of Specimen Record.'
-        for='..interfaces.ISpecimenRecord'
+        description='Default representation of a Specimen Set.'
+        for='..interfaces.ISpecimenSet'
         menu='plone_displayviews'
-        title='Specimen Record view'
-    />
-    <browser:resource
-        name='specimen.css'
-        file='specimen.css'
-    />
-
-    <!-- Vocabularies -->
-    <zope:utility
-        component='.utils.ERNESitesVocabulary'
-        name='eke.specimens.ERNESites'
+        title='Specimen Set view'
     />
 
 </configure>
