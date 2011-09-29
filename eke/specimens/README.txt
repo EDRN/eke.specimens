@@ -262,7 +262,6 @@ Specimen Set
 A Specimen Set just shows off its various attributes::
 
     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-reference-set')
-    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> browser.contents
     '...ANAL-REF...DNA...127...90...45...Public Safety...'
 
