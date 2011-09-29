@@ -9,7 +9,6 @@ from base import BaseTestCase
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
-from eke.specimens import SPECIMEN_TYPE_VOCAB_NAME, STORAGE_VOCAB_NAME
 import unittest
 
 class TestSetup(BaseTestCase):
