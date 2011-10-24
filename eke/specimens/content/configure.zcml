@@ -13,4 +13,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <class class='.specimenset.SpecimenSet'>
         <require permission='zope2.View' interface='..interfaces.ISpecimenSet'/>
     </class>
+    <subscriber
+        provides='Products.Archetypes.interfaces.IObjectPostValidation'
+        factory='.specimenset.ContactInformationValidator'
+    />
 </configure>
