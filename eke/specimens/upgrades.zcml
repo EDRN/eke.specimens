@@ -6,14 +6,13 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 <configure
     xmlns='http://namespaces.zope.org/zope'
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'>
-    <!-- TODO: will null handle it? -->
     <genericsetup:upgradeStep
         source='0'
         destination='4'
-        title='Null Upgrade Step (0→4)'
-        description='The EKE Specimens require no custom upgrade steps to go from profile 0 to profile 4.'
+        title='Sample Data Upgrade Step (0→4)'
+        description='The EKE Specimens upgrade to profile 4 includes population with example specimen sets.'
         profile='eke.specimens:default'
-        handler='eke.specimens.upgrades.nullUpgradeStep'
+        handler='eke.specimens.upgrades.addSampleSpecimenSets'
         sortkey='1'
     />
 </configure>
