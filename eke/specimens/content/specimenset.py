@@ -4,15 +4,17 @@
 
 '''Specimen set: content implementation.'''
 
+from base import CountsSchema
 from eke.specimens import ProjectMessageFactory as _
 from eke.specimens import STORAGE_VOCAB_NAME
 from eke.specimens.config import PROJECTNAME
 from eke.specimens.interfaces import ISpecimenSet
 from Products.Archetypes import atapi
+from Products.Archetypes.interfaces import IObjectPostValidation
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
+from zope.component import adapts
 from zope.interface import implements
-from base import CountsSchema
 
 SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.Schema((
     atapi.StringField(
@@ -71,6 +73,34 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             description=_(u'The single protocol that guided collection of specimens in this set'),
         ),
     ),
+    atapi.BooleanField(
+        'available',
+        storage=atapi.AnnotationStorage(),
+        required=False,
+        widget=atapi.BooleanWidget(
+            label=_(u'Available'),
+            description=_(u'Are the specimens in this set available for sharing?'),
+        ),
+    ),
+    atapi.StringField(
+        'contactName',
+        storage=atapi.AnnotationStorage(),
+        required=False,
+        widget=atapi.StringWidget(
+            label=_(u'Contact Name'),
+            description=_(u'Name of the person to contact in order to obtain specimens from this set.'),
+        ),
+    ),
+    atapi.StringField(
+        'contactEmail',
+        storage=atapi.AnnotationStorage(),
+        required=False,
+        validators=('isEmail',),
+        widget=atapi.StringWidget(
+            label=_(u'Contact Email Address'),
+            description=_(u'Email address of the contact name.'),
+        ),
+    ),
 ))
 SpecimenSetSchema['title'].storage = atapi.AnnotationStorage()
 SpecimenSetSchema['description'].storage = atapi.AnnotationStorage()
@@ -90,5 +120,27 @@ class SpecimenSet(folder.ATFolder):
     numberCases    = atapi.ATFieldProperty('numberCases')
     numberControls = atapi.ATFieldProperty('numberControls')
     protocol       = atapi.ATReferenceFieldProperty('protocol')
+    available      = atapi.ATFieldProperty('available')
+    contactName    = atapi.ATFieldProperty('contactName')
+    contactEmail   = atapi.ATFieldProperty('contactEmail')
 
 atapi.registerType(SpecimenSet, PROJECTNAME)
+
+class ContactInformationValidator(object):
+    '''Ensures that contact information is provided if a specimen set is available for sharing.'''
+    implements(IObjectPostValidation)
+    adapts(ISpecimenSet)
+    def __init__(self, context):
+        self.context = context
+    def _getValueFromRequest(self, request, field):
+        return request.form.get(field, request.get(field, None))
+    def __call__(self, request):
+        isAvailable = self._getValueFromRequest(request, 'available')
+        if isAvailable:
+            for field in ('contactName', 'contactEmail'):
+                value = self._getValueFromRequest(request, field)
+                if not value: return {
+                    field: _(u'A contact name and email address is required when specimens are available for sharing.')
+                }
+        return None
+    
