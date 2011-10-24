@@ -265,7 +265,44 @@ A Specimen Set just shows off its various attributes::
     >>> browser.contents
     '...ANAL-REF...DNA...127...90...45...Public Safety...'
 
-That's all there is.
+That's all there is.  Well, there's more, actually.  Notice this admonition::
+
+    >>> browser.contents
+    '...These specimens are not available for sharing...'
+
+That's because these specimens are not available for sharing.  We can fix
+that, though::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='available:boolean').value = True
+    >>> browser.getControl(name='contactName').value = 'Whom Ever'
+    >>> browser.getControl(name='contactEmail').value = 'whomever@blah.com'
+    >>> browser.getControl(name='form.button.save').click()
+
+Now look::
+
+    >>> browser.contents
+    '...Specimens in this set are available...contact...href="mailto:whomever@blah.com"...Whom Ever...'
+
+Neat, huh?  But what if you forgot to set the contact name?  Look::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='available:boolean').value = True
+    >>> browser.getControl(name='contactName').value = ''
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.contents
+    '...name and email address is required...'
+
+It's required when the available checkbox is checked.  The name is too::
+
+    >>> browser.getControl(name='available:boolean').value = True
+    >>> browser.getControl(name='contactName').value = 'Whom Ever'
+    >>> browser.getControl(name='contactEmail').value = ''
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.contents
+    '...name and email address is required...'
+
+Nifty, huh?
 
 
 RDF Ingest
