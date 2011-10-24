@@ -104,4 +104,20 @@ class ISpecimenSet(ISpecimenStatistics):
         required=True,
         schema=IProtocol
     )
+    available = schema.Bool(
+        title=_(u'Available'),
+        description=_(u'Are the specimens in this set available for sharing?'),
+        required=False,
+        default=False,
+    )
+    contactName = schema.TextLine(
+        title=_(u'Contact Name'),
+        description=_(u'Name of the person to contact in order to obtain specimens from this set.'),
+        required=False
+    )
+    contactEmail = schema.TextLine(
+        title=_(u'Contact Email Address'),
+        description=_(u'Email address of the contact name.'),
+        required=False,
+    )
     
