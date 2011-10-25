@@ -17,4 +17,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         provides='Products.Archetypes.interfaces.IObjectPostValidation'
         factory='.specimenset.ContactInformationValidator'
     />
+    <utility
+        component='.base.SpecimenCollectionNamesVocabularyFactory'
+        name='eke.specimens.CollectionNames'
+    />
 </configure>

@@ -6,6 +6,10 @@
 
 from eke.specimens import ProjectMessageFactory as _
 from Products.Archetypes import atapi
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleVocabulary
+from zope.interface import directlyProvides
+from Products.CMFCore.utils import getToolByName
 
 # Schema for ISpecimenStatistics: specimen count.
 CountsSchema = atapi.Schema((
@@ -22,3 +26,8 @@ CountsSchema = atapi.Schema((
         ),
     ),
 ))
+
+def SpecimenCollectionNamesVocabularyFactory(context):
+    catalog = getToolByName(context, 'portal_catalog')
+    return SimpleVocabulary.fromItems([(i, i) for i in catalog.uniqueValuesFor('getCollectionName')])
+directlyProvides(SpecimenCollectionNamesVocabularyFactory, IVocabularyFactory)
