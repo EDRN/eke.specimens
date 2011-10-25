@@ -220,7 +220,11 @@ So let's open the Specimen Collection we created above and add it there::
     45
     >>> f.protocol.title
     'Public Safety'
+    >>> f.getCollectionName()
+    'The Probed Collection'
 
+You'll notice that the collectionName attribute wasn't available on the form;
+that's because it's a computed field.
 
 TODO: Addable content to sets: files, pages, images.
 
