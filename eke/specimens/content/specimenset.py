@@ -4,6 +4,7 @@
 
 '''Specimen set: content implementation.'''
 
+from Acquisition import aq_inner, aq_parent
 from base import CountsSchema
 from eke.specimens import ProjectMessageFactory as _
 from eke.specimens import STORAGE_VOCAB_NAME
@@ -101,6 +102,17 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             description=_(u'Email address of the contact name.'),
         ),
     ),
+    atapi.ComputedField(
+        'collectionName',
+        required=False,
+        searchable=True,
+        expression='context._computeCollectionName()',
+        multiValued=False,
+        modes=('view',),
+        widget=atapi.ComputedWidget(
+            visible={'edit': 'invisible', 'view': 'invisible'},
+        )
+    ),
 ))
 SpecimenSetSchema['title'].storage = atapi.AnnotationStorage()
 SpecimenSetSchema['description'].storage = atapi.AnnotationStorage()
@@ -123,6 +135,12 @@ class SpecimenSet(folder.ATFolder):
     available      = atapi.ATFieldProperty('available')
     contactName    = atapi.ATFieldProperty('contactName')
     contactEmail   = atapi.ATFieldProperty('contactEmail')
+    def _computeCollectionName(self):
+        collection = aq_parent(aq_inner(self))
+        if collection is not None:
+            name = collection.title
+            if name: return name
+        return ''
 
 atapi.registerType(SpecimenSet, PROJECTNAME)
 
