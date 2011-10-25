@@ -5,7 +5,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <object name='portal_catalog' meta_type='Plone Catalog Tool'>
     <index name='specimenCount' meta_type='FieldIndex'>
-        <indexed_attr value='specimenCount' />
+        <indexed_attr value='specimenCount'/>
+    </index>
+    <index name='getCollectionName' meta_type='FieldIndex'>
+        <indexed_attr value='getCollectionName'/>
     </index>
     <column value='specimenCount'/>
+    <column value='getCollectionName'/>
 </object>
