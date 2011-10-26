@@ -25,13 +25,13 @@ class TestSetup(BaseTestCase):
         '''Check if indexes are properly installed.'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         indexes = catalog.indexes()
-        for i in ('specimenCount', 'getCollectionName'):
+        for i in ('specimenCount', 'getCollectionName', 'storageType', 'diagnosis'):
             self.failUnless(i in indexes)
     def testCatalogMetadata(self):
         '''Check if indexed metadata schema are properly installed.'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         metadata = catalog.schema()
-        for i in ('specimenCount', 'getCollectionName'):
+        for i in ('specimenCount', 'getCollectionName', 'storageType'):
             self.failUnless(i in metadata)
     def testAddons(self):
         '''Check that dependent packages are installed'''
@@ -40,7 +40,7 @@ class TestSetup(BaseTestCase):
         # self.failUnless(qi.isProductInstalled('plone.app.dexterity'), "Dexterity wasn't installed")
     def testVocabularies(self):
         '''Ensure our vocabularies are available'''
-        vocabs = (STORAGE_VOCAB_NAME, u'eke.specimens.CollectionNames')
+        vocabs = (STORAGE_VOCAB_NAME, u'eke.specimens.CollectionNames', u'eke.specimens.Diagnoses')
         for v in vocabs:
             self.failUnless(queryUtility(IVocabularyFactory, name=v) is not None, 'Vocabulary "%s" not available' % v)
         

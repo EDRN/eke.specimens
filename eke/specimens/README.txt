@@ -199,6 +199,7 @@ So let's open the Specimen Collection we created above and add it there::
     >>> browser.getControl(name='specimenCount').value = u'127'
     >>> browser.getControl(name='numberCases').value = u'90'
     >>> browser.getControl(name='numberControls').value = u'45'
+    >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
     >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='form.button.save').click()
     >>> 'anal-reference-set' in f.keys()
@@ -218,6 +219,8 @@ So let's open the Specimen Collection we created above and add it there::
     90
     >>> f.numberControls
     45
+    >>> f.diagnosis
+    'With Cancer'
     >>> f.protocol.title
     'Public Safety'
     >>> f.getCollectionName()
@@ -238,16 +241,16 @@ Here we'll show how the content types present themselves in a browser.
 Specimen Collection Folder
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Specimen Collection Folders simply show each of the Specimen Collections they
-contain::
+Specimen Collection Folders show their contents with nifty faceted navigation:
 
     >>> browser.open(portalURL + '/sticky-specimens')
     >>> browser.contents
-    '...The Probed Collection...128...'
+    '...faceted-results...Anal Reference Set...'
 
-As you can see, they also show the specimen count.
+The facets include the collection, diagnosis, and the storage::
 
-TODO: Finally, there's a nifty bar chart: >>> browser.contents '...http://chart.apis.google.com...'
+    >>> browser.contents
+    '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...'
 
 
 Specimen Collection
@@ -267,7 +270,7 @@ A Specimen Set just shows off its various attributes::
 
     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-reference-set')
     >>> browser.contents
-    '...ANAL-REF...DNA...127...90...45...Public Safety...'
+    '...ANAL-REF...DNA...127...90...45...With Cancer...Public Safety...'
 
 That's all there is.  Well, there's more, actually.  Notice this admonition::
 
