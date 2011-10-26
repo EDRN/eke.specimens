@@ -1,14 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-Copyright 2010 California Institute of Technology. ALL RIGHTS
+Copyright 2010-2011 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <configure
     xmlns='http://namespaces.zope.org/zope'
+    xmlns:cmf='http://namespaces.zope.org/cmf'
     xmlns:five='http://namespaces.zope.org/five'
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
+    xmlns:monkey='http://namespaces.plone.org/monkey'
     xmlns:vdex='http://namespaces.zope.org/vdex'
     i18n_domain='eke.specimens'>
+    <include package='collective.monkeypatcher' />
+    <monkey:patch
+        description='Adds a "macros" empty dictionary attribute to the PloneSite class so eea.facetedvocabularies will work on custom content types with Zope 3 browser views instead of page templates—which it lamely expects.'
+        class='Products.CMFPlone.Portal.PloneSite'
+        original='view'
+        replacement='.utils.view'
+        handler='.utils.patchMacrosDict'
+    />
+
     <five:registerPackage package="eke.specimens" initialize=".initialize" />
     <include package='collective.vdexvocabulary' file='meta.zcml'/>
     <include package='.browser'/>
@@ -20,6 +31,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         description='Specimens for the EDRN Knowledge Environment.'
         provides='Products.GenericSetup.interfaces.EXTENSION'
     />
+    <cmf:registerDirectory name='eke_specimens_templates' />
     <include package='eke.knowledge' />
     <include package='eke.study' />
     <include package='eke.site' />

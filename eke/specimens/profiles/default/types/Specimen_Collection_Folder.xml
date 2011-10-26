@@ -21,6 +21,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <property name='default_view'>view</property>
     <property name='view_methods'>
         <element value='view'/>
+        <element value='faceted_specimens_view' />
         <element value='folder_summary_view'/>
         <element value='folder_tabular_view'/>
         <element value='folder_listing'/>

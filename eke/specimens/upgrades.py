@@ -2,8 +2,10 @@
 # Copyright 2011 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
+from interfaces import ISpecimenCollectionFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
+from utils import setFacetedNavigation
 
 COLON_SET_DESCRIPTION = u'''The Early Detection Research Network and the Great Lakes-New England Clinical, Epidemiological and Validation Center (GLNE CEVC) announces the availability of serum, plasma and urine samples for the early detection for colon cancer.'''
 LUNG_SET_A_DESCRIPTION = u'''Reference set A focuses on pre-validation of biomarkers of diagnosis of lung cancer and target lung cancer diagnosed for individuals at high risk for lung cancer or abnormal chest x-ray (CXR) or chest computer tomography (CT) but outside of the context of a CT screening trial. The clinical question to be tested after pre-validation relates to whether a serum/plasma biomarker has added value to current clinical tests (CT scan and/or PET scan) for the diagnostic evaluation of pulmonary nodules and to whether such a biomarker could reduce the number, and the attendant cost, of unnecessary invasive tests (PET or tissue biopsy) or futile thoracotomies.'''
@@ -82,7 +84,18 @@ def addSampleSpecimenSets(setupTool):
     lungB.specimenCount = 233
     lungB.numberCases = 86
     lungB.numberControls = 147
-
     _doPublish(specimens, getToolByName(portal, 'portal_workflow'))
 
-    
+
+def addFacetedSearch(setupTool):
+    portal = getToolByName(setupTool, 'portal_url').getPortalObject()
+    request = portal.REQUEST
+    catalog = getToolByName(setupTool, 'portal_catalog')
+    results = [i.getObject() for i in catalog(object_provides=ISpecimenCollectionFolder.__identifier__)]
+    if len(results) == 0:
+        # wtf? catalog must be out of date, because the EDRN portal typically includes
+        # one Specimen Collection, created above in ``addSampleSpecimenSets`` in fact!
+        if 'specimens' in portal.keys():
+            results = [portal['specimens']]
+    for specimenCollection in results:
+        setFacetedNavigation(specimenCollection, request)

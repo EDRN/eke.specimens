@@ -15,4 +15,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='eke.specimens.upgrades.addSampleSpecimenSets'
         sortkey='1'
     />
+    <genericsetup:upgradeStep
+        source='0'
+        destination='4'
+        title='Faceted Search Upgrade Step (0→4)'
+        description='The EKE Specimens upgrade to profile 4 includes a nifty faceted search page.'
+        profile='eke.specimens:default'
+        handler='eke.specimens.upgrades.addFacetedSearch'
+        sortkey='2'
+    />
+
 </configure>
