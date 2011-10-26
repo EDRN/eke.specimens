@@ -10,6 +10,13 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='getCollectionName' meta_type='FieldIndex'>
         <indexed_attr value='getCollectionName'/>
     </index>
+    <index name='storageType' meta_type='FieldIndex'>
+        <indexed_attr value='storageType'/>
+    </index>
+    <index name='diagnosis' meta_type='FieldIndex'>
+        <indexed_attr value='diagnosis'/>
+    </index>
     <column value='specimenCount'/>
     <column value='getCollectionName'/>
+    <column value='storageType'/>
 </object>
