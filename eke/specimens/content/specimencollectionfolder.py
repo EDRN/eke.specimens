@@ -4,12 +4,15 @@
 
 '''Specimen collection folder: content implementation.'''
 
+from eea.facetednavigation.interfaces import IPossibleFacetedNavigable
 from eke.specimens import ProjectMessageFactory as _
 from eke.specimens.config import PROJECTNAME
 from eke.specimens.interfaces import ISpecimenCollectionFolder
+from eke.specimens.utils import setFacetedNavigation
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
+from Products.CMFCore.utils import getToolByName
 from zope.interface import implements
 
 SpecimenCollectionFolderSchema = folder.ATFolderSchema.copy() + atapi.Schema((
@@ -36,7 +39,7 @@ finalizeATCTSchema(SpecimenCollectionFolderSchema, folderish=True, moveDiscussio
 
 class SpecimenCollectionFolder(folder.ATFolder):
     '''Specimen folder which contains specimens.'''
-    implements(ISpecimenCollectionFolder)
+    implements(ISpecimenCollectionFolder, IPossibleFacetedNavigable)
     portal_type       = 'Specimen Collection Folder'
     schema            = SpecimenCollectionFolderSchema
     title             = atapi.ATFieldProperty('title')
@@ -45,3 +48,11 @@ class SpecimenCollectionFolder(folder.ATFolder):
     
 
 atapi.registerType(SpecimenCollectionFolder, PROJECTNAME)
+
+def addFacetedNavigation(obj, event):
+    '''Set up faceted navigation on all newly created Specimen Collection Folders.'''
+    if not ISpecimenCollectionFolder.providedBy(obj): return
+    factory = getToolByName(obj, 'portal_factory')
+    if factory.isTemporary(obj): return
+    request = obj.REQUEST
+    setFacetedNavigation(obj, request)
