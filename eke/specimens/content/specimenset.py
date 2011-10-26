@@ -61,6 +61,18 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             description=_(u'The number of participant controls who provided specimens drawn in this set.'),
         ),
     ),
+    atapi.StringField(
+        'diagnosis',
+        enforceVocabulary=True,
+        required=True,
+        storage=atapi.AnnotationStorage(),
+        vocabulary_display_path_bound=-1,
+        vocabulary_factory=u'eke.specimens.Diagnoses',
+        widget=atapi.SelectionWidget(
+            label=_(u'Diagnosis'),
+            description=_(u'Diagnosis of participants with or without cancer.'),
+        ),
+    ),
     atapi.ReferenceField(
         'protocol',
         storage=atapi.AnnotationStorage(),
@@ -131,6 +143,7 @@ class SpecimenSet(folder.ATFolder):
     specimenCount  = atapi.ATFieldProperty('specimenCount')
     numberCases    = atapi.ATFieldProperty('numberCases')
     numberControls = atapi.ATFieldProperty('numberControls')
+    diagnosis      = atapi.ATFieldProperty('diagnosis')
     protocol       = atapi.ATReferenceFieldProperty('protocol')
     available      = atapi.ATFieldProperty('available')
     contactName    = atapi.ATFieldProperty('contactName')

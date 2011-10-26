@@ -98,6 +98,11 @@ class ISpecimenSet(ISpecimenStatistics):
         default=0,
         min=0
     )
+    diagnosis = schema.TextLine(
+        title=_(u'Diagnosis'),
+        description=_(u'Diagnosis of participants with or without cancer.'),
+        required=False,
+    )
     protocol = schema.Object(
         title=_(u'Protocol'),
         description=_(u'The single protocol that guided collection of specimens in this set.'),

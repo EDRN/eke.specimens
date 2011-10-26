@@ -55,6 +55,10 @@
                     <metal:field use-macro='python:context.widget("numberControls", mode="view")'>42</metal:field>
                 </div>
                 <div>
+                    <label for='parent-fieldname-diagnosis' i18n:translate='label_diagnosis'>Diagnosis:</label>
+                    <metal:field use-macro='python:context.widget("diagnosis", mode="view")'>With Herpes</metal:field>
+                </div>
+                <div>
                     <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
                     <metal:field use-macro='python:context.widget("protocol", mode="view")'>TCP/IP</metal:field>
                 </div>
