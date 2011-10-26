@@ -17,8 +17,20 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         provides='Products.Archetypes.interfaces.IObjectPostValidation'
         factory='.specimenset.ContactInformationValidator'
     />
+    <subscriber
+        for='..interfaces.ISpecimenCollectionFolder zope.app.container.interfaces.IObjectAddedEvent'
+        handler='.specimencollectionfolder.addFacetedNavigation'
+    />
+    <subscriber
+        for='..interfaces.ISpecimenCollectionFolder Products.Archetypes.interfaces.event.IObjectInitializedEvent'
+        handler='.specimencollectionfolder.addFacetedNavigation'
+    />
     <utility
         component='.base.SpecimenCollectionNamesVocabularyFactory'
         name='eke.specimens.CollectionNames'
+    />
+    <utility
+        component='.base.DiagnosesVocabularyFactory'
+        name='eke.specimens.Diagnoses'
     />
 </configure>

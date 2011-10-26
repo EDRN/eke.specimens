@@ -11,6 +11,12 @@ from zope.schema.vocabulary import SimpleVocabulary
 from zope.interface import directlyProvides
 from Products.CMFCore.utils import getToolByName
 
+# FIXME: not i18n
+_diagnoses = SimpleVocabulary.fromItems((
+    ('With Cancer', 'With Cancer'),
+    ('Without Cancer', 'Without Cancer'),
+))
+
 # Schema for ISpecimenStatistics: specimen count.
 CountsSchema = atapi.Schema((
     atapi.IntegerField(
@@ -29,5 +35,11 @@ CountsSchema = atapi.Schema((
 
 def SpecimenCollectionNamesVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
-    return SimpleVocabulary.fromItems([(i, i) for i in catalog.uniqueValuesFor('getCollectionName')])
+    items = list(catalog.uniqueValuesFor('getCollectionName'))
+    items.sort()
+    return SimpleVocabulary.fromItems([(i, i) for i in items])
 directlyProvides(SpecimenCollectionNamesVocabularyFactory, IVocabularyFactory)
+
+def DiagnosesVocabularyFactory(context):
+    return _diagnoses
+directlyProvides(DiagnosesVocabularyFactory, IVocabularyFactory)
