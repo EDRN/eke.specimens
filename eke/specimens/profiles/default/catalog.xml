@@ -16,6 +16,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='diagnosis' meta_type='FieldIndex'>
         <indexed_attr value='diagnosis'/>
     </index>
+    <index name='siteName' meta_type='FieldIndex'>
+        <indexed_attr value='siteName'/>
+    </index>
     <column value='specimenCount'/>
     <column value='getCollectionName'/>
     <column value='storageType'/>

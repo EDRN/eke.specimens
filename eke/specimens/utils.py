@@ -37,7 +37,7 @@ def setFacetedNavigation(folder, request):
         hidezerocount=False,
     )
     criteria.add(
-        'checkbox', 'bottom', 'default',
+        'checkbox', 'left', 'default',
         title='Diagnosis',
         hidden=False,
         index='diagnosis',
@@ -49,14 +49,26 @@ def setFacetedNavigation(folder, request):
         hidezerocount=False,
     )
     criteria.add(
-        'checkbox', 'bottom', 'default',
+        'checkbox', 'left', 'default',
         title='Storage',
         hidden=False,
         index='storageType',
         operator='or',
         vocabulary=STORAGE_VOCAB_NAME,
         count=False,
-        maxitems=0,
+        maxitems=5,
+        sortreversed=False,
+        hidezerocount=False,
+    )
+    criteria.add(
+        'checkbox', 'left', 'default',
+        title='Site',
+        hidden=False,
+        index='siteName',
+        operator='or',
+        vocabulary=u'eke.site.SitesNames',
+        count=False,
+        maxitems=5,
         sortreversed=False,
         hidezerocount=False,
     )

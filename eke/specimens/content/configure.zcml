@@ -14,6 +14,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <require permission='zope2.View' interface='..interfaces.ISpecimenSet'/>
     </class>
     <subscriber
+        for='..interfaces.ISpecimenSet Products.Archetypes.interfaces.IObjectInitializedEvent'
+        handler='.specimenset.updateInformationProvidedBySite'
+    />
+    <subscriber
+        for='..interfaces.ISpecimenSet Products.Archetypes.interfaces.IObjectEditedEvent'
+        handler='.specimenset.updateInformationProvidedBySite'
+    />
+    <subscriber
         provides='Products.Archetypes.interfaces.IObjectPostValidation'
         factory='.specimenset.ContactInformationValidator'
     />
@@ -32,5 +40,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <utility
         component='.base.DiagnosesVocabularyFactory'
         name='eke.specimens.Diagnoses'
+    />
+    <utility
+        component='.base.SitesWithSpecimensVocabulary'
+        name='eke.specimens.SitesWithSpecimens'
     />
 </configure>

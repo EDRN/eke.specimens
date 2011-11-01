@@ -5,6 +5,7 @@
 '''EDRN Knowledge Environment Specimens: interfaces.
 '''
 
+from eke.site.interfaces import ISite
 from eke.specimens import ProjectMessageFactory as _
 from eke.study.interfaces import IProtocol
 from zope import schema
@@ -108,6 +109,17 @@ class ISpecimenSet(ISpecimenStatistics):
         description=_(u'The single protocol that guided collection of specimens in this set.'),
         required=True,
         schema=IProtocol
+    )
+    site = schema.Object(
+        title=_(u'Site'),
+        description=_(u'Optional site at where these specimens are currently stored.'),
+        required=False,
+        schema=ISite
+    )
+    siteName = schema.TextLine(
+        title=_(u'Site Name'),
+        description=_(u'Optional name of the site where these specimens are currently stored.'),
+        required=False,
     )
     available = schema.Bool(
         title=_(u'Available'),

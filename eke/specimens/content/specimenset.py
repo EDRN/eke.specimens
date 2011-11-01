@@ -86,6 +86,31 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             description=_(u'The single protocol that guided collection of specimens in this set'),
         ),
     ),
+    atapi.ReferenceField(
+        'site',
+        enforceVocabulary=True,
+        multiValued=False,
+        relationship='siteWhereSpecimensAreStored',
+        required=False,
+        storage=atapi.AnnotationStorage(),
+        vocabulary_factory=u'eke.site.Sites',
+        vocabulary_display_path_bound=-1,
+        widget=atapi.ReferenceWidget(
+            label=_(u'Site'),
+            description=_(u'Optional site at where these specimens are currently stored.'),
+        ),
+    ),
+    atapi.StringField(
+        'siteName',
+        storage=atapi.AnnotationStorage(),
+        required=False,
+        modes=('view',),
+        widget=atapi.StringWidget(
+            label=_(u'Site Name'),
+            description=_(u'Optional name of the site where these specimens are currently stored.'),
+            visible={'edit': 'invisible', 'view': 'invisible'},
+        ),
+    ),
     atapi.BooleanField(
         'available',
         storage=atapi.AnnotationStorage(),
@@ -145,16 +170,41 @@ class SpecimenSet(folder.ATFolder):
     numberControls = atapi.ATFieldProperty('numberControls')
     diagnosis      = atapi.ATFieldProperty('diagnosis')
     protocol       = atapi.ATReferenceFieldProperty('protocol')
+    site           = atapi.ATReferenceFieldProperty('site')
+    siteName       = atapi.ATFieldProperty('siteName')
     available      = atapi.ATFieldProperty('available')
     contactName    = atapi.ATFieldProperty('contactName')
     contactEmail   = atapi.ATFieldProperty('contactEmail')
     def _computeCollectionName(self):
+        '''Compute the name of the collection field by accessing the parent object'''
         collection = aq_parent(aq_inner(self))
         if collection is not None:
             name = collection.title
             if name: return name
         return ''
-
+    def updateInformationProvidedBySite(self):
+        '''Update additional fields that are derived from the site field.'''
+        updated, current = False, self.siteName
+        # Do we even have a site reference set?
+        if self.site:
+            # Yes, we have a site; get its title.
+            siteName = self.site.title
+            # Is it different?
+            if siteName != current:
+                # Yes, set the new title.
+                self.siteName = siteName
+                updated = True
+        else:
+            # No, we don't have a site. Do we have a siteName?
+            if current:
+                # Yes, so we should clear it since we have no site
+                self.siteName = ''
+                updated =True
+        # Did we update?
+        if updated:
+            # Yes, recatalog myself, or at least just the siteName field.
+            self.reindexObject(idxs=['siteName'])
+            
 atapi.registerType(SpecimenSet, PROJECTNAME)
 
 class ContactInformationValidator(object):
@@ -174,4 +224,8 @@ class ContactInformationValidator(object):
                     field: _(u'A contact name and email address is required when specimens are available for sharing.')
                 }
         return None
-    
+
+def updateInformationProvidedBySite(context, event):
+    '''Handle events that might update the site field.'''
+    if ISpecimenSet.providedBy(context):
+        context.updateInformationProvidedBySite()
