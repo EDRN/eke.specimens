@@ -18,14 +18,14 @@ class TestSetup(BaseTestCase):
         '''Make sure our types are available.'''
         types = getToolByName(self.portal, 'portal_types').objectIds()
         for i in (
-            'Specimen Collection Folder', 'Specimen Collection'
+            'Specimen Collection Folder', 'Specimen Collection', 'Specimen Set'
         ):
             self.failUnless(i in types)
     def testCatalogIndexes(self):
         '''Check if indexes are properly installed.'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         indexes = catalog.indexes()
-        for i in ('specimenCount', 'getCollectionName', 'storageType', 'diagnosis'):
+        for i in ('specimenCount', 'getCollectionName', 'storageType', 'diagnosis', 'siteName'):
             self.failUnless(i in indexes)
     def testCatalogMetadata(self):
         '''Check if indexed metadata schema are properly installed.'''
@@ -40,7 +40,9 @@ class TestSetup(BaseTestCase):
         # self.failUnless(qi.isProductInstalled('plone.app.dexterity'), "Dexterity wasn't installed")
     def testVocabularies(self):
         '''Ensure our vocabularies are available'''
-        vocabs = (STORAGE_VOCAB_NAME, u'eke.specimens.CollectionNames', u'eke.specimens.Diagnoses')
+        vocabs = (
+            STORAGE_VOCAB_NAME, u'eke.specimens.CollectionNames', u'eke.specimens.Diagnoses', u'eke.specimens.SitesWithSpecimens'
+        )
         for v in vocabs:
             self.failUnless(queryUtility(IVocabularyFactory, name=v) is not None, 'Vocabulary "%s" not available' % v)
         
