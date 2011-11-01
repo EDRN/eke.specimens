@@ -24,5 +24,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='eke.specimens.upgrades.addFacetedSearch'
         sortkey='2'
     />
+    <genericsetup:upgradeStep
+        source='0'
+        destination='4'
+        title='Catalog Index Upgrade Step (0→4)'
+        description='The EKE Specimens upgrade to profile 4 drops the "cancerDiagnosis" index for a simple "diagnosis" index.'
+        profile='eke.specimens:default'
+        handler='eke.specimens.upgrades.updateDiagnosisIndex'
+        sortkey='2'
+    />
 
 </configure>

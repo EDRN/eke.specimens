@@ -42,15 +42,25 @@ def addSampleSpecimenSets(setupTool):
     probe.setText(u'<p>We are not sure what <em>PRoBE</em> means yet.</p>')
     probe.specimenCount = 56342
     
-    # Add a PRoBE set
-    probeSet = probe[probe.invokeFactory('Specimen Set', 'probe-set')]
-    probeSet.setTitle('Anally PRoBEd Set')
+    # Add a couple of PRoBE sets
+    probeSet = probe[probe.invokeFactory('Specimen Set', 'anally-probed-set')]
+    probeSet.setTitle('Anal PRoBE Set')
     probeSet.setDescription(u'Specimens acquired through anal PRoBing.')
     probeSet.shortName = 'PRoBE-ANUS'
     probeSet.storageType = '17'
     probeSet.specimenCount = 51234
     probeSet.numberCases = 503
     probeSet.numberControls = 6969
+    probeSet.diagnosis = 'With Cancer'
+    probeSet = probe[probe.invokeFactory('Specimen Set', 'orally-probed-set')]
+    probeSet.setTitle('Oral PRoBE Set')
+    probeSet.setDescription(u'Specimens acquired through oral PRoBing.')
+    probeSet.shortName = 'PRoBE-ORAL'
+    probeSet.storageType = '26'
+    probeSet.specimenCount = 49132
+    probeSet.numberCases = 432
+    probeSet.numberControls = 3629
+    probeSet.diagnosis = 'Without Cancer'
     
     # Create a collection for reference sets
     referenceSets = specimens[specimens.invokeFactory('Specimen Collection', 'reference-sets')]
@@ -68,6 +78,7 @@ def addSampleSpecimenSets(setupTool):
     colon.specimenCount = 1234
     colon.numberCases = 50
     colon.numberControls = 69
+    colon.diagnosis = 'With Cancer'
     lungA = referenceSets[referenceSets.invokeFactory('Specimen Set', 'lung-reference-set-a')]
     lungA.setTitle(u'Lung Reference Set A')
     lungA.setDescription(LUNG_SET_A_DESCRIPTION)
@@ -76,6 +87,7 @@ def addSampleSpecimenSets(setupTool):
     lungA.specimenCount = 512
     lungA.numberCases = 356
     lungA.numberControls = 156
+    lungA.diagnosis = 'With Cancer'
     lungB = referenceSets[referenceSets.invokeFactory('Specimen Set', 'lung-reference-set-b')]
     lungB.setTitle(u'Lung Reference Set B')
     lungB.setDescription(LUNG_SET_B_DESCRIPTION)
@@ -84,6 +96,7 @@ def addSampleSpecimenSets(setupTool):
     lungB.specimenCount = 233
     lungB.numberCases = 86
     lungB.numberControls = 147
+    lungB.diagnosis = 'Without Cancer'
     _doPublish(specimens, getToolByName(portal, 'portal_workflow'))
 
 
@@ -99,3 +112,15 @@ def addFacetedSearch(setupTool):
             results = [portal['specimens']]
     for specimenCollection in results:
         setFacetedNavigation(specimenCollection, request)
+
+
+def updateDiagnosisIndex(setupTool):
+    '''Drop cancerDiagnosis, use diagnosis.'''
+    catalog = getToolByName(setupTool, 'portal_catalog')
+    schema, indexes = catalog.schema(), catalog.indexes()
+    if 'cancerDiagnosis' in schema:
+        catalog.delColumn('cancerDiagnosis')
+    if 'cancerDiagnosis' in indexes:
+        catalog.delIndex('cancerDiagnosis')
+    if 'diagnosis' not in indexes:
+        catalog.addIndex('diagnosis', 'FieldIndex', {'indexed_attrs': 'diagnosis'})
