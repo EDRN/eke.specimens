@@ -201,6 +201,7 @@ So let's open the Specimen Collection we created above and add it there::
     >>> browser.getControl(name='numberControls').value = u'45'
     >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
     >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
+    >>> browser.getControl(name='site:list').displayValue = ["Dr Tongue's 3D Clinic"]
     >>> browser.getControl(name='form.button.save').click()
     >>> 'anal-reference-set' in f.keys()
     True
@@ -223,11 +224,22 @@ So let's open the Specimen Collection we created above and add it there::
     'With Cancer'
     >>> f.protocol.title
     'Public Safety'
+    >>> f.site.title
+    u"Dr Tongue's 3D Clinic"
+    >>> f.siteName
+    "Dr Tongue's 3D Clinic"
     >>> f.getCollectionName()
     'The Probed Collection'
 
 You'll notice that the collectionName attribute wasn't available on the form;
-that's because it's a computed field.
+that's because it's a computed field.  The siteName works similarly.  Note
+that if we change the site, the siteName is updated::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='site:list').displayValue = ['A Plain 2D Clinic']
+    >>> browser.getControl(name='form.button.save').click()
+    >>> f.siteName
+    'A Plain 2D Clinic'
 
 TODO: Addable content to sets: files, pages, images.
 
@@ -247,10 +259,10 @@ Specimen Collection Folders show their contents with nifty faceted navigation:
     >>> browser.contents
     '...faceted-results...Anal Reference Set...'
 
-The facets include the collection, diagnosis, and the storage::
+The facets include the collection, diagnosis, storage, and the site::
 
     >>> browser.contents
-    '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...'
+    '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Site...Dr Tongue...'
 
 
 Specimen Collection
