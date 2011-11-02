@@ -16,6 +16,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         for='..interfaces.ISpecimenCollectionFolder'
         name='view'
         permission='zope2.View'
+        allowed_attributes='getStorageTypeLabel'
     />
     <browser:menuItem
         action='@@view'
