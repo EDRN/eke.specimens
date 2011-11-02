@@ -264,6 +264,12 @@ The facets include the collection, diagnosis, storage, and the site::
     >>> browser.contents
     '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Site...Dr Tongue...'
 
+And the displayed results show a table with matching specimen sets, their
+collections, the number of specimens, and their storage type::
+
+    >>> browser.contents
+    '...Set...Collection...# Specimens...Storage...Anal Reference Set...>The Probed Collection<...>127</td>...<td>DNA</td>...'
+
 
 Specimen Collection
 ~~~~~~~~~~~~~~~~~~~
