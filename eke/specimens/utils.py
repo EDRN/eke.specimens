@@ -66,7 +66,7 @@ def setFacetedNavigation(folder, request):
         hidden=False,
         index='siteName',
         operator='or',
-        vocabulary=u'eke.site.SitesNames',
+        vocabulary=u'eke.specimens.SitesWithSpecimens',
         count=False,
         maxitems=5,
         sortreversed=False,
