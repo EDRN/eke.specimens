@@ -262,7 +262,7 @@ Specimen Collection Folders show their contents with nifty faceted navigation:
 The facets include the collection, diagnosis, storage, and the site::
 
     >>> browser.contents
-    '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Site...Dr Tongue...'
+    '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Site...A Plain 2D Clinic...'
 
 And the displayed results show a table with matching specimen sets, their
 collections, the number of specimens, and their storage type::
