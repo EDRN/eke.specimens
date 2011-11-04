@@ -21,11 +21,9 @@ _erneURI = 'http://edrn.nci.nih.gov/data/protocols/116'
 
 class BadERNEProtocolException(Exception):
     def __init__(self, numFound=0):
-        # TODO: Grrr. Exception is an old-style class in Python 2.4. In 2.5+, change
-        # this to: super(BadERNEProtocolException, self).__init__('Require exactly one ERNE...)
-        Exception.__init__(self, 'Require exactly one ERNE protocol, found "%d"' % numFound)
+        super(BadERNEProtocolException, self).__init__('Require exactly one ERNE protocol, found %d' % numFound)
 
-class SpecimenFolderIngestor(BrowserView):
+class SpecimenCollectionFolderIngestor(BrowserView):
     '''Ingest specimen data directly from the ERNE query interface.'''
     template = ViewPageTemplateFile('templates/ingestresults.pt')
     render = True
@@ -59,11 +57,20 @@ class SpecimenFolderIngestor(BrowserView):
             return self.render and self.template() or None
         elif len(results) > 1:
             raise BadERNEProtocolException(len(results))
-        erne = results[0].getObject()
-        erneObjectID = normalize(erne.title)
+        erneProtocol = results[0].getObject()
         
-        # Clear out everything so we start with a clean slate.
-        context.manage_delObjects(context.objectIds())
+        # Find the ERNE collection & start with blank slate
+        if 'erne' not in context.keys():
+            erne = context[context.invokeFactory('Specimen Collection', 'erne')]
+            erne.setTitle(u'ERNE')
+            erne.setDescription(u'EDRN Resource Network Exchange')
+            erne.setText(u'<p>Specimens collected by present and former EDRN member sites.</p>')
+            erne.reindexObject()
+            log.append('Created the ERNE collection at %s' % erne.absolute_url())
+        else:
+            erne = context['erne']
+            erne.manage_delObjects(erne.keys())
+            log.append('Using the existing ERNE collection at %s' % erne.absolute_url())
         
         # For each site:
         for siteID, erneID in SITES.items():
@@ -74,34 +81,41 @@ class SpecimenFolderIngestor(BrowserView):
                 log.append('Exactly one site required for %s, but found %d; skipping' % (siteID, len(results)))
                 continue
             site = results[0].getObject()
+            siteName = site.abbreviation if site.abbreviation else site.title
             
-            # Create a SASIP to capture the site reference.
-            sasip = context[context.invokeFactory('Specimens at Site in Protocol', normalize(site.Title()))]
-            sasip.setSite(site)
-            sasip.reindexObject()
-            
-            # Create a SIP to capture the protocol reference.
-            sip = sasip[sasip.invokeFactory('Specimens in Protocol', erneObjectID)]
-            sip.setProtocol(erne)
-            sip.reindexObject()
-            
-            # Grab all the specimens at this site.
-            statistics = getSpecimens(erneID)
-            if len(statistics) == 0:
-                # None?  We're done.
+            # Grab summaries of all the specimens at this site.
+            summaries = getSpecimens(erneID)
+            if len(summaries) == 0:
+                # None?  Done.  TODO: Should we clear out any old portal records?
                 log.append('Zero specimens returned for %s' % siteID)
                 continue
             
-            recordNum = totalSpecs = totalPpts = 0
-            for s in statistics:
+            # Create
+            recordNum = 0
+            for summary in summaries:
                 recordNum += 1
-                r = sip[sip.invokeFactory('Specimen Record', str(recordNum))]
-                r.cancerDiagnosis, r.specimenType, r.storageType = s.withCancer == True and 'with' or 'without', s.kind, s.storage
-                r.specimenCount, r.participantCount = s.numSpecs, s.numPpts
-                totalSpecs, totalPpts = totalSpecs + s.numSpecs, totalPpts + s.numPpts
-                r.reindexObject()
-            log.append('Ingested %d specimens (from %d participants) for %s' % (totalSpecs, totalPpts, siteID))
-            self._doPublish(sasip, wfTool)
+                sid = '%s-%d' % (site.siteID, recordNum)
+                s = erne[erne.invokeFactory('Specimen Set', sid)]
+                s.setTitle(u'%s Set #%d' %(siteName, recordNum))
+                s.setDescription(u'Specimens at %s via ERNE.' % site.title)
+                s.shortName      = sid
+                s.specimenCount  = summary.specimenCount
+                s.storageType    = summary.storageType
+                s.numberCases    = summary.numberCases
+                s.numberControls = summary.numberControls
+                s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
+                s.protocol       = erneProtocol
+                s.site           = site
+                s.siteName       = siteName
+                if summary.available:
+                    s.available    = True
+                    s.contactName  = u'EDRN Site Specimen Bank Contact'
+                    s.contactEmail = summary.contactEmail
+                else:
+                    s.available = False
+                s.reindexObject()
+            log.append('Created %d sets for site %s' % (recordNum, siteName))
+        self._doPublish(erne, wfTool)
         self.results = log
         return self.render and self.template() or None
-
+            
