@@ -268,7 +268,21 @@ And the displayed results show a table with matching specimen sets, their
 collections, the number of specimens, and their storage type::
 
     >>> browser.contents
-    '...Set...Collection...# Specimens...Storage...Anal Reference Set...>The Probed Collection<...>127</td>...<td>DNA</td>...'
+    '...Set...Collection...Specimens...Storage...Anal Reference Set...>The Probed Collection<...>127</td>...<td>DNA</td>...'
+
+There's a no-break space now between the pound-sign and specimens in the table
+heading::
+
+    >>> browser.contents
+    '...<table...<thead>...<th>#&#x00a0;Specimens</th>...'
+
+Heather also wants the selection boxes to be narrower::
+
+    >>> browser.contents
+    '...#left-area...width: 15em;....left-area-js...margin-left: 15em;...'
+
+There has *got* to be a better way of doing that, though.  See
+``faceted_specimens_view.pt`` for explanation.
 
 
 Specimen Collection
@@ -306,7 +320,6 @@ that, though::
 
 Now look::
 
-    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> browser.contents
     '...Specimens in this set <strong>are available</strong>...contact...href="mailto:whomever@blah.com"...Whom Ever...'
 
