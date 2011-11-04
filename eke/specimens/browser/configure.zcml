@@ -25,6 +25,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='Specimen Collection Folder view'
     />
+    <browser:page
+        class='.ingest.SpecimenCollectionFolderIngestor'
+        for='..interfaces.ISpecimenCollectionFolder'
+        name='ingest'
+        permission='cmf.ManagePortal'
+    />
 
     <!-- Specimen Collection -->
     <browser:resource name='specimen-collection.gif' file='images/specimen-collection.gif'/>
