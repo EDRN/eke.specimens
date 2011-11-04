@@ -293,7 +293,7 @@ A Specimen Set just shows off its various attributes::
 That's all there is.  Well, there's more, actually.  Notice this admonition::
 
     >>> browser.contents
-    '...These specimens are not available for sharing...'
+    '...These specimens are <strong>not available</strong> for sharing...'
 
 That's because these specimens are not available for sharing.  We can fix
 that, though::
@@ -306,8 +306,9 @@ that, though::
 
 Now look::
 
+    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> browser.contents
-    '...Specimens in this set are available...contact...href="mailto:whomever@blah.com"...Whom Ever...'
+    '...Specimens in this set <strong>are available</strong>...contact...href="mailto:whomever@blah.com"...Whom Ever...'
 
 Neat, huh?  But what if you forgot to set the contact name?  Look::
 
