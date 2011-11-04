@@ -11,6 +11,18 @@
                     tal:define="kssClassesView context/@@kss_field_decorator_view;
                                 getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                                 templateId template/getId">
+<!-- FIXME: This belongs in the style_slot, but I have no idea how to override
+@@facetednavigation_view so I can use my own template where I can inject into the
+style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
+-->
+<style type='text/css'>
+#left-area {
+    width: 15em;
+}
+.left-area-js {
+    margin-left: 15em;
+}
+</style>
 
     <div metal:define-macro="text-field-view"
          id="parent-fieldname-text" class="stx"
@@ -23,7 +35,6 @@
                                                'text/x-rst', ), 'stx' + kss_class, 'plain' + kss_class)">
         <div metal:define-slot="inside" tal:replace="structure text">The body</div>
     </div>
-
     <metal:listingmacro define-macro="listing">
     <!-- KLUDGE: "listingBar" this text MUST appear in the faceted results.  eea.facetednavigation
     checks to see of "listingBar" is present and, if not, assumes there are too few results to
@@ -52,7 +63,7 @@
             <tr>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSet'>Set</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingCollection'>Collection</th>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'># Specimens</th>
+                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingStorage'>Storage</th>
             </tr>
         </thead>
