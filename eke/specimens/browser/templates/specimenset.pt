@@ -63,8 +63,9 @@
                     <metal:field use-macro='python:context.widget("protocol", mode="view")'>TCP/IP</metal:field>
                 </div>
 
+                <h2 i18n:translate='ekeSpecimensParagraphSharingHeading'>Sharing</h2>
                 <p tal:condition='context/available' i18n:translate='ekeSpecimensParagraphSharingAvailable'>
-                    Specimens in this set are available.  Please contact
+                    Specimens in this set <strong i18n:name='areAvailable'>are available</strong>.  Please contact
                     <a href='mailto:x' tal:attributes='href string:mailto:${context/contactEmail}' tal:content='context/contactName'
                         i18n:name='contactName'>
                         John
@@ -72,7 +73,7 @@
                     to obtain these specimens.
                 </p>
                 <p tal:condition='not:context/available' i18n:translate='ekeSpecimensParagraphSharingNotAvailable'>
-                    These specimens are not available for sharing.
+                    These specimens are <strong i18n:translate='notAvailable'>not available</strong> for sharing.
                 </p>
 
                 <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
