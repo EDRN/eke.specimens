@@ -48,50 +48,43 @@ _ethnicities = {
 
 # Site identifier to ERNE identifier
 SITES = {
-    'http://edrn.nci.nih.gov/data/sites/73':  'https://supergrover.uchsc.edu:7576/erne/prod',    # Colorado
-    'http://edrn.nci.nih.gov/data/sites/203': 'https://profiler.med.cornell.edu:7576/erne/prod', # Beth Israel
-    'http://edrn.nci.nih.gov/data/sites/70':  'https://edrn.partners.org:7576/erne/prod',        # Brigham & Women's
-    'http://edrn.nci.nih.gov/data/sites/91':  'https://cdc-erne.cdc.gov:7576/erne/prod',         # CDC
-    'http://edrn.nci.nih.gov/data/sites/80':  'https://edrn.creighton.edu:7576/erne/prod',       # Creighton Univ
-    'http://edrn.nci.nih.gov/data/sites/67':  'https://kepler.dartmouth.edu:7576/erne/prod',     # GLNE Dartmouth
-    'http://edrn.nci.nih.gov/data/sites/81':  'https://surg-oodt.mc.duke.edu:7576/erne/prod',    # Duke Univ
-    'http://edrn.nci.nih.gov/data/sites/202': 'https://erne.fccc.edu:7576/erne/prod',            # Fox Chase
-    'http://edrn.nci.nih.gov/data/sites/83':  'https://162.129.227.245:7576/erne/prod',          # Johns Hopkins Urology
-    'http://edrn.nci.nih.gov/data/sites/176': 'https://edrn.med.nyu.edu:7576/grid/prod',         # NYU
     'http://edrn.nci.nih.gov/data/sites/167': 'https://telepath-d340.upmc.edu:7576/erne/prod',   # Pittsburgh
+    'http://edrn.nci.nih.gov/data/sites/176': 'https://edrn.med.nyu.edu:7576/grid/prod',         # NYU
     'http://edrn.nci.nih.gov/data/sites/189': 'https://ucsf-97-101.ucsf.edu:7576/erne/prod',     # UCSF
+    'http://edrn.nci.nih.gov/data/sites/202': 'https://erne.fccc.edu:7576/erne/prod',            # Fox Chase
+    'http://edrn.nci.nih.gov/data/sites/203': 'https://profiler.med.cornell.edu:7576/erne/prod', # Beth Israel
     'http://edrn.nci.nih.gov/data/sites/408': 'https://erne.ucsd.edu:7576/erne/prod',            # UCSD
+    'http://edrn.nci.nih.gov/data/sites/67':  'https://kepler.dartmouth.edu:7576/erne/prod',     # GLNE Dartmouth
+    'http://edrn.nci.nih.gov/data/sites/70':  'https://edrn.partners.org:7576/erne/prod',        # Brigham & Women's
+    'http://edrn.nci.nih.gov/data/sites/73':  'https://supergrover.uchsc.edu:7576/erne/prod',    # Colorado
+    'http://edrn.nci.nih.gov/data/sites/80':  'https://edrn.creighton.edu:7576/erne/prod',       # Creighton Univ
+    'http://edrn.nci.nih.gov/data/sites/81':  'https://surg-oodt.mc.duke.edu:7576/erne/prod',    # Duke Univ
+    'http://edrn.nci.nih.gov/data/sites/83':  'https://162.129.227.245:7576/erne/prod',          # Johns Hopkins Urology
+    'http://edrn.nci.nih.gov/data/sites/91':  'https://cdc-erne.cdc.gov:7576/erne/prod',         # CDC
 }
 
-class SpecimenStatistics(object):
-    def __init__(self, withCancer, kind, storage, numSpecs, numPpts):
-        self.withCancer, self.numSpecs, self.numPpts = withCancer, numSpecs, numPpts
-        self.kind, self.storage = kind.strip(), storage.strip()
+
+class ERNESpecimenSummary(object):
+    def __init__(self, storageType, specimenCount, numberCases, numberControls, diagnosis, available, contactEmail):
+        self.storageType, self.specimenCount = storageType, specimenCount
+        self.numberCases, self.numberControls = numberCases, numberControls
+        self.diagnosis, self.available, self.contactEmail = diagnosis, available, contactEmail
     def __repr__(self):
-        return '%s(withCancer=%r,kind=%r,storage=%r,numSpecs=%r,numPpts=%r)' % (
-            self.__class__.__name__, self.withCancer, self.kind, self.storage, self.numSpecs, self.numPpts
+        return '%s(storageType=%r,specimenCount=%d,numberCases=%r,numberControls=%r,diagnosis=%r,available=%r,contactEmail=%r)' % (
+            self.__class__.__name__, self.storageType, self.specimenCount, self.numberCases, self.numberControls,
+            self.diagnosis, self.available, self.contactEmail
         )
     def __cmp__(self, other):
-        rc = cmp(self.withCancer, other.withCancer)
-        if rc < 0:
-            return -1
-        elif rc == 0:
-            rc = cmp(self.kind, other.kind)
+        for f in ('storageType', 'specimenCount', 'numberCases', 'numberControls', 'diagnosis', 'available', 'contactEmail'):
+            rc = cmp(getattr(self, f), getattr(other, f))
             if rc < 0:
                 return -1
-            elif rc == 0:
-                rc = cmp(self.storage, other.storage)
-                if rc < 0:
-                    return -1
-                elif rc == 0:
-                    rc = cmp(self.numSpecs, other.numSpecs)
-                    if rc < 0:
-                        return -1
-                    elif rc == 0:
-                        return cmp(self.numPpts, other.numPpts)
-        return 1
+            elif rc > 0:
+                return 1
+        return 0
     def __hash__(self):
-        return self.withCancer << 30 ^ hash(self.kind) << 15 ^ hash(self.storage) << 7 ^ self.numSpecs << 3 ^ self.numPpts
+        return self.diagnosis << 31 ^ self.available << 30 ^ hash(self.storageType) << 17 ^ hash(self.specimenCount) << 15 ^ \
+            hash(self.numberCases) << 7 ^ hash(self.numberControls) << 3 ^ hash(self.contactEmail)
 
 class SpecimenInventory(object):
     def __init__(self, contact, specimens, count, limit):
@@ -136,40 +129,43 @@ class Specimen(object):
         )
 
 def getSpecimens(erneID, erneWS=_erneWS):
-    cdes = ('BASELINE_CANCER-CONFIRMATION_CODE', 'SPECIMEN_COLLECTED_CODE', 'SPECIMEN_STORED_CODE', 'STUDY_PARTICIPANT_ID')
+    cdes = (
+        'BASELINE_CANCER-CONFIRMATION_CODE', 'SPECIMEN_STORED_CODE', 'STUDY_PARTICIPANT_ID',
+        'SPECIMEN_CONTACT-EMAIL_TEXT', 'SPECIMEN_AVAILABLE_CODE'
+    )
     queryStr = ' AND '.join(['RETURN = %s' % cde for cde in cdes])
     params = {'q': queryStr, 'url': erneID}
     con = None
-    records = []
+    records, available, email = [], None, None
     try:
         con = urllib2.urlopen(erneWS, urllib.urlencode(params))
         stats = {}
         for erneRecord in con.read().split('$'):
             fields = erneRecord.split('\t')
-            if len(fields) != 4:
-                continue
-            for i in xrange(0, 4):
+            if len(fields) != 5: continue # Avoid partial responses
+            for i in xrange(0, 5):
                 fields[i] = fields[i].strip()
-            cancerDiag, spec, storage, ppt = fields
-            if not cancerDiag or cancerDiag in ('9', 'unknown', 'blank') or not spec or spec in ('unknown', 'blank') or \
-                not storage or storage in ('unknown', 'blank') or not ppt or ppt in ('unknown', 'blank'):
+            cancerDiag, storage, ppt, email, available = fields
+            available = available == '1'
+            # Avoid garbled responses
+            if not cancerDiag or cancerDiag in ('9', 'unknown', 'blank') or not storage or storage in ('unknown', 'blank') \
+                or not ppt or ppt in ('unknown', 'blank'):
                 continue
+            # Group by {diagnosis: {storage type: {participant ID: specimen count}}}
             diagnoses = stats.get(cancerDiag, {})
-            specimenTypes = diagnoses.get(spec, {})
-            storageTypes = specimenTypes.get(storage, {})
+            storageTypes = diagnoses.get(storage, {})
             specimenCount = storageTypes.get(ppt, 0)
             specimenCount += 1
             storageTypes[ppt] = specimenCount
-            specimenTypes[storage] = storageTypes
-            diagnoses[spec] = specimenTypes
+            diagnoses[storage] = storageTypes
             stats[cancerDiag] = diagnoses
-        for cancerDiag, specimenTypes in stats.iteritems():
-            withCancer = cancerDiag == '1' and True or False
-            for specType, storageTypes in specimenTypes.iteritems():
-                for storageType, pptIDs in storageTypes.iteritems():
-                    totalSpecimens = sum(pptIDs.values())
-                    totalParticipants = len(pptIDs)
-                    records.append(SpecimenStatistics(withCancer, specType, storageType, totalSpecimens, totalParticipants))
+        for cancerDiag, storageTypes in stats.iteritems():
+            withCancer = cancerDiag == '1'
+            for storage, pptIDs in storageTypes.iteritems():
+                totalSpecimens = sum(pptIDs.values())
+                totalPpts = len(pptIDs)
+                cases, controls = totalPpts, 0 # FIXME: but how? No idea how to compute # cases or # controls from ERNE data
+                records.append(ERNESpecimenSummary(storage, totalSpecimens, cases, controls, withCancer, available, email))
         return records
     except urllib2.HTTPError, ex:
         _logger.info('Ignoring failed attempt to get specimens from %s via %s: %r', erneID, erneWS, ex)
