@@ -81,7 +81,7 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 log.append('Exactly one site required for %s, but found %d; skipping' % (siteID, len(results)))
                 continue
             site = results[0].getObject()
-            siteName = site.abbreviation if site.abbreviation else site.title
+            siteAbbrevName = site.abbreviation if site.abbreviation else site.title
             
             # Grab summaries of all the specimens at this site.
             summaries = getSpecimens(erneID)
@@ -96,7 +96,7 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 recordNum += 1
                 sid = '%s-%d' % (site.siteID, recordNum)
                 s = erne[erne.invokeFactory('Specimen Set', sid)]
-                s.setTitle(u'%s Set #%d' %(siteName, recordNum))
+                s.setTitle(u'%s Set #%d' %(siteAbbrevName, recordNum))
                 s.setDescription(u'Specimens at %s via ERNE.' % site.title)
                 s.shortName      = sid
                 s.specimenCount  = summary.specimenCount
@@ -106,7 +106,7 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
                 s.protocol       = erneProtocol
                 s.site           = site
-                s.siteName       = siteName
+                s.siteName       = site.title
                 if summary.available:
                     s.available    = True
                     s.contactName  = u'EDRN Site Specimen Bank Contact'
@@ -114,7 +114,7 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 else:
                     s.available = False
                 s.reindexObject()
-            log.append('Created %d sets for site %s' % (recordNum, siteName))
+            log.append('Created %d sets for site %s' % (recordNum, siteAbbrevName))
         self._doPublish(erne, wfTool)
         self.results = log
         return self.render and self.template() or None
