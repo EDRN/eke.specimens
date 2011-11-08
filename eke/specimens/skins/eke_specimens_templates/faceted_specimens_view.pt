@@ -17,10 +17,10 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
 -->
 <style type='text/css'>
 #left-area {
-    width: 15em;
+    width: 17em;
 }
 .left-area-js {
-    margin-left: 15em;
+    margin-left: 17em;
 }
 </style>
 
