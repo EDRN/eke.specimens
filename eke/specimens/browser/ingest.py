@@ -62,8 +62,8 @@ class SpecimenCollectionFolderIngestor(BrowserView):
         # Find the ERNE collection & start with blank slate
         if 'erne' not in context.keys():
             erne = context[context.invokeFactory('Specimen Collection', 'erne')]
-            erne.setTitle(u'ERNE')
-            erne.setDescription(u'EDRN Resource Network Exchange')
+            erne.setTitle(u'EDRN Specimen System')
+            erne.setDescription(u'EDRN Specimen System (formerly the EDRN Resource Network Exchange).')
             erne.setText(u'<p>Specimens collected by present and former EDRN member sites.</p>')
             erne.reindexObject()
             log.append('Created the ERNE collection at %s' % erne.absolute_url())
@@ -97,7 +97,7 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 sid = '%s-%d' % (site.siteID, recordNum)
                 s = erne[erne.invokeFactory('Specimen Set', sid)]
                 s.setTitle(u'%s Set #%d' %(siteAbbrevName, recordNum))
-                s.setDescription(u'Specimens at %s via ERNE.' % site.title)
+                s.setDescription(u'Specimens at %s via EDRN Specimen System.' % site.title)
                 s.shortName      = sid
                 s.specimenCount  = summary.specimenCount
                 s.storageType    = summary.storageType
