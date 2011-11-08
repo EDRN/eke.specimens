@@ -279,9 +279,12 @@ heading::
 Heather also wants the selection boxes to be narrower::
 
     >>> browser.contents
-    '...#left-area...width: 15em;....left-area-js...margin-left: 15em;...'
+    '...#left-area...width: 17em;....left-area-js...margin-left: 17em;...'
 
-There has *got* to be a better way of doing that, though.  See
+Note that they're not so narrow as 15em, but as 17em, because Dan wants ERNE
+to be known as "EDRN Specimen System".
+
+There has *got* to be a better way of doing those style changes, though.  See
 ``faceted_specimens_view.pt`` for explanation.
 
 
