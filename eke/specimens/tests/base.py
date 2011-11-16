@@ -52,7 +52,7 @@ _siteProtocolRDF = '''<?xml version='1.0' encoding='UTF-8'?>
 
 _protocolSpecimensRDF = ''''''
 
-_erneResponse = '''0\t5\t1\tx@y.com\t1$1\t5\t2\tx@y.com\t1$1\t6\t3\tz@y.com\t1$'''
+_erneResponse = '''0\t5\t1\tx@y.com\t1\t16$1\t5\t2\tx@y.com\t1\t16$1\t6\t3\tz@y.com\t1\t16$'''
 
 def registerLocalTestData():
     ekeSiteBase.registerLocalTestData()

@@ -199,6 +199,7 @@ So let's open the Specimen Collection we created above and add it there::
     >>> browser.getControl(name='specimenCount').value = u'127'
     >>> browser.getControl(name='numberCases').value = u'90'
     >>> browser.getControl(name='numberControls').value = u'45'
+    >>> browser.getControl(name='organs:lines').value = 'Anus\nRectum'
     >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
     >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='site:list').displayValue = ["Dr Tongue's 3D Clinic"]
@@ -220,6 +221,8 @@ So let's open the Specimen Collection we created above and add it there::
     90
     >>> f.numberControls
     45
+    >>> f.organs
+    ('Anus', 'Rectum')
     >>> f.diagnosis
     'With Cancer'
     >>> f.protocol.title
@@ -265,10 +268,12 @@ The facets include the collection, diagnosis, storage, and the site::
     '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Site...A Plain 2D Clinic...'
 
 And the displayed results show a table with matching specimen sets, their
-collections, the number of specimens, and their storage type::
+collections, the number of specimens, organ site, and their storage type::
 
     >>> browser.contents
-    '...Set...Collection...Specimens...Storage...Anal Reference Set...>The Probed Collection<...>127</td>...<td>DNA</td>...'
+    '...Set...Collection...Specimens...Organ(s)...Storage...'
+    >>> browser.contents
+    '...Anal Reference Set...>The Probed Collection<...>127</td>...Anus, Rectum...<td>DNA</td>...'
 
 There's a no-break space now between the pound-sign and specimens in the table
 heading::
