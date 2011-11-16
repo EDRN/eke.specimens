@@ -34,7 +34,7 @@
                 </p>
                 <div tal:replace='structure provider:plone.abovecontentbody' />
 
-                <div>
+                <div tal:condition='context/shortName'>
                     <label for='parent-fieldname-shortName' i18n:translate='label_shortName'>Short Name:</label>
                     <metal:field use-macro='python:context.widget("shortName", mode="view")'>ANAL-REF</metal:field>
                 </div>

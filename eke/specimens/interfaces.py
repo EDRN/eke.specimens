@@ -78,7 +78,7 @@ class ISpecimenSet(ISpecimenStatistics):
     shortName = schema.TextLine(
         title=_(u'Short Name'),
         description=_(u'A brief name or simple identifier for this specimen set.'),
-        required=True,
+        required=False,
     )
     storageType = schema.TextLine(
         title=_(u'Storage Type'),

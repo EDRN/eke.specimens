@@ -20,7 +20,7 @@ from zope.interface import implements
 SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.Schema((
     atapi.StringField(
         'shortName',
-        required=True,
+        required=False,
         searchable=True,
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(

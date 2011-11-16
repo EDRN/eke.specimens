@@ -99,7 +99,6 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 s = erne[erne.invokeFactory('Specimen Set', sid)]
                 s.setTitle(u'%s Set #%d' %(siteAbbrevName, recordNum))
                 s.setDescription(u'Specimens at %s via EDRN Specimen System.' % site.title)
-                s.shortName      = sid
                 s.specimenCount  = summary.specimenCount
                 s.storageType    = summary.storageType
                 s.numberCases    = summary.numberCases
