@@ -312,6 +312,27 @@ A Specimen Set just shows off its various attributes::
     >>> browser.contents
     '...ANAL-REF...DNA...127...90...45...With Cancer...Public Safety...'
 
+Note that if the specimen set's shortName attribute is empty, then the label
+for it won't be shown either (since according to CA-823, Christos was confused
+by the strange system-generated identifiers).  Let's create a specimen with no
+shortName::
+
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+    >>> browser.getLink(id='specimen-set').click()
+    >>> browser.getControl(name='title').value = u'Some Other Set'
+    >>> browser.getControl(name='storageType').displayValue = ['Plasma']
+    >>> browser.getControl(name='specimenCount').value = u'128'
+    >>> browser.getControl(name='numberCases').value = u'91'
+    >>> browser.getControl(name='numberControls').value = u'46'
+    >>> browser.getControl(name='organs:lines').value = 'Sphincter'
+    >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
+    >>> browser.getControl(name='form.button.save').click()
+
+Any short name?  Let's see::
+
+    >>> 'Short Name' in browser.contents
+    False
+    
 That's all there is.  Well, there's more, actually.  Notice this admonition::
 
     >>> browser.contents
