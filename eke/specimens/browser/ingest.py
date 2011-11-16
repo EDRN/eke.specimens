@@ -20,6 +20,23 @@ from zope.component import queryUtility
 # ERNE protocol ID
 _erneURI = 'http://edrn.nci.nih.gov/data/protocols/116'
 
+# Hard-coded contact information for specimens (CA-823) FIXME: This is DISGUSTING.
+_contactInfo = {
+    'http://edrn.nci.nih.gov/data/sites/167': ('agaitherdavis@hotmail.com', 'A. Gaither Davis'),     # Pittsburgh
+    'http://edrn.nci.nih.gov/data/sites/176': ('Dawn.Walter@nyumc.org', 'Dawn Walter'),              # NYU
+    'http://edrn.nci.nih.gov/data/sites/189': ('susil.rayamajhi@ucsfmedctr.org', 'Susil Rayamajhi'), # UCSF
+    'http://edrn.nci.nih.gov/data/sites/202': ('Joellen.Weaver@fccc.edu', 'Joellen Weaver'),         # Fox Chase
+    'http://edrn.nci.nih.gov/data/sites/203': ('mconnor@bidmc.harvard.edu', 'Marybeth Connors'),     # Beth Israel
+    'http://edrn.nci.nih.gov/data/sites/408': ('rschwab@ucsd.edu', 'Richard Schwab'),                # UCSD
+    'http://edrn.nci.nih.gov/data/sites/67':  ('dbrenner@umich.edu', 'Dean Brenner'),                # GLNE Dartmouth
+    'http://edrn.nci.nih.gov/data/sites/70':  ('dcramer@partners.org', 'Daniel Cramer'),             # Brigham & Women's
+    'http://edrn.nci.nih.gov/data/sites/73':  ('wilbur.franklin@uchsc.edu', 'Wilbur Franklin'),      # Colorado
+    'http://edrn.nci.nih.gov/data/sites/80':  ('patrice@creighton.edu', 'Patrice Watson'),           # Creighton
+    'http://edrn.nci.nih.gov/data/sites/81':  ('ander045@mc.duke.edu', 'Susan Anderson'),            # Duke Univ
+    'http://edrn.nci.nih.gov/data/sites/83':  ('ehumphr3@jhmi.edu', 'Elizabeth Humphreys'),          # Johns Hopkins Urology
+    'http://edrn.nci.nih.gov/data/sites/91':  ('ejq7@cdc.gov', 'Hao Tian'),                          # CDC
+}
+
 class BadERNEProtocolException(Exception):
     def __init__(self, numFound=0):
         super(BadERNEProtocolException, self).__init__('Require exactly one ERNE protocol, found %d' % numFound)
@@ -109,9 +126,11 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 s.site           = site
                 s.siteName       = site.title
                 if summary.available:
+                    # CA-823 look up hard-coded contact info, defaulting to ERNE-provided email and generic person name if not found
+                    contactInfo = _contactInfo.get(siteID, (summary.contactEmail, u'EDRN Site Specimen Bank Contact'))
                     s.available    = True
-                    s.contactName  = u'EDRN Site Specimen Bank Contact'
-                    s.contactEmail = summary.contactEmail
+                    s.contactEmail = contactInfo[0]
+                    s.contactName  = contactInfo[1]
                 else:
                     s.available = False
                 s.reindexObject()
