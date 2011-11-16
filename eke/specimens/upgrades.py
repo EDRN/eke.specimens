@@ -47,7 +47,7 @@ def addSampleSpecimenSets(setupTool):
     probeSet.setTitle('Anal PRoBE Set')
     probeSet.setDescription(u'Specimens acquired through anal PRoBing.')
     probeSet.shortName = 'PRoBE-ANUS'
-    probeSet.organs = ('Anus',),
+    probeSet.organs = ('Anus',)
     probeSet.storageType = '17'
     probeSet.specimenCount = 51234
     probeSet.numberCases = 503
@@ -57,7 +57,7 @@ def addSampleSpecimenSets(setupTool):
     probeSet.setTitle('Oral PRoBE Set')
     probeSet.setDescription(u'Specimens acquired through oral PRoBing.')
     probeSet.shortName = 'PRoBE-ORAL'
-    probeSet.organs = ('Esophagus',),
+    probeSet.organs = ('Esophagus',)
     probeSet.storageType = '26'
     probeSet.specimenCount = 49132
     probeSet.numberCases = 432
@@ -76,7 +76,7 @@ def addSampleSpecimenSets(setupTool):
     colon.setTitle(u'Colon Reference Set')
     colon.setDescription(COLON_SET_DESCRIPTION)
     colon.shortName = 'GLNE'
-    colon.organs = ('Colon',),
+    colon.organs = ('Colon',)
     colon.storageType = '1'
     colon.specimenCount = 1234
     colon.numberCases = 50
@@ -86,7 +86,7 @@ def addSampleSpecimenSets(setupTool):
     lungA.setTitle(u'Lung Reference Set A')
     lungA.setDescription(LUNG_SET_A_DESCRIPTION)
     lungA.shortName = 'LungSetA'
-    lungA.organs = ('Lung',),
+    lungA.organs = ('Lung',)
     lungA.storageType = '16'
     lungA.specimenCount = 512
     lungA.numberCases = 356
@@ -96,7 +96,7 @@ def addSampleSpecimenSets(setupTool):
     lungB.setTitle(u'Lung Reference Set B')
     lungB.setDescription(LUNG_SET_B_DESCRIPTION)
     lungB.shortName = 'LungSetB'
-    lungB.organs = ('Lung',),
+    lungB.organs = ('Lung',)
     lungB.storageType = '15'
     lungB.specimenCount = 233
     lungB.numberCases = 86
