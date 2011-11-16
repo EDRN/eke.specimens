@@ -99,6 +99,15 @@ class ISpecimenSet(ISpecimenStatistics):
         default=0,
         min=0
     )
+    organs = schema.List(
+        title=_(u'Organs'),
+        description=_(u'Names of the organs from which specimens were taken.'),
+        required=False,
+        value_type=schema.TextLine(
+            title=_(u'Organ'),
+            description=_(u'Name of an organ from which specimens were taken.'),
+        )
+    )
     diagnosis = schema.TextLine(
         title=_(u'Diagnosis'),
         description=_(u'Diagnosis of participants with or without cancer.'),

@@ -64,6 +64,7 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSet'>Set</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingCollection'>Collection</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
+                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingOrgans'>Organ(s)</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingStorage'>Storage</th>
             </tr>
         </thead>
@@ -84,6 +85,7 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                     collection          item/getCollectionName|string:?;
                     specimenCount       item/specimenCount|string:?;
                     storageType         item/storageType|nothing;
+                    organs              item/organs|nothing;
                     storageTypeLabel    python:nominal_view.getStorageTypeLabel(storageType);
                 '>
                     <metal:block define-slot='entry'>
@@ -102,6 +104,11 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                             </td>
                             <td style='text-align: right;' tal:content='specimenCount'>
                                 432
+                            </td>
+                            <td>
+                                <span tal:condition='organs' tal:replace="python:', '.join(item['organs'])">
+                                    Anus, Rectum
+                                </span>
                             </td>
                             <td tal:content='storageTypeLabel'>
                                 Mucus

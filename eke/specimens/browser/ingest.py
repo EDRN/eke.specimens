@@ -14,6 +14,7 @@ from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from utils import getSpecimens, SITES
+from views import getOrganLabel
 from zope.component import queryUtility
 
 # ERNE protocol ID
@@ -103,6 +104,7 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 s.storageType    = summary.storageType
                 s.numberCases    = summary.numberCases
                 s.numberControls = summary.numberControls
+                s.organs         = (getOrganLabel(summary.organ, context),)
                 s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
                 s.protocol       = erneProtocol
                 s.site           = site

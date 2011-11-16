@@ -6,6 +6,14 @@ description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.1 — Thus Spake Christos
+---------------------------
+
+This release addresses the following:
+
+* CA-823 - Modify eke.specimens per Christos's commentary
+
+
 1.1.0 — Strong Simplification
 -----------------------------
 

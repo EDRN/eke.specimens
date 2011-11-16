@@ -19,7 +19,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='siteName' meta_type='FieldIndex'>
         <indexed_attr value='siteName'/>
     </index>
+    <index name='organs' meta_type='FieldIndex'>
+        <indexed_attr value='organs'/>
+    </index>
     <column value='specimenCount'/>
     <column value='getCollectionName'/>
     <column value='storageType'/>
+    <column value='organs'/>
 </object>

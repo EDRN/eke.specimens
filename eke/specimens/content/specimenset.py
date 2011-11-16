@@ -61,6 +61,16 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             description=_(u'The number of participant controls who provided specimens drawn in this set.'),
         ),
     ),
+    atapi.LinesField(
+        'organs',
+        storage=atapi.AnnotationStorage(),
+        searchable=True,
+        required=False,
+        widget=atapi.LinesWidget(
+            label=_(u'Organs'),
+            description=_(u'Names of the organs from which specimens were taken, one per line.'),
+        ),
+    ),
     atapi.StringField(
         'diagnosis',
         enforceVocabulary=True,
@@ -168,6 +178,7 @@ class SpecimenSet(folder.ATFolder):
     specimenCount  = atapi.ATFieldProperty('specimenCount')
     numberCases    = atapi.ATFieldProperty('numberCases')
     numberControls = atapi.ATFieldProperty('numberControls')
+    organs         = atapi.ATFieldProperty('organs')
     diagnosis      = atapi.ATFieldProperty('diagnosis')
     protocol       = atapi.ATReferenceFieldProperty('protocol')
     site           = atapi.ATReferenceFieldProperty('site')

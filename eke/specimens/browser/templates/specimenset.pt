@@ -55,6 +55,14 @@
                     <metal:field use-macro='python:context.widget("numberControls", mode="view")'>42</metal:field>
                 </div>
                 <div>
+                    <label for='parent-fieldname-organs' i18n:translate='label_organs'>Organs:</label>
+                    <ul id='parent-fieldname-organs'>
+                        <li tal:repeat='organ context/organs'>
+                            <span tal:replace='organ'>Anus</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
                     <label for='parent-fieldname-diagnosis' i18n:translate='label_diagnosis'>Diagnosis:</label>
                     <metal:field use-macro='python:context.widget("diagnosis", mode="view")'>With Herpes</metal:field>
                 </div>

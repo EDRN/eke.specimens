@@ -10,6 +10,7 @@ from zope.i18nmessageid import MessageFactory
 ProjectMessageFactory = MessageFactory('eke.specimens')
 
 STORAGE_VOCAB_NAME = u'https://www.compass.fhcrc.org/edrns/cgi-bin/pilot/cde/CDEDetailed.asp?cdeid=529'
+ORGAN_VOCAB_NAME = u'https://www.compass.fhcrc.org/edrns/cgi-bin/pilot/cde/CDEDetailed.asp?cdeid=581'
 
 from eke.specimens import config
 from Products.Archetypes import atapi

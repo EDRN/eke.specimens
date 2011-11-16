@@ -7,7 +7,7 @@ EDRN Knowledge Environment Specimens: views for content types.
 '''
 
 from Acquisition import aq_inner
-from eke.specimens import STORAGE_VOCAB_NAME
+from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME
 from eke.specimens.interfaces import ISpecimenCollection, ISpecimenSet
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
@@ -24,6 +24,15 @@ def getStorageTypeLabel(storageType, context):
     except LookupError:
         return u'?'
 
+def getOrganLabel(organID, context):
+    if organID != 'unknown':
+        try:
+            factory = getUtility(IVocabularyFactory, name=ORGAN_VOCAB_NAME)
+            vocab = factory(context)
+            return vocab.getTermByToken(organID).title
+        except LookupError:
+            pass
+    return u'?'
 
 class SpecimenCollectionFolderView(BrowserView):
     '''Default view of a Specimen collection folder.'''
@@ -39,7 +48,9 @@ class SpecimenCollectionFolderView(BrowserView):
             path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
             sort_on='sortable_title'
         )
-        return [dict(title=i.Title, description=i.Description, specimenCount=i.specimenCount, url=i.getURL()) for i in results]
+        return [dict(
+            title=i.Title, description=i.Description, specimenCount=i.specimenCount, organs=i.organs, url=i.getURL()
+        ) for i in results]
     def getStorageTypeLabel(self, storageType):
         context = aq_inner(self.context)
         return getStorageTypeLabel(storageType, context)
