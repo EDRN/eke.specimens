@@ -114,17 +114,19 @@ class SpecimenCollectionFolderIngestor(BrowserView):
                 recordNum += 1
                 sid = '%s-%d' % (site.siteID, recordNum)
                 s = erne[erne.invokeFactory('Specimen Set', sid)]
-                s.setTitle(u'%s Set #%d' %(siteAbbrevName, recordNum))
-                s.setDescription(u'Specimens at %s via EDRN Specimen System.' % site.title)
+                s.setProtocol(erneProtocol.UID())
                 s.specimenCount  = summary.specimenCount
                 s.storageType    = summary.storageType
                 s.numberCases    = summary.numberCases
                 s.numberControls = summary.numberControls
                 s.organs         = (getOrganLabel(summary.organ, context),)
                 s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
-                s.protocol       = erneProtocol
-                s.site           = site
                 s.siteName       = site.title
+                s.isERNE         = True
+                s.setTitle(siteAbbrevName)
+                s.setDescription(u'%d Specimens from Participants %s at %s' % (summary.specimenCount, s.diagnosis, site.title))
+                s.setProtocol(erneProtocol.UID())
+                s.setSite(site.UID())
                 if summary.available:
                     # CA-823 look up hard-coded contact info, defaulting to ERNE-provided email and generic person name if not found
                     contactInfo = _contactInfo.get(siteID, (summary.contactEmail, u'EDRN Site Specimen Bank Contact'))
