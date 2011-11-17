@@ -61,7 +61,7 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
     <table class='listing'>
         <thead>
             <tr>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSet'>Set</th>
+                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSetSite'>Set/Site</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingCollection'>Collection</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingOrgans'>Organ(s)</th>
