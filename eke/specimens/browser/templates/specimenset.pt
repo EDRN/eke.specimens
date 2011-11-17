@@ -22,15 +22,19 @@
                     portalURL            context/@@plone_portal_state/portal_url;
                 ' -->
                 <div tal:replace='structure provider:plone.abovecontenttitle' />
-                <h1 class='documentFirstHeading'> 
-                    <metal:field use-macro='python:context.widget("title", mode="view")'>
-                        Title
-                    </metal:field>
-                </h1>
 
+                <h1 tal:condition='context/isERNE' tal:content='context/description' class='documentFirstHeading'>
+                    Use the Description instead of the title for ERNE specimen sets.
+                </h1>
+                <h1 tal:condition='not:context/isERNE' tal:content='context/title' class='documentFirstHeading'>
+                    Use the Title for non-ERNE specimen sets
+                </h1>
                 <div tal:replace='structure provider:plone.belowcontenttitle' />
-                <p class='documentDescription'>
-                    <metal:field use-macro='python:context.widget("description", mode="view")'>Description.</metal:field>
+                <p tal:condition='not:context/isERNE' tal:content='context/description' class='documentDescription'>
+                    Use the Description as the Description for non-ERNE specimen sets.
+                </p>
+                <p tal:condition='context/isERNE' class='documentDescription' i18n:translate='erne'>
+                    These specimens are part of the EDRN Specimen System, formerly the EDRN Resource Network Exchange (ERNE).
                 </p>
                 <div tal:replace='structure provider:plone.abovecontentbody' />
 
@@ -70,19 +74,18 @@
                     <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
                     <metal:field use-macro='python:context.widget("protocol", mode="view")'>TCP/IP</metal:field>
                 </div>
-
-                <h2 i18n:translate='ekeSpecimensParagraphSharingHeading'>Sharing</h2>
-                <p tal:condition='context/available' i18n:translate='ekeSpecimensParagraphSharingAvailable'>
-                    Specimens in this set <strong i18n:name='areAvailable'>are available</strong>.  Please contact
-                    <a href='mailto:x' tal:attributes='href string:mailto:${context/contactEmail}' tal:content='context/contactName'
-                        i18n:name='contactName'>
-                        John
-                    </a>
-                    to obtain these specimens.
-                </p>
-                <p tal:condition='not:context/available' i18n:translate='ekeSpecimensParagraphSharingNotAvailable'>
-                    These specimens are <strong i18n:translate='notAvailable'>not available</strong> for sharing.
-                </p>
+                <div tal:condition='context/site|nothing'>
+                    <label for='parent-fieldname-site' i18n:translate='label_site'>Site:</label>
+                    <metal:field use-macro='python:context.widget("site", mode="view")'>Site Blah</metal:field>
+                </div>
+                <div tal:condition='context/site|nothing' style='margin-top: 1em;'>
+                    <p tal:condition='context/site/principalInvestigator' i18n:translate='ekeSpecimensSharingContact'>
+                        Contact <a href='#' i18n:name='pi' tal:attributes='href context/site/principalInvestigator/absolute_url'
+                            tal:content='context/site/principalInvestigator/pretty_title_or_id'>
+                            Dude Man
+                        </a> to obtain these specimens.
+                    </p>
+                </div>
 
                 <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
                     Any related items
