@@ -12,6 +12,7 @@ the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 This release addresses the following:
 
 * CA-823 - Modify eke.specimens per Christos's commentary
+* CA-825 - Evening telecon
 
 
 1.1.0 — Strong Simplification

@@ -271,7 +271,7 @@ And the displayed results show a table with matching specimen sets, their
 collections, the number of specimens, organ site, and their storage type::
 
     >>> browser.contents
-    '...Set...Collection...Specimens...Organ(s)...Storage...'
+    '...Set/Site...Collection...Specimens...Organ(s)...Storage...'
     >>> browser.contents
     '...Anal Reference Set...>The Probed Collection<...>127</td>...Anus, Rectum...<td>DNA</td>...'
 
@@ -333,44 +333,8 @@ Any short name?  Let's see::
     >>> 'Short Name' in browser.contents
     False
     
-That's all there is.  Well, there's more, actually.  Notice this admonition::
-
-    >>> browser.contents
-    '...These specimens are <strong>not available</strong> for sharing...'
-
-That's because these specimens are not available for sharing.  We can fix
-that, though::
-
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='available:boolean').value = True
-    >>> browser.getControl(name='contactName').value = 'Whom Ever'
-    >>> browser.getControl(name='contactEmail').value = 'whomever@blah.com'
-    >>> browser.getControl(name='form.button.save').click()
-
-Now look::
-
-    >>> browser.contents
-    '...Specimens in this set <strong>are available</strong>...contact...href="mailto:whomever@blah.com"...Whom Ever...'
-
-Neat, huh?  But what if you forgot to set the contact name?  Look::
-
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='available:boolean').value = True
-    >>> browser.getControl(name='contactName').value = ''
-    >>> browser.getControl(name='form.button.save').click()
-    >>> browser.contents
-    '...name and email address is required...'
-
-It's required when the available checkbox is checked.  The name is too::
-
-    >>> browser.getControl(name='available:boolean').value = True
-    >>> browser.getControl(name='contactName').value = 'Whom Ever'
-    >>> browser.getControl(name='contactEmail').value = ''
-    >>> browser.getControl(name='form.button.save').click()
-    >>> browser.contents
-    '...name and email address is required...'
-
-Nifty, huh?
+That's all there is.  (Well there's something about specimen sharing, but
+screw that for now.  It's nearly midnight.)
 
 
 RDF Ingest
