@@ -160,6 +160,16 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + CountsSchema.copy() + atapi.S
             visible={'edit': 'invisible', 'view': 'invisible'},
         )
     ),
+    atapi.BooleanField(
+        'isERNE',
+        storage=atapi.AnnotationStorage(),
+        required=False,
+        default=False,
+        widget=atapi.BooleanWidget(
+            label=_(u'Is ERNE?'),
+            description=_(u'Is this specimen set from ERNE?'),
+        ),
+    )
 ))
 SpecimenSetSchema['title'].storage = atapi.AnnotationStorage()
 SpecimenSetSchema['description'].storage = atapi.AnnotationStorage()
@@ -186,6 +196,7 @@ class SpecimenSet(folder.ATFolder):
     available      = atapi.ATFieldProperty('available')
     contactName    = atapi.ATFieldProperty('contactName')
     contactEmail   = atapi.ATFieldProperty('contactEmail')
+    isERNE         = atapi.ATFieldProperty('isERNE')
     def _computeCollectionName(self):
         '''Compute the name of the collection field by accessing the parent object'''
         collection = aq_parent(aq_inner(self))
