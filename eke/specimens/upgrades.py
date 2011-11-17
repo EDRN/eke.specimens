@@ -43,12 +43,12 @@ def addSampleSpecimenSets(setupTool):
     probe.specimenCount = 56342
     
     # Add a couple of PRoBE sets
-    probeSet = probe[probe.invokeFactory('Specimen Set', 'anally-probed-set')]
-    probeSet.setTitle('Anal PRoBE Set')
-    probeSet.setDescription(u'Specimens acquired through anal PRoBing.')
-    probeSet.shortName = 'PRoBE-ANUS'
-    probeSet.organs = ('Anus',)
-    probeSet.storageType = '17'
+    probeSet = probe[probe.invokeFactory('Specimen Set', 'lung-probed-set')]
+    probeSet.setTitle('Lung PRoBE Set')
+    probeSet.setDescription(u'Specimens acquired through lung PRoBing.')
+    probeSet.shortName = 'PRoBE-LUNG'
+    probeSet.organs = ('Lung',)
+    probeSet.storageType = '16'
     probeSet.specimenCount = 51234
     probeSet.numberCases = 503
     probeSet.numberControls = 6969
