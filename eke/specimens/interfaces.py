@@ -146,4 +146,9 @@ class ISpecimenSet(ISpecimenStatistics):
         description=_(u'Email address of the contact name.'),
         required=False,
     )
+    isERNE = schema.Bool(
+        title=_(u'ERNE'),
+        description=_(u'Is this an ERNE specimen set?'),
+        required=False,
+    )
     
