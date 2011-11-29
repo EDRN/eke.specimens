@@ -49,7 +49,7 @@ _ethnicities = {
 # Site identifier to ERNE identifier
 SITES = {
     'http://edrn.nci.nih.gov/data/sites/167': 'https://telepath-d340.upmc.edu:7576/erne/prod',   # Pittsburgh
-    'http://edrn.nci.nih.gov/data/sites/176': 'https://edrn.med.nyu.edu:7576/grid/prod',         # NYU
+    'http://edrn.nci.nih.gov/data/sites/84':  'https://edrn.med.nyu.edu:7576/grid/prod',         # NYU
     'http://edrn.nci.nih.gov/data/sites/189': 'https://ucsf-97-101.ucsf.edu:7576/erne/prod',     # UCSF
     'http://edrn.nci.nih.gov/data/sites/202': 'https://erne.fccc.edu:7576/erne/prod',            # Fox Chase
     'http://edrn.nci.nih.gov/data/sites/203': 'https://profiler.med.cornell.edu:7576/erne/prod', # Beth Israel

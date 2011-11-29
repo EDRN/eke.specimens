@@ -23,7 +23,7 @@ _erneURI = 'http://edrn.nci.nih.gov/data/protocols/116'
 # Hard-coded contact information for specimens (CA-823) FIXME: This is DISGUSTING.
 _contactInfo = {
     'http://edrn.nci.nih.gov/data/sites/167': ('agaitherdavis@hotmail.com', 'A. Gaither Davis'),     # Pittsburgh
-    'http://edrn.nci.nih.gov/data/sites/176': ('Dawn.Walter@nyumc.org', 'Dawn Walter'),              # NYU
+    'http://edrn.nci.nih.gov/data/sites/84':  ('William.Rom@nyumc.org', 'William Rom'),              # NYU
     'http://edrn.nci.nih.gov/data/sites/189': ('susil.rayamajhi@ucsfmedctr.org', 'Susil Rayamajhi'), # UCSF
     'http://edrn.nci.nih.gov/data/sites/202': ('Joellen.Weaver@fccc.edu', 'Joellen Weaver'),         # Fox Chase
     'http://edrn.nci.nih.gov/data/sites/203': ('mconnor@bidmc.harvard.edu', 'Marybeth Connors'),     # Beth Israel
