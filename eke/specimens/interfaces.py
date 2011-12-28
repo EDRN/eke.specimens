@@ -17,7 +17,7 @@ class ISpecimenStatistics(Interface):
     specimenCount = schema.Int(
         title=_(u'Specimen Count'),
         description=_(u'The number of specimens.'),
-        required=True,
+        required=False,
         default=0,
         min=0
     )

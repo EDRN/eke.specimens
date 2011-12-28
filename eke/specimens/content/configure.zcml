@@ -26,6 +26,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         factory='.specimenset.ContactInformationValidator'
     />
     <subscriber
+        for='..interfaces.ISpecimenCollection zope.container.interfaces.IContainerModifiedEvent'
+        handler='.specimencollection.updateSpecimenCount'
+    />
+    <subscriber
         for='..interfaces.ISpecimenCollectionFolder zope.app.container.interfaces.IObjectAddedEvent'
         handler='.specimencollectionfolder.addFacetedNavigation'
     />

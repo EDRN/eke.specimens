@@ -22,7 +22,7 @@ _diagnoses = SimpleVocabulary.fromItems((
 CountsSchema = atapi.Schema((
     atapi.IntegerField(
         'specimenCount',
-        required=True,
+        required=False,
         default=0,
         searchable=False,
         storage=atapi.AnnotationStorage(),
