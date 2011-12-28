@@ -156,7 +156,6 @@ there::
     >>> browser.getControl(name='title').value = u'The Probed Collection'
     >>> browser.getControl(name='description').value = u'Collection of specimens obtained through probing.'
     >>> browser.getControl(name='text').value = u'<p>Warning: some specimens from <strong>unwilling</strong> participants.</p>'
-    >>> browser.getControl(name='specimenCount').value = u'128'
     >>> browser.getControl(name='form.button.save').click()
     >>> 'the-probed-collection' in f.keys()
     True
@@ -168,7 +167,21 @@ there::
     >>> f.text
     '<p>Warning: some specimens from <strong>unwilling</strong> participants.</p>'
     >>> f.specimenCount
-    128
+    0
+
+See that?  The ``specimenCount`` field already knew it was zero since it
+computes its value based on contained Specimen Set objects (thank you CA-845).
+No Specimen Sets means a zero count.
+
+In fact, the specimenCount field doesn't even appear anymore when you create a
+Specimen Collection::
+
+    >>> browser.open(portalURL + '/sticky-specimens')
+    >>> browser.getLink(id='specimen-collection').click()
+    >>> 'specimenCount' in browser.contents
+    False
+
+So, let's add a Specimen Set and see what happens, below.
 
 
 Specimen Set
@@ -243,6 +256,13 @@ that if we change the site, the siteName is updated::
     >>> browser.getControl(name='form.button.save').click()
     >>> f.siteName
     'A Plain 2D Clinic'
+
+And the parent Specimen Collection now has a non-zero count::
+
+    >>> portal['sticky-specimens']['the-probed-collection'].specimenCount
+    127
+    >>> portal['sticky-specimens']['the-probed-collection'].specimenCount == f.specimenCount
+    True
 
 TODO: Addable content to sets: files, pages, images.
 
