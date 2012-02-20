@@ -11,7 +11,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:monkey='http://namespaces.plone.org/monkey'
     xmlns:vdex='http://namespaces.zope.org/vdex'
     i18n_domain='eke.specimens'>
-    <include package='collective.monkeypatcher' />
+
+    <include package='z3c.autoinclude' file='meta.zcml' />
+    <includeDependenciesOverrides package='.' />
+    <includeDependencies package='.' />
+
     <monkey:patch
         description='Adds a "macros" empty dictionary attribute to the PloneSite class so eea.facetedvocabularies will work on custom content types with Zope 3 browser views instead of page templates—which it lamely expects.'
         class='Products.CMFPlone.Portal.PloneSite'
@@ -21,7 +25,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     />
 
     <five:registerPackage package="eke.specimens" initialize=".initialize" />
-    <include package='collective.vdexvocabulary' file='meta.zcml'/>
+    <!-- <include package='collective.vdexvocabulary' file='meta.zcml'/> -->
     <include package='.browser'/>
     <include package='.content'/>
     <genericsetup:registerProfile 
@@ -32,8 +36,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         provides='Products.GenericSetup.interfaces.EXTENSION'
     />
     <cmf:registerDirectory name='eke_specimens_templates' />
-    <include package='eke.knowledge' />
-    <include package='eke.study' />
-    <include package='eke.site' />
     <vdex:vocabulary directory='vocabs' />
 </configure>
