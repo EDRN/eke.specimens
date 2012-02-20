@@ -5,11 +5,11 @@
 '''EDRN Knowledge Environment Specimens: test the ingest of specimen data.
 '''
 
-from base import BaseTestCase
+import unittest2 as unittest
+from eke.specimens.testing import EKE_SPECIMENS_FIXTURE
 from eke.specimens.browser.utils import getSpecimens, ERNESpecimenSummary
-import unittest
 
-class SpecimenSummaryTest(BaseTestCase):
+class SpecimenSummaryTest(unittest.TestCase):
     '''Tests of the SpecimenSummary class'''
     def testComparisons(self):
         a0 = ERNESpecimenSummary('3', 123, 10, 5, '16', True, True, 'x@y.com')
@@ -39,8 +39,9 @@ class SpecimenSummaryTest(BaseTestCase):
         self.assertEquals(hash(a0), hash(a1))
         self.failUnless(hash(a0) != hash(b))
 
-class IngestTest(BaseTestCase):
+class IngestTest(unittest.TestCase):
     '''Unit tests of ingestion.'''
+    layer = EKE_SPECIMENS_FIXTURE
     def testBadURL(self):
         '''Ensure ``getSpecimens`` returns no specimens for bad URLs'''
         records = getSpecimens('bogus:url:to-no-where')
@@ -55,8 +56,8 @@ class IngestTest(BaseTestCase):
         self.assertEquals(ERNESpecimenSummary('6', 1, 1, 0, '16', True, True, 'z@y.com'), records[2])
 
 def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(SpecimenSummaryTest))
-    suite.addTest(unittest.makeSuite(IngestTest))
-    return suite
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='test_suite')
     

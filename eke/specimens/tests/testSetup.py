@@ -5,15 +5,19 @@
 '''EDRN Knowledge Environment Specimens: test the setup of this package.
 '''
 
-from base import BaseTestCase
+import unittest2 as unittest
+from eke.specimens.testing import EKE_SPECIMENS_INTEGRATION_TESTING
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility
 from zope.schema.interfaces import IVocabularyFactory
 from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME
-import unittest
 
-class TestSetup(BaseTestCase):
+class SetupTest(unittest.TestCase):
     '''Unit tests the setup of this package.'''
+    layer = EKE_SPECIMENS_INTEGRATION_TESTING
+    def setUp(self):
+        super(SetupTest, self).setUp()
+        self.portal = self.layer['portal']
     def testTypes(self):
         '''Make sure our types are available.'''
         types = getToolByName(self.portal, 'portal_types').objectIds()
@@ -49,7 +53,8 @@ class TestSetup(BaseTestCase):
         
 
 def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestSetup))
-    return suite
+    return unittest.defaultTestLoader.loadTestsFromName(__name__)
+
+if __name__ == '__main__':
+    unittest.main(defaultTest='test_suite')
     
