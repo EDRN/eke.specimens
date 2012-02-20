@@ -26,6 +26,9 @@ _keywords    = 'web zope plone edrn cancer biomarkers eke knowledge specimen ern
 # * 'plone.app.referenceablebehavior',
 # * 'plone.app.relationfield',
 # Note: plone.app.referenceablebehavior requires Plone >= 4.1.
+_extras = {
+    'test': ['plone.app.testing']
+}
 _externalRequirements = [
     'setuptools',
     'collective.vdexvocabulary',
@@ -68,6 +71,7 @@ setup(
     description=_description,
     download_url=_downloadURL,
     entry_points=_entryPoints,
+    extras_require=_extras,
     include_package_data=True,
     install_requires=_reqs,
     keywords=_keywords,
