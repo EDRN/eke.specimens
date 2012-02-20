@@ -8,7 +8,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <description>Specimens for the EDRN Knowledge Environment</description>
     <dependencies>
         <dependency>profile-eke.knowledge:default</dependency>
+        <dependency>profile-eke.publications:default</dependency>
         <dependency>profile-eke.site:default</dependency>
+        <dependency>profile-eke.study:default</dependency>
         <!-- TODO: when we migrate from Archetypes to Dexterity, enable this: -->
         <!-- <dependency>profile-plone.app.dexterity:default</dependency> -->
     </dependencies>
