@@ -13,7 +13,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     i18n_domain='eke.specimens'>
 
     <include package='z3c.autoinclude' file='meta.zcml' />
-    <includeDependenciesOverrides package='.' />
     <includeDependencies package='.' />
 
     <monkey:patch
