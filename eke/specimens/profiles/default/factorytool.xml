@@ -5,8 +5,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <object name='portal_factory' meta_type='Plone Factory Tool'>
     <factorytypes>
-        <type portal_type='Specimen Collection Folder' />
-        <type portal_type='Specimen Collection' />
-        <type portal_type='Specimen Set' />
+        <type portal_type='Specimen System Folder' />
+        <type portal_type='Specimen System' />
+        <type portal_type='Generic Specimen Set' />
+        <type portal_type='Case Control Subset' />
+        <type portal_type='Inactive ERNE Set' />
     </factorytypes>
 </object>
