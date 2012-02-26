@@ -33,5 +33,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='eke.specimens.upgrades.updateDiagnosisIndex'
         sortkey='2'
     />
+    <genericsetup:upgradeStep
+        source='4'
+        destination='5'
+        title='Specimens Upgrade Step (4→5)'
+        description='The EKE Specimens upgrade to profile 5 nukes and rebuilds the Specimens tab.'
+        profile='eke.specimens:default'
+        handler='eke.specimens.upgrades.upgradeSpecimesn4To5'
+        sortkey='1'
+    />
 
 </configure>
