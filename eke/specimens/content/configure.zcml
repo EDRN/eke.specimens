@@ -1,19 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-Copyright 2010 California Institute of Technology. ALL RIGHTS
+Copyright 2010–2012 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <configure xmlns='http://namespaces.zope.org/zope' i18n_domain='eke.specimens'>
-    <class class='.specimencollectionfolder.SpecimenCollectionFolder'>
-        <require permission='zope2.View' interface='..interfaces.ISpecimenCollectionFolder'/>
+    <class class='.specimensystemfolder.SpecimenSystemFolder'>
+        <require permission='zope2.View' interface='..interfaces.ISpecimenSystemFolder'/>
     </class>
-    <class class='.specimencollection.SpecimenCollection'>
-        <require permission='zope2.View' interface='..interfaces.ISpecimenCollection'/>
+    <class class='.specimensystem.SpecimenSystem'>
+        <require permission='zope2.View' interface='..interfaces.ISpecimenSystem'/>
     </class>
-    <class class='.specimenset.SpecimenSet'>
-        <require permission='zope2.View' interface='..interfaces.ISpecimenSet'/>
+    <class class='.genericspecimenset.GenericSpecimenSet'>
+        <require permission='zope2.View' interface='..interfaces.IGenericSpecimenSet'/>
     </class>
-    <subscriber
+    <class class='.casecontrolsubset.CaseControlSubset'>
+        <require permission='zope2.View' interface='..interfaces.ICaseControlSubset' />
+    </class>
+    <class class='.inactiveerneset.InactiveERNESet'>
+        <require permission='zope2.View' interface='..interfaces.IInactiveERNESet'/>
+    </class>
+    <utility
+        component='.casecontrolsubset.subsetTypeVocabularyFactory'
+        name='eke.specimens.vocab.SubsetType'
+    />
+    <!-- <subscriber
         for='..interfaces.ISpecimenSet Products.Archetypes.interfaces.IObjectInitializedEvent'
         handler='.specimenset.updateInformationProvidedBySite'
     />
@@ -48,5 +58,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <utility
         component='.base.SitesWithSpecimensVocabulary'
         name='eke.specimens.SitesWithSpecimens'
-    />
+    /> -->
 </configure>
