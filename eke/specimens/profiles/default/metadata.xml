@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-Copyright 2010-2011 California Institute of Technology. ALL RIGHTS
+Copyright 2010–2012 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <metadata>
-    <version>4</version>
+    <version>5</version>
     <description>Specimens for the EDRN Knowledge Environment</description>
     <dependencies>
         <dependency>profile-eke.knowledge:default</dependency>
