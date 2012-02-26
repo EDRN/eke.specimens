@@ -1,21 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-Copyright 2011 California Institute of Technology. ALL RIGHTS
+Copyright 2011–2012 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
-<object name='Specimen Collection' meta_type='Factory-based Type Information with dynamic views'
+<object name='Specimen System' meta_type='Factory-based Type Information with dynamic views'
     i18n:domain='eke.specimens' xmlns:i18n='http://xml.zope.org/namespaces/i18n'>
-    <property name='title' i18n:translate=''>Specimen Collection</property>
-    <property name='description' i18n:translate=''>A specimen collection contains sets of related specimens.</property>
-    <property name='content_icon'>++resource++specimen-collection.gif</property>
-    <property name='content_meta_type'>Specimen Collection</property>
+    <property name='title' i18n:translate=''>Specimen System</property>
+    <property name='description' i18n:translate=''>A specimen system contains sets of related specimens.</property>
+    <property name='content_icon'>++resource++specimen-system.gif</property>
+    <property name='content_meta_type'>Specimen System</property>
     <property name='product'>eke.specimens</property>
-    <property name='factory'>addSpecimenCollection</property>
+    <property name='factory'>addSpecimenSystem</property>
     <property name='immediate_view'>atct_edit</property>
     <property name='global_allow'>False</property>
     <property name='filter_content_types'>True</property>
     <property name='allowed_content_types'>
-        <element value='Specimen Set'/>
+        <element value='Generic Specimen Set'/>
+        <element value='Inactive ERNE Set'/>
     </property>
     <property name='allow_discussion'>False</property>
     <property name='default_view'>view</property>
@@ -36,9 +37,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     </action>
     <action title='Edit' action_id='edit' category='object' condition_expr='' url_expr='string:${object_url}/edit' visible='True'>
         <permission value='Modify portal content'/>
-    </action>
-    <action title='Ingest' action_id='ingest' category='object' condition_expr='' url_expr='string:${object_url}/ingest'
-        visible='True'>
-        <permission value='Manage portal'/>
     </action>
 </object>
