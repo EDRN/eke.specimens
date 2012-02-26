@@ -5,17 +5,27 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <rolemap>
     <permissions>
-        <permission name='EKE: Add Specimen Collection Folder' acquire='True'>
+        <permission name='EKE: Add Specimen System Folder' acquire='True'>
             <role name='Manager' />
             <role name='Owner' />
             <role name='Contributor' />
         </permission>
-        <permission name='EKE: Add Specimen Collection' acquire='True'>
+        <permission name='EKE: Add Specimen System' acquire='True'>
             <role name='Manager' />
             <role name='Owner' />
             <role name='Contributor' />
         </permission>
-        <permission name='EKE: Add Specimen Set' acquire='True'>
+        <permission name='EKE: Add Generic Specimen Set' acquire='True'>
+            <role name='Manager' />
+            <role name='Owner' />
+            <role name='Contributor' />
+        </permission>
+        <permission name='EKE: Add Case Control Subset' acquire='True'>
+            <role name='Manager' />
+            <role name='Owner' />
+            <role name='Contributor' />
+        </permission>
+        <permission name='EKE: Add Inactive ERNE Set' acquire='True'>
             <role name='Manager' />
             <role name='Owner' />
             <role name='Contributor' />
