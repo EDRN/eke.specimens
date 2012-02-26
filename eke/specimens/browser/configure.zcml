@@ -9,59 +9,91 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     i18n_domain='eke.specimens'>
     <include package='plone.app.contentmenu'/>
 
-    <!-- Specimen Collection Folder -->
-    <browser:resource name='specimen-collection-folder.gif' file='images/specimen-collection-folder.gif'/>
+    <!-- Specimen System Folder -->
+    <browser:resource name='specimen-system-folder.gif' file='images/specimen-system-folder.gif'/>
     <browser:page
-        class='.views.SpecimenCollectionFolderView'
-        for='..interfaces.ISpecimenCollectionFolder'
+        class='.views.SpecimenSystemFolderView'
+        for='..interfaces.ISpecimenSystemFolder'
         name='view'
         permission='zope2.View'
         allowed_attributes='getStorageTypeLabel'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of a Specimen Collection Folder.'
-        for='..interfaces.ISpecimenCollectionFolder'
+        description='Default representation of a Specimen System Folder.'
+        for='..interfaces.ISpecimenSystemFolder'
         menu='plone_displayviews'
-        title='Specimen Collection Folder view'
+        title='Specimen System Folder view'
     />
-    <browser:page
+    <!-- <browser:page
         class='.ingest.SpecimenCollectionFolderIngestor'
         for='..interfaces.ISpecimenCollectionFolder'
         name='ingest'
         permission='cmf.ManagePortal'
-    />
+    /> -->
 
-    <!-- Specimen Collection -->
-    <browser:resource name='specimen-collection.gif' file='images/specimen-collection.gif'/>
+    <!-- Specimen System -->
+    <browser:resource name='specimen-system.gif' file='images/specimen-system.gif'/>
     <browser:page
-        class='.views.SpecimenCollectionView'
-        for='..interfaces.ISpecimenCollection'
+        class='.views.SpecimenSystemView'
+        for='..interfaces.ISpecimenSystem'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of a Specimen Collection.'
-        for='..interfaces.ISpecimenCollection'
+        description='Default representation of a Specimen System.'
+        for='..interfaces.ISpecimenSystem'
         menu='plone_displayviews'
-        title='Specimen Collection view'
+        title='Specimen System view'
     />
 
-    <!-- Specimen Set -->
-    <browser:resource name='specimen-set.gif' file='images/specimen-set.gif'/>
+    <!-- Generic Specimen Set -->
+    <browser:resource name='generic-specimen-set.gif' file='images/generic-specimen-set.gif'/>
     <browser:page
-        class='.views.SpecimenSetView'
-        for='..interfaces.ISpecimenSet'
+        class='.views.GenericSpecimenSetView'
+        for='..interfaces.IGenericSpecimenSet'
         name='view'
         permission='zope2.View'
     />
     <browser:menuItem
         action='@@view'
-        description='Default representation of a Specimen Set.'
-        for='..interfaces.ISpecimenSet'
+        description='Default representation of a Generic Specimen Set.'
+        for='..interfaces.IGenericSpecimenSet'
         menu='plone_displayviews'
-        title='Specimen Set view'
+        title='Generic Specimen Set view'
+    />
+
+    <!-- Case Control Subset -->
+    <browser:resource name='case-control-subset.png' file='images/case-control-subset.png'/>
+    <browser:page
+        class='.views.CaseControlSubsetView'
+        for='..interfaces.ICaseControlSubset'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Case Control Subset.'
+        for='..interfaces.ICaseControlSubset'
+        menu='plone_displayviews'
+        title='Case Control Subset view'
+    />
+
+    <!-- Inactive ERNE Set -->
+    <browser:resource name='inactive-erne-set.png' file='images/inactive-erne-set.png'/>
+    <browser:page
+        class='.views.InactiveERNESetView'
+        for='..interfaces.IInactiveERNESet'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of an Inactive ERNE Set.'
+        for='..interfaces.IInactiveERNESet'
+        menu='plone_displayviews'
+        title='Inactive ERNE Set view'
     />
 
 </configure>
