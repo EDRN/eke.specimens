@@ -7,12 +7,12 @@
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='eke.specimens'>
     <head>
-        <title>Specimen Collection Folder</title>
+        <title>Specimen System Folder</title>
     </head>
     <body>
         <metal:main fill-slot='main'>
             <tal:main-macro metal:define-macro='main' tal:define='
-                haveSets view/haveSpecimenSets;
+                haveSystems view/haveSpecimenSystems;
             '>
                 <!-- tal:define='
                     haveSpecimensAtSites view/haveSpecimensAtSites;
@@ -40,26 +40,26 @@
                     Body Text
                 </p>
 
-                <p class='discreet' tal:condition='not:haveSets' i18n:translate='ekeSpecimensSpecColFoldAdominitionNoSets'>
-                    There are currently no specimen sets in this collection (yet).
+                <p class='discreet' tal:condition='not:haveSystems' i18n:translate='ekeSpecimensAdmonitionNoSpecCollecs'>
+                    There are no specimen systems in this folder (yet).
                 </p>
 
-                <table class='listing' tal:condition='haveSets' tal:define='sets view/specimenSets'>
+                <table class='listing' tal:condition='haveSystems' tal:define='systems view/specimenSystems;'>
                     <thead>
                         <tr>
-                            <th i18n:translate='ekeSpecimensSpecColFoldTableHeadingSetName'>Set</th>
-                            <th i18n:translate='ekeSpecimensSpecColFoldTableHeadingNumSpecimens'>Number of Specimens</th>
+                            <th i18n:translate='ekeSpecimensTabHeadCollecName'>System</th>
+                            <th i18n:translate='ekeSpecimensTabHeadNumSpecs'>Number of Specimens</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr tal:repeat='specimenSet sets'>
+                        <tr tal:repeat='system systems'>
                             <td>
-                                <a href='#' title='A really nifty set of specimens.' tal:content='specimenSet/title'
-                                    tal:attributes='href specimenSet/url; title specimenSet/description'>
-                                    Nifty Set
+                                <a href='#' title='Some nifty system or other.' tal:content='system/title'
+                                    tal:attributes='href system/url; title system/description;'>
+                                    Nifty System
                                 </a>
                             </td>
-                            <td tal:content='specimenSet/specimenCount'>
+                            <td tal:content='system/specimenCount' style='text-align: right;'>
                                 42
                             </td>
                         </tr>

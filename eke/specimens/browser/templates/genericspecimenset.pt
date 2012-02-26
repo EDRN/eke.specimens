@@ -1,0 +1,134 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='eke.specimens'>
+    <head>
+        <title>Specimen Collection Folder</title>
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <tal:main-macro metal:define-macro='main'>
+                <!-- tal:define='
+                    haveSpecimensAtSites view/haveSpecimensAtSites;
+                    contents             view/specimensAtSites;
+                    kssClassesView       context/@@kss_field_decorator_view;
+                    getKssClasses        nocall:kssClassesView/getKssClassesInlineEditable;
+                    templateId           template/getId;
+                    isManager            python:checkPermission("Manage portal", context);
+                    portalURL            context/@@plone_portal_state/portal_url;
+                ' -->
+
+                <div tal:replace='structure provider:plone.abovecontenttitle' />
+                <h1 class='documentFirstHeading' tal:content='context/fullName'>
+                    Use the full name for the title, since the title is used for the short name.
+                </h1>
+                <div tal:replace='structure provider:plone.belowcontenttitle' />
+
+                <p class='documentDescription' tal:content='context/description'>
+                    Description of the specimen set.
+                </p>
+
+                <div tal:replace='structure provider:plone.abovecontentbody' />
+
+                <div>
+                    <label for='parent-fieldname-title' i18n:translate='label_title'>Short Name:</label>
+                    <metal:field use-macro='python:context.widget("title", mode="view")'>ANUS-REF-1</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Specimens:</label>
+                    <metal:field use-macro='python:context.widget("totalNumSpecimens", mode="view")'>123</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
+                    <metal:field use-macro='python:context.widget("protocol", mode="view")'>Anus Protocol</metal:field>
+                </div>
+
+                <div>
+                    <label for='parent-fieldname-cancerLocations' i18n:translate='label_cancerLocations'>Cancer Locations:</label>
+                    <metal:field use-macro='python:context.widget("cancerLocations", mode="view")'>Anus, rectum</metal:field>
+                </div>
+
+                <div>
+                    <label for='parent-fieldname-collectionType' i18n:translate='label_collectionType'>Collection Types:</label>
+                    <metal:field use-macro='python:context.widget("collectionType", mode="view")'>Stool</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-storageType' i18n:translate='label_storageType'>Storage Types:</label>
+                    <metal:field use-macro='python:context.widget("storageType", mode="view")'>DNA, RNA</metal:field>
+                </div>
+
+                <!-- num participants, cases, controls, abstract -->
+                
+                <div>
+                    <label for='parent-fieldname-getNumParticipants' i18n:translate='label_getNumParticipants'>Participants:</label>
+                    <p id='parent-fieldname-getNumParticipants' tal:content='context/getNumParticipants'>123</p>
+                </div>
+
+                <div class='caseControlSubset'>
+                    <h2 i18n:translate='ekeSpecimensGenericSpecSetHeadingCases'>Cases</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th i18n:translate='ekeSpecimensGenericSpecCaseControlTotal'>Total:</th>
+                                <th class='numericCell' tal:content='view/totalCases'>123</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tal:repeat repeat='subset view/cases'>
+                                <tr class='odd' tal:define='oddrow repeat/subset/odd|nothing;'
+                                    tal:attributes='odd python:"odd" if oddrow else "even";'>
+                                    <td tal:content='subset/title'>Some Subset</td>
+                                    <td class='numericCell' tal:content='subset/numParticipants'>123</td>
+                                </tr>
+                            </tal:repeat>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='caseControlSubset'>
+                    <h2 i18n:translate='ekeSpecimensGenericSpecSetHeadingControls'>Controls</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th i18n:translate='ekeSpecimensGenericSpecCaseControlTotal'>Total:</th>
+                                <th class='numericCell' tal:content='view/totalControls'>123</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tal:repeat repeat='subset view/controls'>
+                                <tr class='odd' tal:define='oddrow repeat/subset/odd|nothing;'
+                                    tal:attributes='odd python:"odd" if oddrow else "even";'>
+                                    <td tal:content='subset/title'>Some Subset</td>
+                                    <td class='numericCell' tal:content='subset/numParticipants'>123</td>
+                                </tr>
+                            </tal:repeat>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='visualClear'><!-- --></div>
+
+                <h2 i18n:translate='ekeSpecimensGenericSpecSetHeadingAbstract'>Abstract</h2>
+                <p tal:content='context/protocol/abstract|nothing'>
+        		    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        		    sed do eiusmod tempor incididunt ut labore et dolore magna
+        		    aliqua.  Ut enim ad minim veniam, quis nostrud
+        		    exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        		    consequat.  Duis aute irure dolor in reprehenderit in
+        		    voluptate velit esse cillum dolore eu fugiat nulla
+        		    pariatur.  Excepteur sint occaecat cupidatat non proident,
+        		    sunt in culpa qui officia deserunt mollit anim id est
+        		    laborum.
+                </p>
+
+                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                    Any related items
+                </div>
+                <div tal:replace='structure provider:plone.belowcontentbody' />
+
+            </tal:main-macro>
+        </metal:main>
+    </body>
+</html>
