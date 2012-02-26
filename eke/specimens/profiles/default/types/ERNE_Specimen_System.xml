@@ -1,0 +1,7 @@
+        <!-- <element value='Case/Control Subset' /> -->
+        <!-- <element value='Case/Control Subset' /> -->
+        <element value='File' />
+    <action title='Ingest' action_id='ingest' category='object' condition_expr='' url_expr='string:${object_url}/ingest'
+        visible='True'>
+        <permission value='Manage portal'/>
+    </action>
