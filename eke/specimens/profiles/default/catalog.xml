@@ -4,16 +4,22 @@ Copyright 2010-2011 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <object name='portal_catalog' meta_type='Plone Catalog Tool'>
-    <index name='specimenCount' meta_type='FieldIndex'>
-        <indexed_attr value='specimenCount'/>
+    <index name='getTotalNumSpecimens' meta_type='FieldIndex'>
+        <indexed_attr value='getTotalNumSpecimens'/>
     </index>
-    <index name='getCollectionName' meta_type='FieldIndex'>
+    <index name='getNumParticipants' meta_type='FieldIndex'>
+        <indexed_attr value='getNumParticipants'/>
+    </index>
+    <index name='subsetType' meta_type='FieldIndex'>
+        <indexed_attr value='subsetType'/>
+    </index>
+    <index name='getStorageType' meta_type='FieldIndex'>
+        <indexed_attr value='getStorageType'/>
+    </index>
+    <!-- <index name='getCollectionName' meta_type='FieldIndex'>
         <indexed_attr value='getCollectionName'/>
-    </index>
-    <index name='storageType' meta_type='FieldIndex'>
-        <indexed_attr value='storageType'/>
-    </index>
-    <index name='diagnosis' meta_type='FieldIndex'>
+    </index> -->
+    <!-- <index name='diagnosis' meta_type='FieldIndex'>
         <indexed_attr value='diagnosis'/>
     </index>
     <index name='siteName' meta_type='FieldIndex'>
@@ -21,9 +27,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     </index>
     <index name='organs' meta_type='FieldIndex'>
         <indexed_attr value='organs'/>
-    </index>
-    <column value='specimenCount'/>
-    <column value='getCollectionName'/>
-    <column value='storageType'/>
-    <column value='organs'/>
+    </index> -->
+    <column value='getTotalNumSpecimens'/>
+    <column value='getNumParticipants'/>
+    <column value='getStorageType'/>
+    <!-- <column value='getCollectionName'/> -->
+    <!-- <column value='organs'/> -->
 </object>
