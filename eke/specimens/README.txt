@@ -7,22 +7,10 @@ Content Types
 
 The content types introduced in this package form a narrowing aggregation:
 
-Specimen Folder
+Specimen System Folder
     A folder that contains specimen information.  It contains objects of the
     next type.
-Specimens at Site in Protocol
-    The existence of specimens at a particular EDRN or partner site.  It links
-    an EDRN site to specimen collection.  It contains objects of the next
-    type.
-Specimens in Protocol
-    The protocol that guided specimen collection.  It links an EDRN or other
-    protocol to specimen collection.  It contains objects of the next type.
-Specimen Record
-    The record of specimen collection of a single kind.  This records the
-    number of specimens collected, the number of participants who gave up
-    those specimens, what kind of specimen they were (blood, mucus, feces,
-    etc.), how they were stored (in frozen tissue blocks, in zip-top baggies,
-    etc.), and whether all of the participants had cancer or none of them did.
+
 
 The remainder of this document demonstrates the content types using a series
 of functional tests.
@@ -93,15 +81,15 @@ at least one more protocol::
 Now, let's flex.
 
 
-Specimen Collection Folder
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Specimen System Folder
+~~~~~~~~~~~~~~~~~~~~~~
 
-A Specimen Collection Folder is the top-level container for Specimen
-Collections.  They can be added anywhere in the portal::
+A Specimen System Folder is the top-level container for Specimen Systems.
+They can be added anywhere in the portal::
 
     >>> browser.open(portalURL)
-    >>> l = browser.getLink(id='specimen-collection-folder')
-    >>> l.url.endswith('createObject?type_name=Specimen+Collection+Folder')
+    >>> l = browser.getLink(id='specimen-system-folder')
+    >>> l.url.endswith('createObject?type_name=Specimen+System+Folder')
     True
     >>> l.click()
     >>> browser.getControl(name='title').value = u'Sticky Specimens'
@@ -118,26 +106,27 @@ Collections.  They can be added anywhere in the portal::
     >>> f.text
     '<p>Warning: these are <em>sticky</em> specimens.</p>'    
 
+Moving on…
 
-Specimen Collection
-~~~~~~~~~~~~~~~~~~~
 
-A Specimen Collection is a top-level curated group of Specimen Sets, such as
-the ERNE specimen sets or the PRoBE specimen sets.  They can be added solely
-to Specimen Collection Folders::
+Specimen System
+~~~~~~~~~~~~~~~
+
+A Specimen System is a top-level curated group of Specimen Sets, such as
+the the PRoBE specimen sets.  They can be added solely to Specimen System
+Folders::
 
     >>> browser.open(portalURL)
-    >>> browser.getLink(id='specimen-collection')
+    >>> browser.getLink(id='specimen-system')
     Traceback (most recent call last):
     ...
     LinkNotFoundError
 
-So, let's open up the Specimen Collection Folder we made above and add one
-there::
+So, let's open up the Specimen System Folder we made above and add one there::
 
     >>> browser.open(portalURL + '/sticky-specimens')
-    >>> l = browser.getLink(id='specimen-collection')
-    >>> l.url.endswith('createObject?type_name=Specimen+Collection')
+    >>> l = browser.getLink(id='specimen-system')
+    >>> l.url.endswith('createObject?type_name=Specimen+System')
     True
     >>> l.click()
     >>> browser.getControl(name='title').value = u'The Probed Collection'
@@ -153,204 +142,349 @@ there::
     'Collection of specimens obtained through probing.'
     >>> f.text
     '<p>Warning: some specimens from <strong>unwilling</strong> participants.</p>'
-    >>> f.specimenCount
+    >>> f.getTotalNumSpecimens()
     0
 
-See that?  The ``specimenCount`` field already knew it was zero since it
+See that?  The ``totalNumSpecimens`` field already knew it was zero since it
 computes its value based on contained Specimen Set objects (thank you CA-845).
-No Specimen Sets means a zero count.
-
-In fact, the specimenCount field doesn't even appear anymore when you create a
-Specimen Collection::
+No Specimen Sets means a zero count.  As such, it's not even an editable
+field::
 
     >>> browser.open(portalURL + '/sticky-specimens')
-    >>> browser.getLink(id='specimen-collection').click()
-    >>> 'specimenCount' in browser.contents
+    >>> browser.getLink(id='specimen-system').click()
+    >>> 'totalNumSpecimens' in browser.contents
     False
 
-So, let's add a Specimen Set and see what happens, below.
+Let's add a Specimen Set to this system and see what happens, below.
 
 
-Specimen Set
-~~~~~~~~~~~~
+General Specimen Set
+~~~~~~~~~~~~~~~~~~~~
 
-A Specimen Set is a single group of specimens with a collection, such as a set
-of PRoBE specimens from a single organ such as the anus, or a set of ERNE
-specimens from a single site such as the Anal Research Institute.  They may be
-added solely to Specimen Collections::
+A General Specimen Set is a single group of specimens with a collection, such
+as a set of PRoBE specimens from a single organ such as the anus.  They may be
+added solely to Specimen Systems::
 
     >>> browser.open(portalURL)
-    >>> browser.getLink(id='specimen-set')
+    >>> browser.getLink(id='generic-specimen-set')
     Traceback (most recent call last):
     ...
     LinkNotFoundError
 
-So let's open the Specimen Collection we created above and add it there::
+So let's open the Specimen System we created above and add it there::
 
     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
-    >>> l = browser.getLink(id='specimen-set')
-    >>> l.url.endswith('createObject?type_name=Specimen+Set')
+    >>> l = browser.getLink(id='generic-specimen-set')
+    >>> l.url.endswith('createObject?type_name=Generic+Specimen+Set')
     True
     >>> l.click()
-    >>> browser.getControl(name='title').value = u'Anal Reference Set'
+    >>> browser.getControl(name='title').value = u'ANAL-REF'
     >>> browser.getControl(name='description').value = u'Official reference set from the anus.'
-    >>> browser.getControl(name='shortName').value = u'ANAL-REF'
-    >>> browser.getControl(name='storageType').displayValue = ['DNA']
-    >>> browser.getControl(name='specimenCount').value = u'127'
-    >>> browser.getControl(name='numberCases').value = u'90'
-    >>> browser.getControl(name='numberControls').value = u'45'
-    >>> browser.getControl(name='organs:lines').value = 'Anus\nRectum'
-    >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
+    >>> browser.getControl(name='totalNumSpecimens').value = u'127'
     >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
-    >>> browser.getControl(name='site:list').displayValue = ["Dr Tongue's 3D Clinic"]
+    >>> browser.getControl(name='text').value = u'<p>Heaps of specimens from the booty.</p>'
+    >>> browser.getControl(name='fullName').value = u'Anal Reference Set'
+    >>> browser.getControl(name='collectionType:list').displayValue = ['Ascites', 'Stool']
+    >>> browser.getControl(name='cancerLocations:lines').value = 'rectum\nanus\ncolon'
+    >>> browser.getControl(name='storageType:list').displayValue = ['DNA', 'RNA']
     >>> browser.getControl(name='form.button.save').click()
-    >>> 'anal-reference-set' in f.keys()
+    >>> 'anal-ref' in f.keys()
     True
-    >>> f = f['anal-reference-set']
+    >>> f = f['anal-ref']
     >>> f.title
-    'Anal Reference Set'
+    'ANAL-REF'
     >>> f.description
     'Official reference set from the anus.'
-    >>> f.shortName
-    'ANAL-REF'
-    >>> f.storageType
-    '9'
-    >>> f.specimenCount
+    >>> f.getTotalNumSpecimens()
     127
-    >>> f.numberCases
-    90
-    >>> f.numberControls
-    45
-    >>> f.organs
-    ('Anus', 'Rectum')
-    >>> f.diagnosis
-    'With Cancer'
     >>> f.protocol.title
     'Public Safety'
-    >>> f.site.title
-    u"Dr Tongue's 3D Clinic"
-    >>> f.siteName
-    "Dr Tongue's 3D Clinic"
-    >>> f.getCollectionName()
+    >>> f.text
+    '<p>Heaps of specimens from the booty.</p>'
+    >>> f.fullName
+    'Anal Reference Set'
+    >>> f.cancerLocations
+    ('rectum', 'anus', 'colon')
+    >>> f.collectionType
+    ('1', '18')
+    >>> f.getStorageType()
+    ('9', '10')
+    >>> f.cancerLocations
+    ('rectum', 'anus', 'colon')
+    >>> f.getSystemName()
     'The Probed Collection'
+    >>> f.getNumParticipants()
+    0
+    >>> f.getNumCases()
+    0
+    >>> f.getNumControls()
+    0
 
-You'll notice that the collectionName attribute wasn't available on the form;
-that's because it's a computed field.  The siteName works similarly.  Note
-that if we change the site, the siteName is updated::
+You'll notice that the ``systemName`` attribute wasn't available on the form;
+that's because it's a computed field::
 
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='site:list').displayValue = ['A Plain 2D Clinic']
-    >>> browser.getControl(name='form.button.save').click()
-    >>> f.siteName
-    'A Plain 2D Clinic'
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+    >>> browser.getLink(id='generic-specimen-set').click()
+    >>> 'systemName' in browser.contents
+    False
 
-And the parent Specimen Collection now has a non-zero count::
+As are the numbers of participants, cases, and controls::
 
-    >>> portal['sticky-specimens']['the-probed-collection'].specimenCount
+    >>> 'numParticipants' in browser.contents
+    False
+    >>> 'numCases' in browser.contents
+    False
+    >>> 'numControls' in browser.contents
+    False
+
+We'll see more about cases and control in just a moment.  First, let's see if
+the Specimen System updated its total::
+
+    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
     127
-    >>> portal['sticky-specimens']['the-probed-collection'].specimenCount == f.specimenCount
+    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens() == f.getTotalNumSpecimens()
     True
 
-TODO: Addable content to sets: files, pages, images.
+Great!  What else can you do with a General Specimen Set?  You can add files
+to it::
 
-
-Views
------
-
-Here we'll show how the content types present themselves in a browser.
-
-
-Specimen Collection Folder
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Specimen Collection Folders show their contents with nifty faceted navigation:
-
-    >>> browser.open(portalURL + '/sticky-specimens')
-    >>> browser.contents
-    '...faceted-results...Anal Reference Set...'
-
-The facets include the collection, diagnosis, storage, and the site::
-
-    >>> browser.contents
-    '...Collection...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Site...A Plain 2D Clinic...'
-
-And the displayed results show a table with matching specimen sets, their
-collections, the number of specimens, organ site, and their storage type::
-
-    >>> browser.contents
-    '...Set/Site...Collection...Specimens...Organ(s)...Storage...'
-    >>> browser.contents
-    '...Anal Reference Set...>The Probed Collection<...>127</td>...Anus, Rectum...<td>DNA</td>...'
-
-There's a no-break space now between the pound-sign and specimens in the table
-heading::
-
-    >>> browser.contents
-    '...<table...<thead>...<th>#&#x00a0;Specimens</th>...'
-
-Heather also wants the selection boxes to be narrower::
-
-    >>> browser.contents
-    '...#left-area...width: 17em;....left-area-js...margin-left: 17em;...'
-
-Note that they're not so narrow as 15em, but as 17em, because Dan wants ERNE
-to be known as "EDRN Specimen System".
-
-There has *got* to be a better way of doing those style changes, though.  See
-``faceted_specimens_view.pt`` for explanation.
-
-
-Specimen Collection
-~~~~~~~~~~~~~~~~~~~
-
-Specimen Collections merely show each Specimen Set they contain::
-
-    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
-    >>> browser.contents
-    '...Anal Reference Set...127...'
-
-
-Specimen Set
-~~~~~~~~~~~~
-
-A Specimen Set just shows off its various attributes::
-
-    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-reference-set')
-    >>> browser.contents
-    '...ANAL-REF...DNA...127...90...45...With Cancer...Public Safety...'
-
-Note that if the specimen set's shortName attribute is empty, then the label
-for it won't be shown either (since according to CA-823, Christos was confused
-by the strange system-generated identifiers).  Let's create a specimen with no
-shortName::
-
-    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
-    >>> browser.getLink(id='specimen-set').click()
-    >>> browser.getControl(name='title').value = u'Some Other Set'
-    >>> browser.getControl(name='storageType').displayValue = ['Plasma']
-    >>> browser.getControl(name='specimenCount').value = u'128'
-    >>> browser.getControl(name='numberCases').value = u'91'
-    >>> browser.getControl(name='numberControls').value = u'46'
-    >>> browser.getControl(name='organs:lines').value = 'Sphincter'
-    >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
+    >>> from StringIO import StringIO
+    >>> fakeFile = StringIO('%PDF-1.5\nThis is sample PDF file in disguise.\nDo not try to render it.')
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+    >>> l = browser.getLink(id='file')
+    >>> l.url.endswith('createObject?type_name=File')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'My New File'
+    >>> browser.getControl(name='description').value = u'A file for functional tests.'
+    >>> browser.getControl(name='file_file').add_file(fakeFile, 'application/pdf', 'test.pdf')
     >>> browser.getControl(name='form.button.save').click()
 
-Any short name?  Let's see::
+And links, too::
 
-    >>> 'Short Name' in browser.contents
-    False
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+    >>> l = browser.getLink(id='link')
+    >>> l.url.endswith('createObject?type_name=Link')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'My New Link'
+    >>> browser.getControl(name='description').value = u'A link for functional tests.'
+    >>> browser.getControl(name='remoteUrl').value = u'http://google.com/'
+    >>> browser.getControl(name='form.button.save').click()
+
+And case/control subsets::
+
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+    >>> l = browser.getLink(id='case-control-subset')
+    >>> l.url.endswith('createObject?type_name=Case+Control+Subset')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'DCIS'
+    >>> browser.getControl(name='description').value = u'WTF is DCIS?'
+    >>> browser.getControl(name='subsetType').displayValue = ['Case']
+    >>> browser.getControl(name='numParticipants').value = u'48'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+    >>> browser.getLink(id='case-control-subset').click()
+    >>> browser.getControl(name='title').value = u'LCIS'
+    >>> browser.getControl(name='description').value = u'WTF is LCIS?'
+    >>> browser.getControl(name='subsetType').displayValue = ['Case']
+    >>> browser.getControl(name='numParticipants').value = u'7'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+    >>> browser.getLink(id='case-control-subset').click()
+    >>> browser.getControl(name='title').value = u'Normals'
+    >>> browser.getControl(name='description').value = u'WTF is normal?'
+    >>> browser.getControl(name='subsetType').displayValue = ['Control']
+    >>> browser.getControl(name='numParticipants').value = u'276'
+    >>> browser.getControl(name='form.button.save').click()
     
-That's all there is.  (Well there's something about specimen sharing, but
-screw that for now.  It's nearly midnight.)
+Check out what those did to the numbers of participants, cases, and controls::
+
+    >>> f.getNumParticipants()
+    331
+    >>> f.getNumCases()
+    55
+    >>> f.getNumControls()
+    276
+
+That's right!  The case/control totals are computed from the case/control
+subsets added to the General Specimen Set, and they in turn update the total
+number of participants.
 
 
-RDF Ingest
-----------
+Inactive ERNE Set
+~~~~~~~~~~~~~~~~~
 
-Not supported.  Woot!
+An Inactive ERNE Set is like a General Specimen Set except that it tracks
+summary information about a specimens stored at a former EDRN site.  They can
+be added only to Specimen Systems::
+
+    >>> browser.open(portalURL)
+    >>> browser.getLink(id='inactive-erne-set')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
+
+So let's open the Specimen System we created above and add it there::
+
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+    >>> l = browser.getLink(id='inactive-erne-set')
+    >>> l.url.endswith('createObject?type_name=Inactive+ERNE+Set')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Dead Anus Set'
+    >>> browser.getControl(name='description').value = u'An inactive ERNE site that used to do anal sampling.'
+    >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
+    >>> browser.getControl(name='text').value = u'<p>Collected from deceased booties.</p>'
+    >>> browser.getControl(name='site:list').displayValue = ["Dr Tongue's 3D Clinic"]
+    >>> browser.getControl(name='organs:lines').value = 'rectum\nanus'
+    >>> browser.getControl(name='collectionType:list').displayValue = ['Ascites', 'Stool']
+    >>> browser.getControl(name='contactName').value = u'Joe Proctologist'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> e = portal['sticky-specimens']['the-probed-collection']['dead-anus-set']
+    >>> e.title
+    'Dead Anus Set'
+    >>> e.description
+    'An inactive ERNE site that used to do anal sampling.'
+    >>> e.protocol.title
+    'Public Safety'
+    >>> e.text
+    '<p>Collected from deceased booties.</p>'
+    >>> e.site.title
+    u"Dr Tongue's 3D Clinic"
+    >>> e.organs
+    ('rectum', 'anus')
+    >>> e.collectionType
+    ('1', '18')
+    >>> e.contactName
+    'Joe Proctologist'
+    >>> e.getTotalNumSpecimens()
+    0
+    >>> e.getStorageType()
+    []
+
+Again, zero specimens to start out.  Why?  Because that value's computed from
+stored specimens, which are added to Inactive ERNE Set objects::
+
+… TODO
 
 
-.. References:
-.. _EKE: http://cancer.jpl.nasa.gov/documents/applications/knowledge-environment
-.. _RDF: http://w3.org/RDF/
-.. _URI: http://w3.org/Addressing/
+The Inactive ERNE Set also has a data grid field for specimens stored by type,
+but I have no idea how to test that from the test browser.  TODO: need some
+computed indexed field that collects all the storagetypes in the grid so they
+can be searched?
+
+Since we added this inactive ERNE set to the Probed Collection, its total got
+updated::
+
+..    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
+..    XXX FIXME
+
+
+.. Views
+.. -----
+.. 
+.. Here we'll show how the content types present themselves in a browser.
+.. 
+.. 
+.. Specimen System Folder
+.. ~~~~~~~~~~~~~~~~~~~~~~
+.. 
+.. Specimen Collection Folders show their contents with nifty faceted navigation:
+.. 
+..     >>> browser.open(portalURL + '/sticky-specimens')
+..     >>> browser.contents
+..     '...faceted-results...Anal Reference Set...'
+.. 
+.. The facets include the specimen system, diagnosis, storage, collection, and
+.. the site::
+.. 
+..     >>> browser.contents
+..     '...System...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Collection...Ascites...Site...A Plain 2D Clinic...'
+.. 
+.. And the displayed results show a table with matching specimen sets, their
+.. collections, the number of specimens, organ site, and their storage type::
+.. 
+..     >>> browser.contents
+..     '...Set...System...Storage...Collected...Specimens...'
+..     >>> browser.contents
+..     '...Anal Reference Set...>The Probed Collection<...>Whole blood</td>...Blood...<td>3126</td>...'
+.. 
+.. There's a no-break space now between the pound-sign and specimens in the table
+.. heading::
+.. 
+..     >>> browser.contents
+..     '...<table...<thead>...<th>#&#x00a0;Specimens</th>...'
+.. 
+.. Heather also wants the selection boxes to be narrower::
+.. 
+..     >>> browser.contents
+..     '...#left-area...width: 17em;....left-area-js...margin-left: 17em;...'
+.. 
+.. Note that they're not so narrow as 15em, but as 17em, because Dan wants ERNE
+.. to be known as "EDRN Specimen System".
+.. 
+.. There has *got* to be a better way of doing those style changes, though.  See
+.. ``faceted_specimens_view.pt`` for explanation.
+.. 
+.. 
+.. Specimen System
+.. ~~~~~~~~~~~~~~~
+.. 
+.. Specimen Systems merely show each specimen set they contain::
+.. 
+..     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+..     >>> browser.contents
+..     '...Anal Reference Set...127...Dead Anus Set...326...'
+.. 
+.. 
+.. Generic Specimen Set
+.. ~~~~~~~~~~~~~~~~~~~~
+.. 
+.. A Generic Specimen Set just shows off its various attributes::
+.. 
+..     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+..     >>> browser.contents
+..     '...ANAL-REF...DNA...RNA...127...90...45...Public Safety...'
+.. 
+.. Note that if the specimen set's shortName attribute is empty, then the label
+.. for it won't be shown either (since according to CA-823, Christos was confused
+.. by the strange system-generated identifiers).  Let's create a specimen with no
+.. shortName::
+.. 
+..     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+..     >>> browser.getLink(id='specimen-set').click()
+..     >>> browser.getControl(name='title').value = u'Some Other Set'
+..     >>> browser.getControl(name='storageType').displayValue = ['Plasma']
+..     >>> browser.getControl(name='specimenCount').value = u'128'
+..     >>> browser.getControl(name='numberCases').value = u'91'
+..     >>> browser.getControl(name='numberControls').value = u'46'
+..     >>> browser.getControl(name='organs:lines').value = 'Sphincter'
+..     >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
+..     >>> browser.getControl(name='form.button.save').click()
+.. 
+.. Any short name?  Let's see::
+.. 
+..     >>> 'Short Name' in browser.contents
+..     False
+..     
+.. That's all there is.
+.. 
+.. 
+.. ERNE
+.. ----
+.. 
+.. TBD.
+.. 
+.. 
+.. RDF Ingest
+.. ----------
+.. 
+.. Not supported.  Woot!
+.. 
+.. 
+.. .. References:
+.. .. _EKE: http://cancer.jpl.nasa.gov/documents/applications/knowledge-environment
+.. .. _RDF: http://w3.org/RDF/
+.. .. _URI: http://w3.org/Addressing/
