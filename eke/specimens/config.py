@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Copyright 2010-2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2010–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acPublicationd.
 
 '''EDRN Knowledge Environment Specimens: old-style configuration information.
@@ -8,7 +8,9 @@
 PROJECTNAME = 'eke.specimens'
 
 ADD_PERMISSIONS = {
-    'Specimen Collection Folder':   'EKE: Add Specimen Collection Folder',
-    'Specimen Collection':          'EKE: Add Specimen Collection',
-    'Specimen Set':                 'EKE: Add Specimen Set',
+    'Specimen System Folder': 'EKE: Add Specimen System Folder',
+    'Specimen System': 'EKE: Add Specimen System',
+    'Generic Specimen Set': 'EKE: Add Generic Specimen Set',
+    'Inactive ERNE Set': 'EKE: Add Inactive ERNE Set',
+    'Case Control Subset': 'EKE: Add Case Control Subset'
 }
