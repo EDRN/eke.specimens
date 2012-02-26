@@ -1,0 +1,50 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='eke.specimens'>
+    <head>
+        <title>Inactive ERNE Set</title>
+    </head>
+    <body>
+        <metal:content-core fill-slot='content-core'>
+            <div>
+                <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Specimens:</label>
+                <metal:field use-macro='python:context.widget("totalNumSpecimens", mode="view")'>123</metal:field>
+            </div>
+            <div>
+                <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
+                <metal:field use-macro='python:context.widget("protocol", mode="view")'>Anus Protocol</metal:field>
+            </div>
+            <div>
+                <label for='parent-fieldname-site' i18n:translate='label_site'>Site:</label>
+                <metal:field use-macro='python:context.widget("site", mode="view")'>Anus Site</metal:field>
+            </div>
+            <div>
+                <label for='parent-fieldname-organs' i18n:translate='label_organs'>Organs:</label>
+                <metal:field use-macro='python:context.widget("organs", mode="view")'>anus, rectum, colon</metal:field>
+            </div>
+            <div>
+                <label for='parent-fieldname-collectionType' i18n:translate='label_collectionType'>Collection:</label>
+                <metal:field use-macro='python:context.widget("collectionType", mode="view")'>Stool</metal:field>
+            </div>
+            <div>
+                <label for='parent-fieldname-contactName' i18n:translate='label_contactName'>Contact:</label>
+                <metal:field use-macro='python:context.widget("contactName", mode="view")'>Joe Proctologist</metal:field>
+            </div>
+            <p tal:content='context/text'>
+        		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+        		do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        		Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        		laboris nisi ut aliquip ex ea commodo consequat.  Duis aute
+        		irure dolor in reprehenderit in voluptate velit esse cillum
+        		dolore eu fugiat nulla pariatur.  Excepteur sint occaecat
+        		cupidatat non proident, sunt in culpa qui officia deserunt
+        		mollit anim id est laborum.
+            </p>
+        </metal:content-core>
+    </body>
+</html>
