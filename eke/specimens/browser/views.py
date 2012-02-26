@@ -8,7 +8,7 @@ EDRN Knowledge Environment Specimens: views for content types.
 
 from Acquisition import aq_inner
 from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME
-from eke.specimens.interfaces import ISpecimenCollection, ISpecimenSet
+from eke.specimens.interfaces import ISpecimenSystem, ISpecimenSet, ICaseControlSubset
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
@@ -34,31 +34,31 @@ def getOrganLabel(organID, context):
             pass
     return u'?'
 
-class SpecimenCollectionFolderView(BrowserView):
-    '''Default view of a Specimen collection folder.'''
-    __call__ = ViewPageTemplateFile('templates/specimencollectionfolder.pt')
-    def haveSpecimenCollections(self):
-        return len(self.specimenCollections()) > 0
+class SpecimenSystemFolderView(BrowserView):
+    '''Default view of a Specimen System folder.'''
+    __call__ = ViewPageTemplateFile('templates/specimensystemfolder.pt')
+    def haveSpecimenSystems(self):
+        return len(self.specimenSystems()) > 0
     @memoize
-    def specimenCollections(self):
+    def specimenSystems(self):
         context = aq_inner(self.context)
         catalog = getToolByName(context, 'portal_catalog')
         results = catalog(
-            object_provides=ISpecimenCollection.__identifier__,
+            object_provides=ISpecimenSystem.__identifier__,
             path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
             sort_on='sortable_title'
         )
         return [dict(
-            title=i.Title, description=i.Description, specimenCount=i.specimenCount, organs=i.organs, url=i.getURL()
+            title=i.Title, description=i.Description, specimenCount=i.getTotalNumSpecimens, url=i.getURL()
         ) for i in results]
-    def getStorageTypeLabel(self, storageType):
-        context = aq_inner(self.context)
-        return getStorageTypeLabel(storageType, context)
+    # def getStorageTypeLabel(self, storageType):
+    #     context = aq_inner(self.context)
+    #     return getStorageTypeLabel(storageType, context)
 
 
-class SpecimenCollectionView(BrowserView):
-    '''Default view of a Specimen Collection.'''
-    __call__ = ViewPageTemplateFile('templates/specimencollection.pt')
+class SpecimenSystemView(BrowserView):
+    '''Default view of a Specimen System.'''
+    __call__ = ViewPageTemplateFile('templates/specimensystem.pt')
     def haveSpecimenSets(self):
         return len(self.specimenSets()) > 0
     @memoize
@@ -70,13 +70,52 @@ class SpecimenCollectionView(BrowserView):
             path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
             sort_on='sortable_title'
         )
-        return [dict(title=i.Title, description=i.Description, specimenCount=i.specimenCount, url=i.getURL()) for i in results]
+        return [dict(
+            title=i.Title,
+            description=i.Description,
+            specimenCount=i.getTotalNumSpecimens,
+            url=i.getURL()
+        ) for i in results]
 
-class SpecimenSetView(BrowserView):
-    '''Default view of a Specimen Set.'''
-    __call__ = ViewPageTemplateFile('templates/specimenset.pt')
+class GenericSpecimenSetView(BrowserView):
+    '''Default view of a Generic Specimen Set.'''
+    __call__ = ViewPageTemplateFile('templates/genericspecimenset.pt')
+    def cases(self):
+        return self.getSubsets('Case')
+    def controls(self):
+        return self.getSubsets('Controls')
     @memoize
-    def storageTypeLabel(self):
+    def getSubsets(self, kind):
         context = aq_inner(self.context)
-        return getStorageTypeLabel(context.storageType, context)
+        catalog = getToolByName(context, 'portal_catalog')
+        brains = catalog(
+            object_provides=ICaseControlSubset.__identifier__,
+            path=dict(query='/'.join(context.getPhysicalPath()), depth=1),
+            subsetType=kind,
+            sort_on='sortable_title'
+        )
+        return [dict(title=i.title, numParticipants=i.getNumParticipants) for i in brains]
+    def getTotalParticipants(self, kind):
+        return sum([int(i['numParticipants']) for i in self.getSubsets(kind)])
+    def totalCases(self):
+        return self.getTotalParticipants('Cases')
+    def totalControls(self):
+        return self.getTotalParticipants('Controls')
 
+class CaseControlSubsetView(BrowserView):
+    '''Default view of a Case Control Subset.'''
+    __call__ = ViewPageTemplateFile('templates/casecontrolsubset.pt')
+
+class InactiveERNESetView(BrowserView):
+    '''Default view of an Inactive ERNE Set.'''
+    __call__ = ViewPageTemplateFile('templates/inactiveerneset.pt')
+
+
+# class SpecimenSetView(BrowserView):
+#     '''Default view of a Specimen Set.'''
+#     __call__ = ViewPageTemplateFile('templates/specimenset.pt')
+#     @memoize
+#     def storageTypeLabel(self):
+#         context = aq_inner(self.context)
+#         return getStorageTypeLabel(context.storageType, context)
+# 
