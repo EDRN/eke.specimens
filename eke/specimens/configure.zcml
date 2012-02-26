@@ -24,9 +24,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     />
 
     <five:registerPackage package="eke.specimens" initialize=".initialize" />
-    <!-- <include package='collective.vdexvocabulary' file='meta.zcml'/> -->
     <include package='.browser'/>
     <include package='.content'/>
+
     <genericsetup:registerProfile 
         name='default'
         title='EKE: Specimens'
@@ -34,6 +34,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         description='Specimens for the EDRN Knowledge Environment.'
         provides='Products.GenericSetup.interfaces.EXTENSION'
     />
+
     <cmf:registerDirectory name='eke_specimens_templates' />
+
+    <include package='collective.vdexvocabulary' file='meta.zcml'/>
     <vdex:vocabulary directory='vocabs' />
 </configure>
