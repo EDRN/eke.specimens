@@ -7,11 +7,22 @@
 from base import ERNESpecimenSet, ERNESpecimenSetSchema
 from eke.specimens import ProjectMessageFactory as _
 from eke.specimens.config import PROJECTNAME
-from eke.specimens.interfaces import IInactiveERNESet, IInactiveStoredSpecimens
+from eke.specimens.interfaces import IInactiveERNESet
 from Products.Archetypes import atapi
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
-from Products.CMFCore.utils import getToolByName
 from zope.interface import implements
+from Products.DataGridField import DataGridField, DataGridWidget, Column, SelectColumn
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
+from eke.specimens import STORAGE_VOCAB_NAME
+
+def asInt(s):
+    '''Yield the string ``s`` as an integer, but yield zero if ``s`` can't be interpreted as an integer.'''
+    try:
+        return int(s)
+    except ValueError:
+        return 0
+
 
 InactiveERNESetSchema = ERNESpecimenSetSchema.copy() + atapi.Schema((
     atapi.StringField(
@@ -40,6 +51,19 @@ InactiveERNESetSchema = ERNESpecimenSetSchema.copy() + atapi.Schema((
             description=_(u'Total number of specimens stored.'),
         ),
     ),
+    DataGridField(
+        'specimensByStorageType',
+        columns=('storageType', 'totalNumSpecimens'),
+        allow_empty_rows=False,
+        widget=DataGridWidget(
+            label=_(u'Stored Specimens'),
+            description=_(u'The number of specimens stored by each storage type.'),
+            columns={
+                'storageType': SelectColumn(_(u'Storage Type'), 'getStorageTypeDisplayList'),
+                'totalNumSpecimens': Column(_(u'Number Specimens'), default=0),
+            },
+        ),
+    ),
 ))
 
 finalizeATCTSchema(InactiveERNESetSchema, folderish=True, moveDiscussion=True)
@@ -50,25 +74,16 @@ class InactiveERNESet(ERNESpecimenSet):
     portal_type   = 'Inactive ERNE Set'
     schema        = InactiveERNESetSchema
     contactName = atapi.ATFieldProperty('contactName')
+    def getStorageTypeDisplayList(self):
+        factory = getUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
+        vocab = factory(self)
+        return atapi.DisplayList([(i.token, i.title) for i in vocab])
     def _computeStorageTypes(self):
-        factory = getToolByName(self, 'portal_factory')
-        if factory.isTemporary(self): return tuple()
-        catalog = getToolByName(self, 'portal_catalog')
-        brains = catalog(
-            path=dict(query='/'.join(self.getPhysicalPath()), depth=1),
-            object_provides=IInactiveStoredSpecimens.__identifier__,
-            sort_on='getStorageType',
-        )
-        return [i.getStorageType for i in brains]
+        field = self.getField('specimensByStorageType')
+        return field.getColumn(self, 'storageType')
     def _computeTotalNumSpecimens(self):
-        factory = getToolByName(self, 'portal_factory')
-        if factory.isTemporary(self): return tuple()
-        catalog = getToolByName(self, 'portal_catalog')
-        brains = catalog(
-            path=dict(query='/'.join(self.getPhysicalPath()), depth=1),
-            object_provides=IInactiveStoredSpecimens.__identifier__,
-            sort_on='getStorageType',
-        )
-        return sum([int(i.getTotalNumSpecimens) for i in brains])
+        field = self.getField('specimensByStorageType')
+        return sum([asInt(i) for i in field.getColumn(self, 'totalNumSpecimens')])
+        
 
 atapi.registerType(InactiveERNESet, PROJECTNAME)
