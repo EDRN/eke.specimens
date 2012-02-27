@@ -12,8 +12,8 @@
     <body>
         <metal:content-core fill-slot='content-core'>
             <div>
-                <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Specimens:</label>
-                <metal:field use-macro='python:context.widget("totalNumSpecimens", mode="view")'>123</metal:field>
+                <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Total Specimens:</label>
+                <span id='parent-fieldname-totalNumSpecimens' tal:content='context/getTotalNumSpecimens'>123</span>
             </div>
             <div>
                 <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
@@ -35,7 +35,16 @@
                 <label for='parent-fieldname-contactName' i18n:translate='label_contactName'>Contact:</label>
                 <metal:field use-macro='python:context.widget("contactName", mode="view")'>Joe Proctologist</metal:field>
             </div>
-            <p tal:content='context/text'>
+
+            <div>
+                <label for='parent-fieldname-specimensByStorageType' i18n:translate='label_specimensByStorageType'>
+                    Stored Specimens:
+                </label>
+                <metal:field use-macro='python:context.widget("specimensByStorageType", mode="view")'>woo</metal:field>
+            </div>
+            
+
+            <p tal:content='structure context/text'>
         		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
         		do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         		Ut enim ad minim veniam, quis nostrud exercitation ullamco
