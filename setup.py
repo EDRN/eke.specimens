@@ -34,6 +34,7 @@ _externalRequirements = [
     'collective.vdexvocabulary',
     'Products.CMFPlone',
     'Pillow',
+    'Products.DataGridField',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',
