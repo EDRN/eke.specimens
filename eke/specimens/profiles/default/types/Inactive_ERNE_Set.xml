@@ -17,7 +17,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <property name='allowed_content_types'>
         <element value='File' />
         <element value='Link' />
-        <element value='Stored Inactive Specimen' />
     </property>
     <property name='allow_discussion'>False</property>
     <property name='default_view'>view</property>
