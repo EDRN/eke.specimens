@@ -361,25 +361,35 @@ So let's open the Specimen System we created above and add it there::
     'Joe Proctologist'
     >>> e.getTotalNumSpecimens()
     0
-    >>> e.getStorageType()
-    []
+    >>> len(e.getStorageType()) == 0
+    True
 
 Again, zero specimens to start out.  Why?  Because that value's computed from
-stored specimens, which are added to Inactive ERNE Set objects::
+stored specimens, which might be data grids or contained objects.  At this
+point, we have a nifty data grid user interface that lets the data entry
+worker convenient add and remove specimen storage types and counts.
 
-… TODO
+But it uses JavaScript and we can test it from here, so just trust me: it
+works.
 
-
-The Inactive ERNE Set also has a data grid field for specimens stored by type,
-but I have no idea how to test that from the test browser.  TODO: need some
-computed indexed field that collects all the storagetypes in the grid so they
-can be searched?
+.. The Inactive ERNE Set also has a data grid field for specimens stored by type,
+.. but I have no idea how to test that from the test browser.  TODO: need some
+.. computed indexed field that collects all the storagetypes in the grid so they
+.. can be searched?
 
 Since we added this inactive ERNE set to the Probed Collection, its total got
 updated::
 
 ..    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
 ..    XXX FIXME
+
+
+Active ERNE Sites
+~~~~~~~~~~~~~~~~~
+
+What about ERNE?  We've seen the Inactive ERNE Set, but ERNE has active sites
+too that are still connected through the OODT product server concept, and we ingest those …
+
 
 
 .. Views
