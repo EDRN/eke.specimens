@@ -151,19 +151,6 @@ class IGenericSpecimenSet(ISpecimenSet, IStoredSpecimens):
     def getNumControls():
         '''Tell how many participants were in the control subset.'''
 
-class IInactiveStoredSpecimens(ISpecimenStatistics, IStoredSpecimens):
-    '''Specimens stored at an inactive or former ERNE site.'''
-    title = schema.TextLine(
-        title=_(u'Title'),
-        description=_(u'The name of this case/control subset.'),
-        required=True,
-    )
-    description = schema.Text(
-        title=_(u'Description'),
-        description=_(u'An optional, short summary of this case/control subset.'),
-        required=False,
-    )
-
 class IERNESpecimenSet(ISpecimenSet):
     '''A set of specimens that comes from the EDRN Resource Network Exchange.'''
     site = schema.Object(
