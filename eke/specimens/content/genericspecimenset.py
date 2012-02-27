@@ -27,6 +27,7 @@ GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
         widget=atapi.StringWidget(
             label=_(u'Full Name'),
             description=_(u'Complete title for this specimen set.'),
+            size=50,
         ),
     ),
     atapi.LinesField(
