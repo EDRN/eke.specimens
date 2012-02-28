@@ -78,7 +78,7 @@ class ISpecimenSystemFolder(ITextuallyEnhanced):
 
 class ISpecimenSystem(ITextuallyEnhanced, ISpecimenStatistics):
     '''Specimen system.'''
-    # contains('eke.specimens.interfaces.ISpecimenSet')
+    contains('eke.specimens.interfaces.ISpecimenSet')
     title = schema.TextLine(
         title=_(u'Short Name'),
         description=_(u'A short identifier of this specimen system.'),
@@ -90,8 +90,11 @@ class ISpecimenSystem(ITextuallyEnhanced, ISpecimenStatistics):
         required=False,
     )
     
+class IERNESpecimenSystem(ISpecimenSystem):
+    '''ERNE Specimen System'''
+    contains('eke.specimens.interfaces.IERNESpecimenSet')
 
-    
+
 # class ISpecimenSet(ISpecimenStatistics):
 class ISpecimenSet(ITextuallyEnhanced, ISpecimenStatistics):
     '''Abstract set of specimens'''

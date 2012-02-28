@@ -77,6 +77,11 @@ class SpecimenSystemView(BrowserView):
             url=i.getURL()
         ) for i in results]
 
+class ERNESpecimenSystemView(SpecimenSystemView):
+    '''Default view of an ERNE Specimen System.'''
+    __call__ = ViewPageTemplateFile('templates/ernespecimensystem.pt')
+    
+
 # class SpecimenSetView(BrowserView):
 #     '''Abstract parent view for specimen sets.'''
 # 

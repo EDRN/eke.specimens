@@ -336,12 +336,65 @@ Lastly, it should show the attached files and the links::
     '...Attached Files...href="...my-new-file"...My New File...Links...My New Link...'
 
 
+ERNE
+----
+
+The EDRN Resource Network Exchange or ERNE also tracks specimens, sometimes
+with online sites that run OODT Product Servers to do real-time queries,
+sometimes with static data loaded into the ERNE cache.  Some sites are former
+ERNE sites that have only passing affiliation with EDRN.  The former we
+represent with Active ERNE Set objects, the latter with Inactive ERNE Sets.
+Both of these may be added solely to ERNE Systems.
+
+
+ERNE System
+~~~~~~~~~~~
+
+An ERNE System is just like the more generic Specimen System, except that it's
+for ERNE specimen sets, and it has an ingest method to bring in ERNE data.
+ERNE Systems may be added only to Specimen System Folders::
+
+    >>> browser.open(portalURL)
+    >>> browser.getLink(id='erne-specimen-system')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
+
+So, let's open up the Specimen System Folder we made above and add one there::
+
+    >>> browser.open(portalURL + '/sticky-specimens')
+    >>> l = browser.getLink(id='erne-specimen-system')
+    >>> l.url.endswith('createObject?type_name=ERNE+Specimen+System')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Ernie'
+    >>> browser.getControl(name='description').value = u"Ernie's specimens."
+    >>> browser.getControl(name='text').value = u'<p>Warning: may solely be comprised of felt or plastic.</p>'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> 'ernie' in portal['sticky-specimens'].keys()
+    True
+    >>> f = portal['sticky-specimens']['ernie']
+    >>> f.title
+    'Ernie'
+    >>> f.description
+    "Ernie's specimens."
+    >>> f.text
+    '<p>Warning: may solely be comprised of felt or plastic.</p>'
+    >>> f.getTotalNumSpecimens()
+    0
+
+As before, the folder starts out with zero specimens since there's nothing
+inside of it to contribute to the total.
+
+No problem, though, let's add some specimens…
+
+
 Inactive ERNE Set
 ~~~~~~~~~~~~~~~~~
 
 An Inactive ERNE Set is like a General Specimen Set except that it tracks
-summary information about a specimens stored at a former EDRN site.  They can
-be added only to Specimen Systems::
+summary information about a specimens stored at a former EDRN site.  They
+can't be added just anywhere::
 
     >>> browser.open(portalURL)
     >>> browser.getLink(id='inactive-erne-set')
@@ -349,9 +402,17 @@ be added only to Specimen Systems::
     ...
     LinkNotFoundError
 
-So let's open the Specimen System we created above and add it there::
+Nor to the more generic Specimen System container::
 
     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+    >>> l = browser.getLink(id='inactive-erne-set')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
+
+But we can add it to the ERNE Specimen System we made above::
+
+    >>> browser.open(portalURL + '/sticky-specimens/ernie')
     >>> l = browser.getLink(id='inactive-erne-set')
     >>> l.url.endswith('createObject?type_name=Inactive+ERNE+Set')
     True
@@ -365,7 +426,7 @@ So let's open the Specimen System we created above and add it there::
     >>> browser.getControl(name='collectionType:list').displayValue = ['Ascites', 'Stool']
     >>> browser.getControl(name='contactName').value = u'Joe Proctologist'
     >>> browser.getControl(name='form.button.save').click()
-    >>> e = portal['sticky-specimens']['the-probed-collection']['dead-anus-set']
+    >>> e = portal['sticky-specimens']['ernie']['dead-anus-set']
     >>> e.title
     'Dead Anus Set'
     >>> e.description
@@ -407,10 +468,14 @@ However, we can manually set the field and see if computed values make sense::
 
 And check out the system::
 
-    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
-    160
+    >>> portal['sticky-specimens']['ernie'].getTotalNumSpecimens()
+    33
 
-That's right, 33 new specimens bumped the count up from 127 to 160.
+Now for the fun part…
+
+
+Active ERNE Set
+~~~~~~~~~~~~~~~
 
 
 

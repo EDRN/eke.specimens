@@ -10,6 +10,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <class class='.specimensystem.SpecimenSystem'>
         <require permission='zope2.View' interface='..interfaces.ISpecimenSystem'/>
     </class>
+    <class class='.ernespecimensystem.ERNESpecimenSystem'>
+        <require permission='zope2.View' interface='..interfaces.IERNESpecimenSystem'/>
+    </class>
     <class class='.genericspecimenset.GenericSpecimenSet'>
         <require permission='zope2.View' interface='..interfaces.IGenericSpecimenSet'/>
     </class>

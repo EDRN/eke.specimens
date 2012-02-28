@@ -25,12 +25,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='Specimen System Folder view'
     />
-    <!-- <browser:page
-        class='.ingest.SpecimenCollectionFolderIngestor'
-        for='..interfaces.ISpecimenCollectionFolder'
-        name='ingest'
-        permission='cmf.ManagePortal'
-    /> -->
 
     <!-- Specimen System -->
     <browser:resource name='specimen-system.gif' file='images/specimen-system.gif'/>
@@ -47,6 +41,29 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='Specimen System view'
     />
+
+    <!-- ERNE Specimen System -->
+    <browser:resource name='erne-specimen-system.png' file='images/erne-specimen-system.png'/>
+    <browser:page
+        class='.views.ERNESpecimenSystemView'
+        for='..interfaces.IERNESpecimenSystem'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of an ERNE Specimen System.'
+        for='..interfaces.IERNESpecimenSystem'
+        menu='plone_displayviews'
+        title='ERNE Specimen System view'
+    />
+    <!-- <browser:page
+        class='.ingest.SpecimenCollectionFolderIngestor'
+        for='..interfaces.ISpecimenCollectionFolder'
+        name='ingest'
+        permission='cmf.ManagePortal'
+    /> -->
+
 
     <!-- Generic Specimen Set -->
     <browser:resource name='generic-specimen-set.gif' file='images/generic-specimen-set.gif'/>

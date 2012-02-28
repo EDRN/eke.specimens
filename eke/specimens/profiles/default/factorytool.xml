@@ -7,6 +7,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <factorytypes>
         <type portal_type='Specimen System Folder' />
         <type portal_type='Specimen System' />
+        <type portal_type='ERNE Specimen System' />
         <type portal_type='Generic Specimen Set' />
         <type portal_type='Case Control Subset' />
         <type portal_type='Inactive ERNE Set' />

@@ -24,7 +24,8 @@ def initialize(context):
         specimensystem,
         genericspecimenset,
         casecontrolsubset,
-        inactiveerneset
+        inactiveerneset,
+        ernespecimensystem,
     ) # for lame side effect
     contentTypes, constructors, ftis = atapi.process_types(atapi.listTypes(config.PROJECTNAME), config.PROJECTNAME)
     for atype, constructor in zip(contentTypes, constructors):

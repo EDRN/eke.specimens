@@ -15,6 +15,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
             <role name='Owner' />
             <role name='Contributor' />
         </permission>
+        <permission name='EKE: Add ERNE Specimen System' acquire='True'>
+            <role name='Manager' />
+            <role name='Owner' />
+            <role name='Contributor' />
+        </permission>
         <permission name='EKE: Add Generic Specimen Set' acquire='True'>
             <role name='Manager' />
             <role name='Owner' />
