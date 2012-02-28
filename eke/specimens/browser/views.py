@@ -77,13 +77,30 @@ class SpecimenSystemView(BrowserView):
             url=i.getURL()
         ) for i in results]
 
+# class SpecimenSetView(BrowserView):
+#     '''Abstract parent view for specimen sets.'''
+# 
+
 class GenericSpecimenSetView(BrowserView):
     '''Default view of a Generic Specimen Set.'''
     __call__ = ViewPageTemplateFile('templates/genericspecimenset.pt')
     def cases(self):
         return self.getSubsets('Case')
     def controls(self):
-        return self.getSubsets('Controls')
+        return self.getSubsets('Control')
+    def getCancerLocations(self):
+        context = aq_inner(self.context)
+        return u', '.join(context.cancerLocations)
+    @memoize
+    def getAbstract(self):
+        abstract = None
+        context = aq_inner(self.context)
+        protocol = context.protocol
+        if protocol is not None:
+            abstract = protocol.abstract
+            if not abstract:
+                abstract = protocol.Description()
+        return abstract
     @memoize
     def getSubsets(self, kind):
         context = aq_inner(self.context)
@@ -94,13 +111,30 @@ class GenericSpecimenSetView(BrowserView):
             subsetType=kind,
             sort_on='sortable_title'
         )
-        return [dict(title=i.title, numParticipants=i.getNumParticipants) for i in brains]
+        return [dict(title=i.Title, numParticipants=i.getNumParticipants) for i in brains]
     def getTotalParticipants(self, kind):
         return sum([int(i['numParticipants']) for i in self.getSubsets(kind)])
     def totalCases(self):
-        return self.getTotalParticipants('Cases')
+        return self.getTotalParticipants('Case')
     def totalControls(self):
-        return self.getTotalParticipants('Controls')
+        return self.getTotalParticipants('Control')
+    def haveAttachedFiles(self):
+        return len(self.attachedFiles()) > 0
+    @memoize
+    def attachedFiles(self):
+        context = aq_inner(self.context)
+        catalog = getToolByName(context, 'portal_catalog')
+        brains = catalog(portal_type='File',path=dict(query='/'.join(context.getPhysicalPath()),depth=1),sort_on='sortable_title')
+        return [dict(title=i.Title, description=i.Description, url=i.getURL()) for i in brains]
+    def haveLinks(self):
+        return len(self.links()) > 0
+    @memoize
+    def links(self):
+        context = aq_inner(self.context)
+        catalog = getToolByName(context, 'portal_catalog')
+        brains = catalog(portal_type='Link',path=dict(query='/'.join(context.getPhysicalPath()),depth=1),sort_on='sortable_title')
+        return [dict(title=i.Title, description=i.Description, url=i.getURL()) for i in brains]
+    
 
 class CaseControlSubsetView(BrowserView):
     '''Default view of a Case Control Subset.'''

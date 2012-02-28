@@ -10,18 +10,11 @@
         <title>Specimen Collection Folder</title>
     </head>
     <body>
+        <metal:css fill-slot='style_slot'>
+            <style type='text/css' media='all' tal:content='string:@import url(${context/++resource++eke-specimens.css});'></style>
+        </metal:css>
         <metal:main fill-slot='main'>
             <tal:main-macro metal:define-macro='main'>
-                <!-- tal:define='
-                    haveSpecimensAtSites view/haveSpecimensAtSites;
-                    contents             view/specimensAtSites;
-                    kssClassesView       context/@@kss_field_decorator_view;
-                    getKssClasses        nocall:kssClassesView/getKssClassesInlineEditable;
-                    templateId           template/getId;
-                    isManager            python:checkPermission("Manage portal", context);
-                    portalURL            context/@@plone_portal_state/portal_url;
-                ' -->
-
                 <div tal:replace='structure provider:plone.abovecontenttitle' />
                 <h1 class='documentFirstHeading' tal:content='context/fullName'>
                     Use the full name for the title, since the title is used for the short name.
@@ -43,13 +36,18 @@
                     <metal:field use-macro='python:context.widget("totalNumSpecimens", mode="view")'>123</metal:field>
                 </div>
                 <div>
+                    <label for='parent-fieldname-getNumParticipants' i18n:translate='label_getNumParticipants'>Participants:</label>
+                    <div id='parent-fieldname-getNumParticipants' tal:content='context/getNumParticipants'>123</div>
+                </div>
+
+                <div>
                     <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
                     <metal:field use-macro='python:context.widget("protocol", mode="view")'>Anus Protocol</metal:field>
                 </div>
 
                 <div>
                     <label for='parent-fieldname-cancerLocations' i18n:translate='label_cancerLocations'>Cancer Locations:</label>
-                    <metal:field use-macro='python:context.widget("cancerLocations", mode="view")'>Anus, rectum</metal:field>
+                    <div id='parent-fieldname-cancerLocations' tal:content='view/getCancerLocations'>anus, rectum</div>
                 </div>
 
                 <div>
@@ -61,12 +59,8 @@
                     <metal:field use-macro='python:context.widget("storageType", mode="view")'>DNA, RNA</metal:field>
                 </div>
 
-                <!-- num participants, cases, controls, abstract -->
+                <div tal:content='structure context/text'>Lorem.</div>
                 
-                <div>
-                    <label for='parent-fieldname-getNumParticipants' i18n:translate='label_getNumParticipants'>Participants:</label>
-                    <p id='parent-fieldname-getNumParticipants' tal:content='context/getNumParticipants'>123</p>
-                </div>
 
                 <div class='caseControlSubset'>
                     <h2 i18n:translate='ekeSpecimensGenericSpecSetHeadingCases'>Cases</h2>
@@ -111,7 +105,7 @@
                 <div class='visualClear'><!-- --></div>
 
                 <h2 i18n:translate='ekeSpecimensGenericSpecSetHeadingAbstract'>Abstract</h2>
-                <p tal:content='context/protocol/abstract|nothing'>
+                <p tal:content='view/getAbstract'>
         		    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
         		    sed do eiusmod tempor incididunt ut labore et dolore magna
         		    aliqua.  Ut enim ad minim veniam, quis nostrud
@@ -122,6 +116,33 @@
         		    sunt in culpa qui officia deserunt mollit anim id est
         		    laborum.
                 </p>
+
+                <h2 i18n:translate='ekeSpecimensHeadingFiles'>Attached Files</h2>
+                <p tal:condition='not:view/haveAttachedFiles' i18n:translate='ekeSpecimensAdmonitionNoFiles'>
+                    No files have been attached to this specimen set.
+                </p>
+                <ul tal:condition='view/haveAttachedFiles' tal:define='files view/attachedFiles'>
+                    <li tal:repeat='aFile files'>
+                        <a href='#' title='Some file.' tal:attributes='href aFile/url; title aFile/description|nothing'
+                            tal:content='aFile/title'>
+                            File
+                        </a>
+                    </li>
+                </ul>
+
+                <h2 i18n:translate='ekeSpecimensHeadingLinks'>Links</h2>
+                <p tal:condition='not:view/haveLinks' i18n:translate='ekeSpecimensAdmonitionNoLinks'>
+                    No links are available for this specimen set.
+                </p>
+                <ul tal:condition='view/haveLinks' tal:define='links view/links'>
+                    <li tal:repeat='aLink links'>
+                        <a href='#' title='Some link.' tal:attributes='href aLink/url; title aLink/description|nothing'
+                            tal:content='aLink/title'>
+                            Link
+                        </a>
+                    </li>
+                </ul>
+
 
                 <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
                     Any related items

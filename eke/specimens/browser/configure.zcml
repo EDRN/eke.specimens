@@ -96,4 +96,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         title='Inactive ERNE Set view'
     />
 
+    <!-- Other resources -->
+    <browser:resource
+        name='eke-specimens.css'
+        file='specimen.css'
+    />
+
+
 </configure>

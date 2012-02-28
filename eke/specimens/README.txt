@@ -38,8 +38,8 @@ demonstrations::
 Now we can check out the new types introduced in this package.
 
 
-Addable Content
----------------
+Testing Setup
+-------------
 
 Here we'll exercise some of the content objects available in this project and
 demonstrate their properties and constraints.  However, before we do some,
@@ -81,8 +81,8 @@ at least one more protocol::
 Now, let's flex.
 
 
-Specimen System Folder
-~~~~~~~~~~~~~~~~~~~~~~
+Non-ERNE Specimen Systems
+-------------------------
 
 A Specimen System Folder is the top-level container for Specimen Systems.
 They can be added anywhere in the portal::
@@ -158,10 +158,10 @@ field::
 Let's add a Specimen Set to this system and see what happens, below.
 
 
-General Specimen Set
+Generic Specimen Set
 ~~~~~~~~~~~~~~~~~~~~
 
-A General Specimen Set is a single group of specimens with a collection, such
+A Generic Specimen Set is a single group of specimens with a collection, such
 as a set of PRoBE specimens from a single organ such as the anus.  They may be
 added solely to Specimen Systems::
 
@@ -312,6 +312,29 @@ That's right!  The case/control totals are computed from the case/control
 subsets added to the General Specimen Set, and they in turn update the total
 number of participants.
 
+When you look at a Generic Specimen Set, you should see its various
+attributes::
+
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
+    >>> browser.contents
+    '...Anal Reference Set...Official reference set...ANAL-REF...127...331...Public Safety...'
+    >>> browser.contents
+    '...Public Safety...Cancer Locations...rectum, anus, colon...'
+    >>> browser.contents
+    '...rectum, anus, colon...Ascites, Stool...DNA, RNA...Heaps of specimens...'
+
+It should also have the case/control groups, followed by the matching
+protocol's abstract (if available), or description (if the abstract wasn't
+available)::
+
+    >>> browser.contents
+    '...Cases...Total...55...DCIS...48...LCIS...7...Controls...Total...276...Normals...276...Abstract...Clinic surveillance...'
+
+Lastly, it should show the attached files and the links::
+
+    >>> browser.contents
+    '...Attached Files...href="...my-new-file"...My New File...Links...My New Link...'
+
 
 Inactive ERNE Set
 ~~~~~~~~~~~~~~~~~
@@ -365,30 +388,31 @@ So let's open the Specimen System we created above and add it there::
     True
 
 Again, zero specimens to start out.  Why?  Because that value's computed from
-stored specimens, which might be data grids or contained objects.  At this
-point, we have a nifty data grid user interface that lets the data entry
-worker convenient add and remove specimen storage types and counts.
+stored specimens.
 
-But it uses JavaScript and we can test it from here, so just trust me: it
-works.
+The stored specimens use the Products.DataGridField field-and-widget
+combination to edit and display that data.  However, because it uses
+Javascript to make the widget interactive, we can't test it through the test
+browser.
 
-.. The Inactive ERNE Set also has a data grid field for specimens stored by type,
-.. but I have no idea how to test that from the test browser.  TODO: need some
-.. computed indexed field that collects all the storagetypes in the grid so they
-.. can be searched?
+However, we can manually set the field and see if computed values make sense::
 
-Since we added this inactive ERNE set to the Probed Collection, its total got
-updated::
+    >>> values = [dict(storageType='1', totalNumSpecimens='11'), dict(storageType='2', totalNumSpecimens='22')]
+    >>> e.setSpecimensByStorageType(values)
+    >>> e.getTotalNumSpecimens()
+    33
+    >>> e.getStorageType()
+    ('1', '2')
+    >>> e.reindexObject()
 
-..    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
-..    XXX FIXME
+And check out the system::
+
+    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
+    160
+
+That's right, 33 new specimens bumped the count up from 127 to 160.
 
 
-Active ERNE Sites
-~~~~~~~~~~~~~~~~~
-
-What about ERNE?  We've seen the Inactive ERNE Set, but ERNE has active sites
-too that are still connected through the OODT product server concept, and we ingest those …
 
 
 

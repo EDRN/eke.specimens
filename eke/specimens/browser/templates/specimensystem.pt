@@ -36,9 +36,9 @@
                 </p>
                 <div tal:replace='structure provider:plone.abovecontentbody' />
 
-                <p tal:replace='structure context/text'>
+                <div tal:replace='structure context/text'>
                     Body Text
-                </p>
+                </div>
 
                 <p class='discreet' tal:condition='not:haveSets' i18n:translate='ekeSpecimensSpecColFoldAdominitionNoSets'>
                     There are currently no specimen sets in this system (yet).
