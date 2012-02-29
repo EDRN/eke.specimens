@@ -41,6 +41,13 @@ def addSampleSpecimenSets(setupTool):
     specimens.setDescription(u'Specimens collected by EDRN and shared with EDRN.')
     specimens.setText(u'<p>This folder contains specimens available to EDRN and collected in EDRN protocols.</p>')
     
+    # Create a place for ERNE
+    erne = specimens[specimens.invokeFactory('ERNE Specimen System', 'erne')]
+    erne.setTitle(u'EDRN Specimen System')
+    erne.setDescription(u'Early Detection Research Network (EDRN) Resource Network Exchange (ERNE) specimens.')
+    erne.setText(u'<p>Includes sites running ERNE product servers as well as other EDRN and affiliate specimen collections.</p>')
+    erne.reindexObject()
+
     # Create a collection for PRoBE
     probe = specimens[specimens.invokeFactory('Specimen System', 'probe')]
     probe.setTitle(u'PRoBE')
