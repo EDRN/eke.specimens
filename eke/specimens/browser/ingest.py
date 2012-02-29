@@ -113,11 +113,11 @@ class ERNESpecimenSystemViewIngestor(BrowserView):
                 s.setTitle(siteAbbrevName)
                 s.setDescription(u'%d Specimens from Participants %s at %s' % (summary.specimenCount, s.diagnosis, site.title))
                 s.setSite(site.UID())
+                s.setStorageType(summary.storageType)
                 s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
                 s.numCases       = summary.numberCases
                 s.numControls    = summary.numberControls
                 s.collectionType = summary.collectionType
-                s.storageType    = summary.storageType
                 s.organs         = (getOrganLabel(summary.organ, context),)
                 s.reindexObject()
             log.append('Created %d sets for site %s' % (recordNum, siteAbbrevName))
