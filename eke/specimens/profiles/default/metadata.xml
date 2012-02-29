@@ -12,6 +12,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <dependency>profile-eke.site:default</dependency>
         <dependency>profile-eke.study:default</dependency>
         <dependency>profile-Products.DataGridField:default</dependency>
+        <dependency>profile-eea.facetednavigation:default</dependency>
         <!-- TODO: when we migrate from Archetypes to Dexterity, enable this: -->
         <!-- <dependency>profile-plone.app.dexterity:default</dependency> -->
     </dependencies>

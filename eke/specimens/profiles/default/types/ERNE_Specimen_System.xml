@@ -7,7 +7,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     i18n:domain='eke.specimens' xmlns:i18n='http://xml.zope.org/namespaces/i18n'>
     <property name='title' i18n:translate=''>ERNE Specimen System</property>
     <property name='description' i18n:translate=''>An ERNE specimen system contains sets of ERNE specimens.</property>
-    <property name='content_icon'>++resource++erne-specimen-system.gif</property>
+    <property name='content_icon'>++resource++erne-specimen-system.png</property>
     <property name='content_meta_type'>ERNE Specimen System</property>
     <property name='product'>eke.specimens</property>
     <property name='factory'>addERNESpecimenSystem</property>

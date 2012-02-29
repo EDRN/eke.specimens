@@ -447,6 +447,8 @@ But we can add it to the ERNE Specimen System we made above::
     0
     >>> len(e.getStorageType()) == 0
     True
+    >>> e.getSystemName()
+    'Ernie'
 
 Again, zero specimens to start out.  Why?  Because that value's computed from
 stored specimens.
@@ -551,6 +553,8 @@ But we can add it to the ERNE Specimen System we made above::
     'With Cancer'
     >>> e.getTotalNumSpecimens()
     109
+    >>> e.getSystemName()
+    'Ernie'
 
 Notice the "Ernie" container's specimen count now::
 
@@ -571,16 +575,12 @@ What does an Active ERNE Site look like?  See for yourself:
 
 Yes, just another attribute rundown.
 
-.. Views
-.. -----
+
+.. Searching
+.. ---------
 .. 
-.. Here we'll show how the content types present themselves in a browser.
-.. 
-.. 
-.. Specimen System Folder
-.. ~~~~~~~~~~~~~~~~~~~~~~
-.. 
-.. Specimen Collection Folders show their contents with nifty faceted navigation:
+.. The real centerpiece of ERNE is, of course, the nifty faceted display.  That
+.. happens automatically when you create a Specimen System Folder.  No, really::
 .. 
 ..     >>> browser.open(portalURL + '/sticky-specimens')
 ..     >>> browser.contents
@@ -616,64 +616,15 @@ Yes, just another attribute rundown.
 .. 
 .. There has *got* to be a better way of doing those style changes, though.  See
 .. ``faceted_specimens_view.pt`` for explanation.
-.. 
-.. 
-.. Specimen System
-.. ~~~~~~~~~~~~~~~
-.. 
-.. Specimen Systems merely show each specimen set they contain::
-.. 
-..     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
-..     >>> browser.contents
-..     '...Anal Reference Set...127...Dead Anus Set...326...'
-.. 
-.. 
-.. Generic Specimen Set
-.. ~~~~~~~~~~~~~~~~~~~~
-.. 
-.. A Generic Specimen Set just shows off its various attributes::
-.. 
-..     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
-..     >>> browser.contents
-..     '...ANAL-REF...DNA...RNA...127...90...45...Public Safety...'
-.. 
-.. Note that if the specimen set's shortName attribute is empty, then the label
-.. for it won't be shown either (since according to CA-823, Christos was confused
-.. by the strange system-generated identifiers).  Let's create a specimen with no
-.. shortName::
-.. 
-..     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
-..     >>> browser.getLink(id='specimen-set').click()
-..     >>> browser.getControl(name='title').value = u'Some Other Set'
-..     >>> browser.getControl(name='storageType').displayValue = ['Plasma']
-..     >>> browser.getControl(name='specimenCount').value = u'128'
-..     >>> browser.getControl(name='numberCases').value = u'91'
-..     >>> browser.getControl(name='numberControls').value = u'46'
-..     >>> browser.getControl(name='organs:lines').value = 'Sphincter'
-..     >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
-..     >>> browser.getControl(name='form.button.save').click()
-.. 
-.. Any short name?  Let's see::
-.. 
-..     >>> 'Short Name' in browser.contents
-..     False
-..     
-.. That's all there is.
-.. 
-.. 
-.. ERNE
-.. ----
-.. 
-.. TBD.
-.. 
-.. 
-.. RDF Ingest
-.. ----------
-.. 
-.. Not supported.  Woot!
-.. 
-.. 
-.. .. References:
-.. .. _EKE: http://cancer.jpl.nasa.gov/documents/applications/knowledge-environment
-.. .. _RDF: http://w3.org/RDF/
-.. .. _URI: http://w3.org/Addressing/
+
+
+RDF Ingest
+----------
+
+Not supported.  Woot!
+
+
+.. References:
+.. _EKE: http://cancer.jpl.nasa.gov/documents/applications/knowledge-environment
+.. _RDF: http://w3.org/RDF/
+.. _URI: http://w3.org/Addressing/

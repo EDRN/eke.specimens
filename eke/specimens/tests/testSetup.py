@@ -33,13 +33,21 @@ class SetupTest(unittest.TestCase):
         '''Check if indexes are properly installed.'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         indexes = catalog.indexes()
-        for i in ('getStorageType', 'subsetType', 'getNumParticipants', 'getTotalNumSpecimens'):
-            self.failUnless(i in indexes)
+        for i in (
+            'getStorageType',
+            'subsetType',
+            'getNumParticipants',
+            'getTotalNumSpecimens',
+            'getSystemName',
+            'diagnosis',
+            'collectionType',
+        ):
+            self.failUnless(i in indexes, 'Index "%s" not in catalog' % i)
     def testCatalogMetadata(self):
         '''Check if indexed metadata schema are properly installed.'''
         catalog = getToolByName(self.portal, 'portal_catalog')
         metadata = catalog.schema()
-        for i in ('getStorageType', 'getNumParticipants', 'getTotalNumSpecimens'):
+        for i in ('getStorageType', 'getNumParticipants', 'getTotalNumSpecimens', 'getSystemName'):
             self.failUnless(i in metadata)
     def testAddons(self):
         '''Check that dependent packages are installed'''

@@ -13,16 +13,19 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='subsetType' meta_type='FieldIndex'>
         <indexed_attr value='subsetType'/>
     </index>
-    <index name='getStorageType' meta_type='FieldIndex'>
+    <index name='getStorageType' meta_type='KeywordIndex'>
         <indexed_attr value='getStorageType'/>
     </index>
-    <!-- <index name='getCollectionName' meta_type='FieldIndex'>
-        <indexed_attr value='getCollectionName'/>
-    </index> -->
-    <!-- <index name='diagnosis' meta_type='FieldIndex'>
+    <index name='collectionType' meta_type='KeywordIndex'>
+        <indexed_attr value='collectionType'/>
+    </index>
+    <index name='getSystemName' meta_type='FieldIndex'>
+        <indexed_attr value='getSystemName'/>
+    </index>
+    <index name='diagnosis' meta_type='FieldIndex'>
         <indexed_attr value='diagnosis'/>
     </index>
-    <index name='siteName' meta_type='FieldIndex'>
+    <!-- <index name='siteName' meta_type='FieldIndex'>
         <indexed_attr value='siteName'/>
     </index>
     <index name='organs' meta_type='FieldIndex'>
@@ -31,6 +34,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <column value='getTotalNumSpecimens'/>
     <column value='getNumParticipants'/>
     <column value='getStorageType'/>
-    <!-- <column value='getCollectionName'/> -->
+    <column value='getSystemName'/>
     <!-- <column value='organs'/> -->
 </object>

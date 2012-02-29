@@ -17,12 +17,17 @@ from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 def getStorageTypeLabel(storageType, context):
-    try:
-        factory = getUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
-        vocab = factory(context)
-        return vocab.getTermByToken(storageType).title
-    except LookupError:
-        return u'?'
+    if isinstance(storageType, basestring):
+        storageType = (storageType,)
+    labels = []
+    for i in storageType:
+        try:
+            factory = getUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
+            vocab = factory(context)
+            labels.append(vocab.getTermByToken(i).title)
+        except LookupError:
+            labels.append(u'?')
+    return u', '.join(labels)
 
 def getOrganLabel(organID, context):
     if organID != 'unknown':
@@ -51,9 +56,9 @@ class SpecimenSystemFolderView(BrowserView):
         return [dict(
             title=i.Title, description=i.Description, specimenCount=i.getTotalNumSpecimens, url=i.getURL()
         ) for i in results]
-    # def getStorageTypeLabel(self, storageType):
-    #     context = aq_inner(self.context)
-    #     return getStorageTypeLabel(storageType, context)
+    def getStorageTypeLabel(self, storageType):
+        context = aq_inner(self.context)
+        return getStorageTypeLabel(storageType, context)
 
 
 class SpecimenSystemView(BrowserView):

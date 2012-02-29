@@ -62,10 +62,9 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
         <thead>
             <tr>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSetSite'>Set/Site</th>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingCollection'>Collection</th>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingOrgans'>Organ(s)</th>
+                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingCollection'>System</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingStorage'>Storage</th>
+                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
             </tr>
         </thead>
         <tbody metal:define-slot='entries'>
@@ -82,10 +81,9 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                     item_wf_state       item/review_state|python:context.portal_workflow.getInfoFor(item, "review_state", "");
                     item_wf_state_class python:"state-" + normalizeString(item_wf_state);
                     oddrow              repeat/item/odd;
-                    collection          item/getCollectionName|string:?;
-                    specimenCount       item/specimenCount|string:?;
-                    storageType         item/storageType|nothing;
-                    organs              item/organs|nothing;
+                    collection          item/getSystemName|string:?;
+                    specimenCount       item/getTotalNumSpecimens|string:?;
+                    storageType         item/getStorageType|nothing;
                     storageTypeLabel    python:nominal_view.getStorageTypeLabel(storageType);
                 '>
                     <metal:block define-slot='entry'>
@@ -102,16 +100,11 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                             <td tal:content='collection'>
                                 PRoBE
                             </td>
-                            <td style='text-align: right;' tal:content='specimenCount'>
-                                432
-                            </td>
-                            <td>
-                                <span tal:condition='organs' tal:replace="python:', '.join(item['organs'])">
-                                    Anus, Rectum
-                                </span>
-                            </td>
                             <td tal:content='storageTypeLabel'>
                                 Mucus
+                            </td>
+                            <td style='text-align: right;' tal:content='specimenCount'>
+                                432
                             </td>
                         </tr>
                     </metal:block>

@@ -107,12 +107,12 @@ class SpecimenSet(folder.ATFolder):
         return parent.title
 
 
-def SpecimenCollectionNamesVocabularyFactory(context):
+def specimenSystemNamesVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
-    items = list(catalog.uniqueValuesFor('getCollectionName'))
+    items = list(catalog.uniqueValuesFor('getSystemName'))
     items.sort()
     return SimpleVocabulary.fromItems([(i, i) for i in items])
-directlyProvides(SpecimenCollectionNamesVocabularyFactory, IVocabularyFactory)
+directlyProvides(specimenSystemNamesVocabularyFactory, IVocabularyFactory)
 
 def diagnosesVocabularyFactory(context):
     return _diagnoses

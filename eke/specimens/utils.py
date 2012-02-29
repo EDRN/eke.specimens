@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2011–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 from eea.facetednavigation.interfaces import ICriteria
@@ -7,7 +7,8 @@ from eea.facetednavigation.layout.interfaces import IFacetedLayout
 from eke.specimens.interfaces import ISpecimenSet
 from Products.CMFPlone.Portal import PloneSite
 from zope.component import getMultiAdapter
-from eke.specimens import STORAGE_VOCAB_NAME
+from eke.specimens import STORAGE_VOCAB_NAME, COLLECTION_VOCAB_NAME
+from Products.CMFCore.utils import getToolByName
 
 def view(self):
     return super(PloneSite, self).view()
@@ -19,6 +20,8 @@ def setFacetedNavigation(folder, request):
     subtyper = getMultiAdapter((folder, request), name=u'faceted_subtyper')
     if subtyper.is_faceted or not subtyper.can_enable: return
     subtyper.enable()
+    urlTool = getToolByName(folder, 'portal_url')
+    path = '/' + '/'.join(urlTool.getRelativeContentPath(folder))
     criteria = ICriteria(folder)
     for cid in criteria.keys():
         criteria.delete(cid)
@@ -26,11 +29,11 @@ def setFacetedNavigation(folder, request):
     criteria.add('sorting', 'bottom', 'default', title='Sort on', hidden=True, default='sortable_title')
     criteria.add(
         'checkbox', 'left', 'default',
-        title='Collection',
+        title='System',
         hidden=False,
-        index='getCollectionName',
+        index='getSystemName',
         operator='or',
-        vocabulary=u'eke.specimens.CollectionNames',
+        vocabulary=u'eke.specimens.vocab.SystemNames',
         count=False,
         maxitems=0,
         sortreversed=False,
@@ -42,7 +45,7 @@ def setFacetedNavigation(folder, request):
         hidden=False,
         index='diagnosis',
         operator='or',
-        vocabulary=u'eke.specimens.Diagnoses',
+        vocabulary=u'eke.specimens.vocab.Diagnoses',
         count=False,
         maxitems=0,
         sortreversed=False,
@@ -52,7 +55,7 @@ def setFacetedNavigation(folder, request):
         'checkbox', 'left', 'default',
         title='Storage',
         hidden=False,
-        index='storageType',
+        index='getStorageType',
         operator='or',
         vocabulary=STORAGE_VOCAB_NAME,
         count=False,
@@ -62,16 +65,28 @@ def setFacetedNavigation(folder, request):
     )
     criteria.add(
         'checkbox', 'left', 'default',
-        title='Site',
+        title='Collection Type',
         hidden=False,
-        index='siteName',
+        index='collectionType',
         operator='or',
-        vocabulary=u'eke.specimens.SitesWithSpecimens',
+        vocabulary=COLLECTION_VOCAB_NAME,
         count=False,
         maxitems=5,
         sortreversed=False,
         hidezerocount=False,
     )
+    # criteria.add(
+    #     'checkbox', 'left', 'default',
+    #     title='Site',
+    #     hidden=False,
+    #     index='siteName',
+    #     operator='or',
+    #     vocabulary=u'eke.specimens.SitesWithSpecimens',
+    #     count=False,
+    #     maxitems=5,
+    #     sortreversed=False,
+    #     hidezerocount=False,
+    # )
     criteria.add(
         'checkbox', 'bottom', 'default',
         title='Obj provides',
@@ -85,5 +100,6 @@ def setFacetedNavigation(folder, request):
         sortreversed=False,
         hidezerocount=False
     )
+    criteria.add('path', 'bottom', 'default', title='Path Search', hidden=True, index='path', default=path)
     criteria.add('debug', 'top', 'default', title='Debug Criteria', user='kelly')
     IFacetedLayout(folder).update_layout('faceted_specimens_view')
