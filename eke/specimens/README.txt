@@ -423,7 +423,7 @@ But we can add it to the ERNE Specimen System we made above::
     >>> browser.getControl(name='text').value = u'<p>Collected from deceased booties.</p>'
     >>> browser.getControl(name='site:list').displayValue = ["Dr Tongue's 3D Clinic"]
     >>> browser.getControl(name='organs:lines').value = 'rectum\nanus'
-    >>> browser.getControl(name='collectionType:list').displayValue = ['Ascites', 'Stool']
+    >>> browser.getControl(name='collectionType').displayValue = ['Stool']
     >>> browser.getControl(name='contactName').value = u'Joe Proctologist'
     >>> browser.getControl(name='form.button.save').click()
     >>> e = portal['sticky-specimens']['ernie']['dead-anus-set']
@@ -440,7 +440,7 @@ But we can add it to the ERNE Specimen System we made above::
     >>> e.organs
     ('rectum', 'anus')
     >>> e.collectionType
-    ('1', '18')
+    '18'
     >>> e.contactName
     'Joe Proctologist'
     >>> e.getTotalNumSpecimens()
@@ -465,11 +465,20 @@ However, we can manually set the field and see if computed values make sense::
     >>> e.getStorageType()
     ('1', '2')
     >>> e.reindexObject()
+    >>> import transaction; transaction.commit()
 
 And check out the system::
 
     >>> portal['sticky-specimens']['ernie'].getTotalNumSpecimens()
     33
+
+Viewing one is simplistic::
+
+    >>> browser.open(portalURL + '/sticky-specimens/ernie/dead-anus-set')
+    >>> browser.contents
+    '...Dead Anus Set...An inactive ERNE site...33...Public Safety...Dr Tongue...rectum, anus...Stool...Joe Proctologist...'
+
+Yep, it's just the attributes.
 
 Now for the fun part…
 
@@ -477,9 +486,90 @@ Now for the fun part…
 Active ERNE Set
 ~~~~~~~~~~~~~~~
 
+Active ERNE Sets aren't normally created by hand; more often they're ingested
+from the ERNE system and created via the ingest method.  However, let's make
+sure they work by creating one by hand and check all the fields.  First off,
+note that like Inactive ERNE Sets, they can't just be added willy-nilly
+anywhere::
 
+    >>> browser.open(portalURL)
+    >>> browser.getLink(id='active-erne-set')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
 
+They can't go into the generic Specimen System container either::
 
+    >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection')
+    >>> l = browser.getLink(id='active-erne-set')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
+
+But we can add it to the ERNE Specimen System we made above::
+
+    >>> browser.open(portalURL + '/sticky-specimens/ernie')
+    >>> l = browser.getLink(id='active-erne-set')
+    >>> l.url.endswith('createObject?type_name=Active+ERNE+Set')
+    True
+    >>> l.click()
+    >>> browser.getControl(name='title').value = u'Live Anus Set'
+    >>> browser.getControl(name='totalNumSpecimens').value = u'109'
+    >>> browser.getControl(name='description').value = u'An active ERNE set actively producing anal samples!'
+    >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
+    >>> browser.getControl(name='text').value = u'<p>Producing <em>more</em> samples than Mr Chunks!</p>'
+    >>> browser.getControl(name='site:list').displayValue = ["Dr Tongue's 3D Clinic"]
+    >>> browser.getControl(name='organs:lines').value = 'anus\ncolon'
+    >>> browser.getControl(name='collectionType').displayValue = ['Seminal fluid']
+    >>> browser.getControl(name='storageType').displayValue = ['Cells']
+    >>> browser.getControl(name='numCases').value = '32'
+    >>> browser.getControl(name='numControls').value = '42'
+    >>> browser.getControl(name='diagnosis').displayValue = ['With Cancer']
+    >>> browser.getControl(name='form.button.save').click()
+    >>> e = portal['sticky-specimens']['ernie']['live-anus-set']
+    >>> e.title
+    'Live Anus Set'
+    >>> e.description
+    'An active ERNE set actively producing anal samples!'
+    >>> e.protocol.title
+    'Public Safety'
+    >>> e.text
+    '<p>Producing <em>more</em> samples than Mr Chunks!</p>'
+    >>> e.site.title
+    u"Dr Tongue's 3D Clinic"
+    >>> e.organs
+    ('anus', 'colon')
+    >>> e.collectionType
+    '15'
+    >>> e.getStorageType()
+    '14'
+    >>> e.numCases
+    32
+    >>> e.numControls
+    42
+    >>> e.diagnosis
+    'With Cancer'
+    >>> e.getTotalNumSpecimens()
+    109
+
+Notice the "Ernie" container's specimen count now::
+
+    >>> portal['sticky-specimens']['ernie'].reindexObject()
+    >>> portal['sticky-specimens']['ernie'].getTotalNumSpecimens()
+    142
+
+The 109 specimens in the active set boosted the count of the container up from
+just 32.
+
+What does an Active ERNE Site look like?  See for yourself:
+
+    >>> browser.open(portalURL + '/sticky-specimens/ernie/live-anus-set')
+    >>> browser.contents
+    '...Live Anus Set...actively producing anal samples...109...Public Safety...Dr Tongue...anus, colon...Seminal fluid...'
+    >>> browser.contents
+    '...Seminal fluid...Cells...32...42...With Cancer...Mr Chunks!...'
+
+Yes, just another attribute rundown.
 
 .. Views
 .. -----

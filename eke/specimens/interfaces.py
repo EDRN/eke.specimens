@@ -154,7 +154,7 @@ class IGenericSpecimenSet(ISpecimenSet, IStoredSpecimens):
     def getNumControls():
         '''Tell how many participants were in the control subset.'''
 
-class IERNESpecimenSet(ISpecimenSet):
+class IERNESpecimenSet(ISpecimenSet, IStoredSpecimens):
     '''A set of specimens that comes from the EDRN Resource Network Exchange.'''
     site = schema.Object(
         title=_(u'Site'),
@@ -179,66 +179,28 @@ class IERNESpecimenSet(ISpecimenSet):
 
 class IInactiveERNESet(IERNESpecimenSet):
     '''A set of specimens from a former ERNE site.'''
-    contains('eke.specimens.interfaces.IStoredInactiveSpecimen')
     contactName = schema.TextLine(
         title=_(u'Contact Name'),
         description=_(u'Name of the person to contact in order to obtain specimens from this set.'),
         required=False
     )
 
-class IStoredInactiveSpecimen(IStoredSpecimens, ):
-    title = schema.TextLine(
-        title=_(u'Title'),
-        description=_(u'The name of these stored specimens.'),
-        required=True,
-    )
-    description = schema.Text(
-        title=_(u'Description'),
-        description=_(u'An optional summary or abstract of these stored specimens.'),
-        required=False,
-    )
-    totalNumSpecimens = schema.Int(
-        title=_(u'Number Stored'),
-        description=_(u'Total number of specimens stored of this type.'),
-        required=False,
+class IActiveERNESet(IERNESpecimenSet):
+    '''A set of specimens from an active ERNE site.'''
+    numCases = schema.Int(
+        title=_(u'Cases'),
+        description=_(u'How many cancer-positive cases provided specimens.'),
         default=0,
-        min=0
+        required=False,
     )
-
-# class ActiveERNE
-# numParticipants = schema.Int(
-#     title=_(u'Number of Participants'),
-#     description=_(u'The total number of participants who provided specimens in this set.'),
-#     required=False,
-#     default=0,
-#     min=0
-# )
-
-
-    # diagnosis = schema.TextLine(
-    #     title=_(u'Diagnosis'),
-    #     description=_(u'Diagnosis of participants with or without cancer.'),
-    #     required=False,
-    # )
-    # siteName = schema.TextLine(
-    #     title=_(u'Site Name'),
-    #     description=_(u'Optional name of the site where these specimens are currently stored.'),
-    #     required=False,
-    # )
-    # available = schema.Bool(
-    #     title=_(u'Available'),
-    #     description=_(u'Are the specimens in this set available for sharing?'),
-    #     required=False,
-    #     default=False,
-    # )
-    # contactEmail = schema.TextLine(
-    #     title=_(u'Contact Email Address'),
-    #     description=_(u'Email address of the contact name.'),
-    #     required=False,
-    # )
-    # isERNE = schema.Bool(
-    #     title=_(u'ERNE'),
-    #     description=_(u'Is this an ERNE specimen set?'),
-    #     required=False,
-    # )
-    # 
+    numControls = schema.Int(
+        title=_(u'Controls'),
+        description=_(u'How many cancer-negative controls provided specimens.'),
+        default=0,
+        required=False,
+    )
+    diagnosis = schema.TextLine(
+        title=_(u'Diagnosis'),
+        description=_(u'Diagnosis of participants with or without cancer.'),
+        required=False,
+    )

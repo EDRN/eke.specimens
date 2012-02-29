@@ -22,10 +22,21 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <class class='.inactiveerneset.InactiveERNESet'>
         <require permission='zope2.View' interface='..interfaces.IInactiveERNESet'/>
     </class>
+    <class class='.activeerneset.ActiveERNESet'>
+        <require permission='zope2.View' interface='..interfaces.IActiveERNESet'/>
+    </class>
     <utility
         component='.casecontrolsubset.subsetTypeVocabularyFactory'
         name='eke.specimens.vocab.SubsetType'
     />
+    <utility
+        component='.base.diagnosesVocabularyFactory'
+        name='eke.specimens.vocab.Diagnoses'
+    />
+    <!-- <subscriber
+        for='..interfaces.ISpecimenSystemFolder Products.Archetypes.interfaces.event.IObjectInitializedEvent'
+        handler='.specimensystemfolder.addFacetedNavigation'
+    /> -->
     <!-- <subscriber
         for='..interfaces.ISpecimenSet Products.Archetypes.interfaces.IObjectInitializedEvent'
         handler='.specimenset.updateInformationProvidedBySite'
@@ -46,17 +57,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         for='..interfaces.ISpecimenCollectionFolder zope.app.container.interfaces.IObjectAddedEvent'
         handler='.specimencollectionfolder.addFacetedNavigation'
     />
-    <subscriber
-        for='..interfaces.ISpecimenCollectionFolder Products.Archetypes.interfaces.event.IObjectInitializedEvent'
-        handler='.specimencollectionfolder.addFacetedNavigation'
-    />
     <utility
         component='.base.SpecimenCollectionNamesVocabularyFactory'
         name='eke.specimens.CollectionNames'
-    />
-    <utility
-        component='.base.DiagnosesVocabularyFactory'
-        name='eke.specimens.Diagnoses'
     />
     <utility
         component='.base.SitesWithSpecimensVocabulary'

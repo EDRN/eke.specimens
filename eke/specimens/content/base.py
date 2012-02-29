@@ -114,9 +114,9 @@ def SpecimenCollectionNamesVocabularyFactory(context):
     return SimpleVocabulary.fromItems([(i, i) for i in items])
 directlyProvides(SpecimenCollectionNamesVocabularyFactory, IVocabularyFactory)
 
-def DiagnosesVocabularyFactory(context):
+def diagnosesVocabularyFactory(context):
     return _diagnoses
-directlyProvides(DiagnosesVocabularyFactory, IVocabularyFactory)
+directlyProvides(diagnosesVocabularyFactory, IVocabularyFactory)
 
 def SitesWithSpecimensVocabulary(context):
     catalog = getToolByName(context, 'portal_catalog')
@@ -151,7 +151,7 @@ ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
             description=_(u'List (one per line) of the organs from which specimens were collected.'),
         ),
     ),
-    atapi.LinesField(
+    atapi.StringField(
         'collectionType',
         required=False,
         multiValued=False,
@@ -159,7 +159,7 @@ ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         vocabulary_display_path_bound=-1,
         vocabulary_factory=COLLECTION_VOCAB_NAME,
-        widget=atapi.MultiSelectionWidget(  # TODO: Use InAndOutWidget
+        widget=atapi.SelectionWidget(
             label=_(u'Collection Type'),
             description=_(u'What kind of specimen was collected from participants.'),
         ),

@@ -10,4 +10,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <object name='Generic Specimen Set' meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Case Control Subset' meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Inactive ERNE Set' meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Active ERNE Set' meta_type='Factory-based Type Information with dynamic views'/>
 </object>

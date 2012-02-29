@@ -11,5 +11,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <type portal_type='Generic Specimen Set' />
         <type portal_type='Case Control Subset' />
         <type portal_type='Inactive ERNE Set' />
+        <type portal_type='Active ERNE Set' />
     </factorytypes>
 </object>

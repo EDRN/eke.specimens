@@ -7,7 +7,7 @@
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='eke.specimens'>
     <head>
-        <title>Inactive ERNE Set</title>
+        <title>Active ERNE Set</title>
     </head>
     <body>
         <metal:content-core fill-slot='content-core'>
@@ -32,18 +32,21 @@
                 <metal:field use-macro='python:context.widget("collectionType", mode="view")'>Stool</metal:field>
             </div>
             <div>
-                <label for='parent-fieldname-contactName' i18n:translate='label_contactName'>Contact:</label>
-                <metal:field use-macro='python:context.widget("contactName", mode="view")'>Joe Proctologist</metal:field>
+                <label for='parent-fieldname-storageType' i18n:translate='label_storageType'>Storage Type:</label>
+                <metal:field use-macro='python:context.widget("storageType", mode="view")'>Mason jar</metal:field>
             </div>
-
             <div>
-                <label for='parent-fieldname-specimensByStorageType' i18n:translate='label_specimensByStorageType'>
-                    Stored Specimens:
-                </label>
-                <metal:field use-macro='python:context.widget("specimensByStorageType", mode="view")'>woo</metal:field>
+                <label for='parent-fieldname-numCases' i18n:translate='label_numCases'>Cases:</label>
+                <metal:field use-macro='python:context.widget("numCases", mode="view")'>1</metal:field>
             </div>
-            
-
+            <div>
+                <label for='parent-fieldname-numControls' i18n:translate='label_numControls'>Controls:</label>
+                <metal:field use-macro='python:context.widget("numControls", mode="view")'>2</metal:field>
+            </div>
+            <div>
+                <label for='parent-fieldname-diagnosis' i18n:translate='label_diagnosis'>Cancer Diagnosis:</label>
+                <metal:field use-macro='python:context.widget("diagnosis", mode="view")'>Death</metal:field>
+            </div>            
             <div tal:content='structure context/text'>
         		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
         		do eiusmod tempor incididunt ut labore et dolore magna aliqua.

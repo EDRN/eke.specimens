@@ -13,5 +13,6 @@ ADD_PERMISSIONS = {
     'ERNE Specimen System': 'EKE: Add ERNE Specimen System',
     'Generic Specimen Set': 'EKE: Add Generic Specimen Set',
     'Inactive ERNE Set': 'EKE: Add Inactive ERNE Set',
+    'Active ERNE Set': 'EKE: Add Active ERNE Set',
     'Case Control Subset': 'EKE: Add Case Control Subset'
 }

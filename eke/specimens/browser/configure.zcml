@@ -112,6 +112,21 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='Inactive ERNE Set view'
     />
+    <!-- Active ERNE Set -->
+    <browser:resource name='active-erne-set.png' file='images/active-erne-set.png'/>
+    <browser:page
+        class='.views.ActiveERNESetView'
+        for='..interfaces.IActiveERNESet'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of an Inactive ERNE Set.'
+        for='..interfaces.IActiveERNESet'
+        menu='plone_displayviews'
+        title='Active ERNE Set view'
+    />
 
     <!-- Other resources -->
     <browser:resource

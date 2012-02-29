@@ -145,10 +145,19 @@ class CaseControlSubsetView(BrowserView):
     '''Default view of a Case Control Subset.'''
     __call__ = ViewPageTemplateFile('templates/casecontrolsubset.pt')
 
-class InactiveERNESetView(BrowserView):
+class ERNESetView(BrowserView):
+    '''Abstract ERNE view.'''
+    def getOrgans(self):
+        context = aq_inner(self.context)
+        return u', '.join(context.organs)
+
+class InactiveERNESetView(ERNESetView):
     '''Default view of an Inactive ERNE Set.'''
     __call__ = ViewPageTemplateFile('templates/inactiveerneset.pt')
 
+class ActiveERNESetView(ERNESetView):
+    '''Default view of an Active ERNE Set.'''
+    __call__ = ViewPageTemplateFile('templates/activeerneset.pt')
 
 # class SpecimenSetView(BrowserView):
 #     '''Default view of a Specimen Set.'''
