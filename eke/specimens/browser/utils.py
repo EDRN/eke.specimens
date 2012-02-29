@@ -65,18 +65,26 @@ SITES = {
 
 
 class ERNESpecimenSummary(object):
-    def __init__(self, storageType, specimenCount, numberCases, numberControls, organ, diagnosis, available, contactEmail):
+    def __init__(
+        self, storageType, specimenCount, numberCases, numberControls, organ, diagnosis, available, contactEmail,
+        protocolID, collectionType
+    ):
         self.storageType, self.specimenCount = storageType, specimenCount
         self.numberCases, self.numberControls, self.organ = numberCases, numberControls, organ
         self.diagnosis, self.available, self.contactEmail = diagnosis, available, contactEmail
+        self.protocolID = protocolID
+        self.collectionType = collectionType
     def __repr__(self):
-        return '%s(storageType=%r,specimenCount=%d,numberCases=%r,numberControls=%r,organ=%r,' + \
-            'diagnosis=%r,available=%r,contactEmail=%r)' % (
+        return ('%s(storageType=%r,specimenCount=%d,numberCases=%r,numberControls=%r,organ=%r,' +
+            'diagnosis=%r,available=%r,contactEmail=%r,protocolID=%r,collectionType=%r)') % (
             self.__class__.__name__, self.storageType, self.specimenCount, self.numberCases, self.numberControls, self.organ,
-            self.diagnosis, self.available, self.contactEmail
+            self.diagnosis, self.available, self.contactEmail, self.protocolID, self.collectionType
         )
     def __cmp__(self, other):
-        for f in ('storageType','specimenCount','numberCases','numberControls','organ','diagnosis','available','contactEmail'):
+        for f in (
+            'storageType','specimenCount','numberCases','numberControls','organ','diagnosis','available','contactEmail',
+            'protocolID', 'collectionType'
+        ):
             rc = cmp(getattr(self, f), getattr(other, f))
             if rc < 0:
                 return -1
@@ -85,7 +93,8 @@ class ERNESpecimenSummary(object):
         return 0
     def __hash__(self):
         return self.diagnosis << 31 ^ self.available << 30 ^ hash(self.storageType) << 17 ^ hash(self.specimenCount) << 15 ^ \
-            hash(self.numberCases) << 8 ^ hash(self.organ) << 6 ^ hash(self.numberControls) << 3 ^ hash(self.contactEmail)
+            hash(self.numberCases) << 8 ^ hash(self.organ) << 6 ^ hash(self.numberControls) << 3 ^ hash(self.contactEmail) ^ \
+            hash(self.protocolID) << 1 ^ hash(self.collectionType) << 7
 
 class SpecimenInventory(object):
     def __init__(self, contact, specimens, count, limit):
@@ -132,8 +141,10 @@ class Specimen(object):
 def getSpecimens(erneID, erneWS=_erneWS):
     cdes = (
         'BASELINE_CANCER-CONFIRMATION_CODE', 'SPECIMEN_STORED_CODE', 'STUDY_PARTICIPANT_ID',
-        'SPECIMEN_CONTACT-EMAIL_TEXT', 'SPECIMEN_AVAILABLE_CODE', 'SPECIMEN_TISSUE_ORGAN-SITE_CODE'
+        'SPECIMEN_CONTACT-EMAIL_TEXT', 'SPECIMEN_AVAILABLE_CODE', 'SPECIMEN_TISSUE_ORGAN-SITE_CODE', 'STUDY_PROTOCOL_ID',
+        'SPECIMEN_COLLECTED_CODE'
     )
+    numCDES = len(cdes)
     queryStr = ' AND '.join(['RETURN = %s' % cde for cde in cdes])
     params = {'q': queryStr, 'url': erneID}
     con = None
@@ -143,33 +154,38 @@ def getSpecimens(erneID, erneWS=_erneWS):
         stats = {}
         for erneRecord in con.read().split('$'):
             fields = erneRecord.split('\t')
-            if len(fields) != 6: continue # Avoid partial responses
-            for i in xrange(0, 6):
+            if len(fields) != numCDES: continue # Avoid partial responses
+            for i in xrange(0, numCDES):
                 fields[i] = fields[i].strip()
-            cancerDiag, storage, ppt, email, available, organ = fields
+            cancerDiag, storage, ppt, email, available, organ, protocolID, collection = fields
             available = available == '1'
             # Avoid garbled responses
             if not cancerDiag or cancerDiag in ('9', 'unknown', 'blank') or not storage or storage in ('unknown', 'blank') \
-                or not ppt or ppt in ('unknown', 'blank'):
+                or not ppt or ppt in ('unknown', 'blank') or not collection or collection in ('unknown', 'blank'):
                 continue
-            # Group by {diagnosis: {storage type: {organ: {participant ID: specimen count}}}}
+            # Group by {diagnosis: {collection: {storage type: {organ: {participant ID: specimen count}}}}}
             diagnoses = stats.get(cancerDiag, {})
-            storageTypes = diagnoses.get(storage, {})
+            collectionTypes = diagnoses.get(collection, {})
+            storageTypes = collectionTypes.get(storage, {})
             organs = storageTypes.get(organ, {})
             specimenCount = organs.get(ppt, 0)
             specimenCount += 1
             organs[ppt] = specimenCount
             storageTypes[organ] = organs
-            diagnoses[storage] = storageTypes
+            collectionTypes[storage] = storageTypes
+            diagnoses[collection] = collectionTypes
             stats[cancerDiag] = diagnoses
-        for cancerDiag, storageTypes in stats.iteritems():
+        for cancerDiag, collectionTypes in stats.iteritems():
             withCancer = cancerDiag == '1'
-            for storage, organs in storageTypes.iteritems():
-                for organ, pptIDs in organs.iteritems():
-                    totalSpecimens = sum(pptIDs.values())
-                    totalPpts = len(pptIDs)
-                    cases, controls = totalPpts, 0 # FIXME: but how? No idea how to compute # cases or # controls from ERNE data
-                    records.append(ERNESpecimenSummary(storage, totalSpecimens,cases,controls,organ,withCancer,available,email))
+            for collection, storageTypes in collectionTypes.iteritems():
+                for storage, organs in storageTypes.iteritems():
+                    for organ, pptIDs in organs.iteritems():
+                        totalSpecimens = sum(pptIDs.values())
+                        totalPpts = len(pptIDs)
+                        cases, controls = totalPpts, 0 # FIXME: but how? No idea how to compute # cases or # controls from ERNE data
+                        records.append(ERNESpecimenSummary(
+                            storage, totalSpecimens,cases,controls,organ,withCancer,available,email,protocolID,collection
+                        ))
         return records
     except urllib2.HTTPError, ex:
         _logger.info('Ignoring failed attempt to get specimens from %s via %s: %r', erneID, erneWS, ex)
@@ -243,11 +259,11 @@ directlyProvides(ERNESitesVocabulary, IVocabularyFactory)
 
 if __name__ == '__main__':
     import sys
-    # for i in getSpecimens(sys.argv[1]):
-    #     print i
-    details = getInventory(sys.argv[1], bool(sys.argv[2]), sys.argv[3], sys.argv[4])
-    print details
-    for i in details:
+    for i in getSpecimens(sys.argv[1]):
         print i
+    # details = getInventory(sys.argv[1], bool(sys.argv[2]), sys.argv[3], sys.argv[4])
+    # print details
+    # for i in details:
+    #     print i
      
     

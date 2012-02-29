@@ -57,12 +57,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='ERNE Specimen System view'
     />
-    <!-- <browser:page
-        class='.ingest.SpecimenCollectionFolderIngestor'
-        for='..interfaces.ISpecimenCollectionFolder'
+    <browser:page
+        class='.ingest.ERNESpecimenSystemViewIngestor'
+        for='..interfaces.IERNESpecimenSystem'
         name='ingest'
         permission='cmf.ManagePortal'
-    /> -->
+    />
 
 
     <!-- Generic Specimen Set -->

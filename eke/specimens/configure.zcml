@@ -10,6 +10,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
     xmlns:monkey='http://namespaces.plone.org/monkey'
     xmlns:vdex='http://namespaces.zope.org/vdex'
+    xmlns:zcml='http://namespaces.zope.org/zcml'
     i18n_domain='eke.specimens'>
 
     <include package='z3c.autoinclude' file='meta.zcml' />
@@ -39,4 +40,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 
     <include package='collective.vdexvocabulary' file='meta.zcml'/>
     <vdex:vocabulary directory='vocabs' />
+
+    <include
+        zcml:condition='installed Products.GenericSetup.upgrade'
+        file='upgrades.zcml'
+    />
 </configure>

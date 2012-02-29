@@ -8,6 +8,7 @@
 from Acquisition import aq_inner
 from eke.site.interfaces import ISite
 from eke.study.interfaces import IProtocol
+from eke.specimens.interfaces import IERNESpecimenSystem, IActiveERNESet
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
@@ -17,8 +18,7 @@ from utils import getSpecimens, SITES
 from views import getOrganLabel
 from zope.component import queryUtility
 
-# ERNE protocol ID
-_erneURI = 'http://edrn.nci.nih.gov/data/protocols/116'
+_protocolPrefix = u'http://edrn.nci.nih.gov/data/protocols/'
 
 # Hard-coded contact information for specimens (CA-823) FIXME: This is DISGUSTING.
 _contactInfo = {
@@ -37,11 +37,7 @@ _contactInfo = {
     'http://edrn.nci.nih.gov/data/sites/91':  ('ejq7@cdc.gov', 'Hao Tian'),                          # CDC
 }
 
-class BadERNEProtocolException(Exception):
-    def __init__(self, numFound=0):
-        super(BadERNEProtocolException, self).__init__('Require exactly one ERNE protocol, found %d' % numFound)
-
-class SpecimenCollectionFolderIngestor(BrowserView):
+class ERNESpecimenSystemViewIngestor(BrowserView):
     '''Ingest specimen data directly from the ERNE query interface.'''
     template = ViewPageTemplateFile('templates/ingestresults.pt')
     render = True
@@ -61,34 +57,30 @@ class SpecimenCollectionFolderIngestor(BrowserView):
         for i in item.objectIds():
             subItem = item[i]
             self._doPublish(subItem, wfTool)
+    def lookupProtocol(self, catalog, protocolID):
+        '''Find the UID of the protocol with the given protocolID, or None if not found'''
+        results = catalog(identifier=_protocolPrefix + unicode(protocolID), object_provides=IProtocol.__identifier__)
+        if len(results) == 0: return None
+        return results[0].UID
     def __call__(self):
         '''Do the ingest.'''
-        log = []
         context = aq_inner(self.context)
+        # Sanity check 
+        if not IERNESpecimenSystem.providedBy(context):
+            self.results = [u'Use "ingest" on an ERNE Specimen System only']
+            return self.render and self.template() or None
+
+        # Prepare
+        log = []
         catalog, wfTool, normalize = self._getTools(context)
         
-        # First, find the ERNE protocol.  All of the specimens in ERNE were gathered under the ERNE protocol.
-        results = catalog(identifier=_erneURI, object_provides=IProtocol.__identifier__)
-        if len(results) == 0:
-            # No ERNE? No ingest.
-            self.results = [u'No ERNE protocol (%s), so no specimen ingest' % _erneURI]
-            return self.render and self.template() or None
-        elif len(results) > 1:
-            raise BadERNEProtocolException(len(results))
-        erneProtocol = results[0].getObject()
-        
-        # Find the ERNE collection & start with blank slate
-        if 'erne' not in context.keys():
-            erne = context[context.invokeFactory('Specimen Collection', 'erne')]
-            erne.setTitle(u'EDRN Specimen System')
-            erne.setDescription(u'EDRN Specimen System (formerly the EDRN Resource Network Exchange).')
-            erne.setText(u'<p>Specimens collected by present and former EDRN member sites.</p>')
-            erne.reindexObject()
-            log.append('Created the ERNE collection at %s' % erne.absolute_url())
-        else:
-            erne = context['erne']
-            erne.manage_delObjects(erne.keys())
-            log.append('Using the existing ERNE collection at %s' % erne.absolute_url())
+        # Remove any active ERNE entries since the ingest will re-create them
+        erne = context
+        results = catalog(
+            object_provides=IActiveERNESet.__identifier__,
+            path=dict(query='/'.join(erne.getPhysicalPath()), depth=1)
+        )
+        erne.manage_delObjects([i.id for i in results if i.id])
         
         # For each site:
         for siteID, erneID in SITES.items():
@@ -113,28 +105,20 @@ class SpecimenCollectionFolderIngestor(BrowserView):
             for summary in summaries:
                 recordNum += 1
                 sid = '%s-%d' % (site.siteID, recordNum)
-                s = erne[erne.invokeFactory('Specimen Set', sid)]
-                s.setProtocol(erneProtocol.UID())
-                s.specimenCount  = summary.specimenCount
-                s.storageType    = summary.storageType
-                s.numberCases    = summary.numberCases
-                s.numberControls = summary.numberControls
-                s.organs         = (getOrganLabel(summary.organ, context),)
-                s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
-                s.siteName       = site.title
-                s.isERNE         = True
+                s = erne[erne.invokeFactory('Active ERNE Set', sid)]
+                protocolUID = self.lookupProtocol(catalog, summary.protocolID)
+                if protocolUID is not None:
+                    s.setProtocol(protocolUID)
+                s.setTotalNumSpecimens(summary.specimenCount)
                 s.setTitle(siteAbbrevName)
                 s.setDescription(u'%d Specimens from Participants %s at %s' % (summary.specimenCount, s.diagnosis, site.title))
-                s.setProtocol(erneProtocol.UID())
                 s.setSite(site.UID())
-                if summary.available:
-                    # CA-823 look up hard-coded contact info, defaulting to ERNE-provided email and generic person name if not found
-                    contactInfo = _contactInfo.get(siteID, (summary.contactEmail, u'EDRN Site Specimen Bank Contact'))
-                    s.available    = True
-                    s.contactEmail = contactInfo[0]
-                    s.contactName  = contactInfo[1]
-                else:
-                    s.available = False
+                s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'
+                s.numCases       = summary.numberCases
+                s.numControls    = summary.numberControls
+                s.collectionType = summary.collectionType
+                s.storageType    = summary.storageType
+                s.organs         = (getOrganLabel(summary.organ, context),)
                 s.reindexObject()
             log.append('Created %d sets for site %s' % (recordNum, siteAbbrevName))
         self._doPublish(erne, wfTool)
