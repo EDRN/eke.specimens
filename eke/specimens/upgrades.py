@@ -46,7 +46,6 @@ def addSampleSpecimenSets(setupTool):
     erne.setTitle(u'EDRN Specimen System')
     erne.setDescription(u'Early Detection Research Network (EDRN) Resource Network Exchange (ERNE) specimens.')
     erne.setText(u'<p>Includes sites running ERNE product servers as well as other EDRN and affiliate specimen collections.</p>')
-    erne.reindexObject()
 
     # Create a collection for PRoBE
     probe = specimens[specimens.invokeFactory('Specimen System', 'probe')]
@@ -76,7 +75,6 @@ def addSampleSpecimenSets(setupTool):
     probeSet.setStorageType(('8', '16'))
     probeSet.setTotalNumSpecimens(49132)
     probeSet.setProtocol(probeProtocolUID)
-    probeSet.reindexObject()
 
     # Create a collection for reference sets
     referenceSets = specimens[specimens.invokeFactory('Specimen System', 'reference-sets')]
@@ -86,10 +84,10 @@ def addSampleSpecimenSets(setupTool):
 
     # Add three reference sets
     colon = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'colon-reference-set')]
-    colon.setTitle('COLON CANCER REF')
+    colon.setTitle(u'COLON CANCER REF')
     colon.setDescription(u'Standard EDRN reference set for colon cancer.')
-    colon.fullName = 'Standard Specimen Reference Set: Colon'
-    colon.cancerLocations = ('Colon',)
+    colon.fullName = u'Standard Specimen Reference Set: Colon'
+    colon.cancerLocations = (u'Colon',)
     colon.collectionType = ('3', '20')
     colon.setStorageType(('2', '3', '18'))
     colon.setTotalNumSpecimens(1234)
@@ -97,13 +95,12 @@ def addSampleSpecimenSets(setupTool):
     colon.invokeFactory('Case Control Subset', 'cases', title=u'Cases', subsetType='Case', numParticipants=50)
     colon.invokeFactory('Case Control Subset', 'normals', title=u'Normals', subsetType='Control', numParticipants=50)
     colon.invokeFactory('Case Control Subset', 'ademomas', title=u'Ademomas', subsetType='Control', numParticipants=50)
-    colon.reindexObject()
 
     breast = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'breast-reference-set')]
-    breast.setTitle('BREAST-REF')
+    breast.setTitle(u'BREAST-REF')
     breast.setDescription(u'Standard EDRN reference set for breast cancer.')
-    breast.fullName = 'Standard Specimen Reference Set: Breast'
-    breast.cancerLocations = ('Breast',)
+    breast.fullName = u'Standard Specimen Reference Set: Breast'
+    breast.cancerLocations = (u'Breast',)
     breast.collectionType = ('3')
     breast.setStorageType(('2', '3', '5'))
     breast.setTotalNumSpecimens(1234)
@@ -117,17 +114,19 @@ def addSampleSpecimenSets(setupTool):
     breast.invokeFactory('Case Control Subset', 'atypia', title=u'Benign Disease Atypia', subsetType='Case', numParticipants=63)
     breast.invokeFactory('Case Control Subset', 'non-atypia', title=u'Benign Disease Non-Atypia', subsetType='Case',
         numParticipants=231)
-    breast.reindexObject()
 
-    # colon.setTitle(u'Colon Reference Set')
-    # colon.setDescription(COLON_SET_DESCRIPTION)
-    # colon.shortName = 'GLNE'
-    # colon.organs = ('Colon',)
-    # colon.storageType = '1'
-    # colon.specimenCount = 1234
-    # colon.numberCases = 50
-    # colon.numberControls = 69
-    # colon.diagnosis = 'With Cancer'
+    lung = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'lung-set-a-rapid-set')]
+    lung.setTitle(u'LUNG REF Set A Rapid Set')
+    lung.setDescription(u'Standard EDRN reference set for rapid detection of lung cancer.')
+    lung.fullName = u'Standard Specimen Reference Set: Lung'
+    lung.cancerLocations = (u'Lung',)
+    lung.collectionType = ('Blood',)
+    lung.setStorageType(('2', '3'))
+    lung.setTotalNumSpecimens(1234)
+    lung.setProtocol(_getProtocolUID(portal, u'http://edrn.nci.nih.gov/data/protocols/115'))
+    lung.invokeFactory('Case Control Subset', 'cases', title=u'Cases', subsetType='Case', numParticipants=150)
+    lung.invokeFactory('Case Control Subset', 'controls', title=u'Controls', subsetType='Control', numParticipants=150)
+
     # lungA = referenceSets[referenceSets.invokeFactory('Specimen Set', 'lung-reference-set-a')]
     # lungA.setTitle(u'Lung Reference Set A')
     # lungA.setDescription(LUNG_SET_A_DESCRIPTION)

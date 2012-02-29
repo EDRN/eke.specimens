@@ -11,6 +11,15 @@ the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 This release addresses:
 
 * CA-845 - Make "Specimen Collections" compute total specimens
+* CA-844 - Combine PRoBE and Reference Sets in the "Specimens" tab
+* Numerous enhancements to the handling of specimens, including:
+  * Generic specimen sets to treat PRoBE and Reference equivalently
+  * File and link attachment to generic specimen sets
+  * Representation of sets of specimens from inactive ERNE sites
+  * Co-habitation of inactive and active ERNE sets
+  * Multiple storage types for inactive ERNE sets
+  * Open-ended generic reference sets
+  * Separation of case and control populations into subsets
 
 
 1.1.2 — Dawn's Out, William's In
