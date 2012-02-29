@@ -176,6 +176,12 @@ class IERNESpecimenSet(ISpecimenSet, IStoredSpecimens):
         description=_(u'What kind of specimen was collected from the participant.'),
         required=True
     )
+    siteName = schema.TextLine(
+        title=_(u'Name of the Site'),
+        description=_(u'The name of the site that curates these specimens.'),
+        required=False,
+    )
+    
 
 class IInactiveERNESet(IERNESpecimenSet):
     '''A set of specimens from a former ERNE site.'''

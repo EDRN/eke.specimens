@@ -449,6 +449,8 @@ But we can add it to the ERNE Specimen System we made above::
     True
     >>> e.getSystemName()
     'Ernie'
+    >>> e.getSiteName()
+    u"Dr Tongue's 3D Clinic"
 
 Again, zero specimens to start out.  Why?  Because that value's computed from
 stored specimens.
@@ -555,6 +557,8 @@ But we can add it to the ERNE Specimen System we made above::
     109
     >>> e.getSystemName()
     'Ernie'
+    >>> e.getSiteName()
+    u"Dr Tongue's 3D Clinic"
 
 Notice the "Ernie" container's specimen count now::
 

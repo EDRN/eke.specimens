@@ -118,14 +118,14 @@ def diagnosesVocabularyFactory(context):
     return _diagnoses
 directlyProvides(diagnosesVocabularyFactory, IVocabularyFactory)
 
-def SitesWithSpecimensVocabulary(context):
+def sitesWithSpecimensVocabulary(context):
     catalog = getToolByName(context, 'portal_catalog')
-    results = catalog(object_provides=ISpecimenSet.__identifier__)
+    results = catalog(object_provides=IERNESpecimenSet.__identifier__)
     siteNames = set([i.siteName for i in results if i.siteName])
     siteNames = list(siteNames)
     siteNames.sort()
     return SimpleVocabulary.fromItems([(i, i) for i in siteNames])
-directlyProvides(SitesWithSpecimensVocabulary, IVocabularyFactory)
+directlyProvides(sitesWithSpecimensVocabulary, IVocabularyFactory)
 
 ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
     atapi.ReferenceField(
@@ -140,6 +140,14 @@ ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
         widget=atapi.ReferenceWidget(
             label=_(u'Site'),
             description=_(u'Site housing these specimens.'),
+        ),
+    ),
+    atapi.ComputedField(
+        'siteName',
+        expression='context._computeSiteName()',
+        widget=atapi.ComputedWidget(
+            label=_(u'Site Name'),
+            description=_(u'At what site are these specimens curated.'),
         ),
     ),
     atapi.LinesField(
@@ -173,3 +181,6 @@ class ERNESpecimenSet(SpecimenSet):
     site           = atapi.ATReferenceFieldProperty('site')
     organs         = atapi.ATFieldProperty('organs')
     collectionType = atapi.ATFieldProperty('collectionType')
+    siteName       = atapi.ATFieldProperty('siteName')
+    def _computeSiteName(self):
+        return self.site.title if self.site is not None else u''

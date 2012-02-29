@@ -75,18 +75,18 @@ def setFacetedNavigation(folder, request):
         sortreversed=False,
         hidezerocount=False,
     )
-    # criteria.add(
-    #     'checkbox', 'left', 'default',
-    #     title='Site',
-    #     hidden=False,
-    #     index='siteName',
-    #     operator='or',
-    #     vocabulary=u'eke.specimens.SitesWithSpecimens',
-    #     count=False,
-    #     maxitems=5,
-    #     sortreversed=False,
-    #     hidezerocount=False,
-    # )
+    criteria.add(
+        'checkbox', 'left', 'default',
+        title='Site',
+        hidden=False,
+        index='siteName',
+        operator='or',
+        vocabulary=u'eke.specimens.vocab.SitesWithSpecimens',
+        count=False,
+        maxitems=5,
+        sortreversed=False,
+        hidezerocount=False,
+    )
     criteria.add(
         'checkbox', 'bottom', 'default',
         title='Obj provides',

@@ -25,15 +25,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='diagnosis' meta_type='FieldIndex'>
         <indexed_attr value='diagnosis'/>
     </index>
-    <!-- <index name='siteName' meta_type='FieldIndex'>
-        <indexed_attr value='siteName'/>
+    <index name='siteName' meta_type='FieldIndex'>
+        <indexed_attr value='siteName' />
     </index>
-    <index name='organs' meta_type='FieldIndex'>
-        <indexed_attr value='organs'/>
-    </index> -->
     <column value='getTotalNumSpecimens'/>
     <column value='getNumParticipants'/>
     <column value='getStorageType'/>
     <column value='getSystemName'/>
-    <!-- <column value='organs'/> -->
+    <column value='siteName' />
 </object>

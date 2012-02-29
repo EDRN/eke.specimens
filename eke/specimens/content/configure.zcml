@@ -37,6 +37,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         component='.base.specimenSystemNamesVocabularyFactory'
         name='eke.specimens.vocab.SystemNames'
     />
+    <utility
+        component='.base.sitesWithSpecimensVocabulary'
+        name='eke.specimens.vocab.SitesWithSpecimens'
+    />
     <subscriber
         for='..interfaces.ISpecimenSystemFolder Products.Archetypes.interfaces.event.IObjectInitializedEvent'
         handler='.specimensystemfolder.addFacetedNavigation'
@@ -60,9 +64,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <subscriber
         for='..interfaces.ISpecimenCollectionFolder zope.app.container.interfaces.IObjectAddedEvent'
         handler='.specimencollectionfolder.addFacetedNavigation'
-    />
-    <utility
-        component='.base.SitesWithSpecimensVocabulary'
-        name='eke.specimens.SitesWithSpecimens'
     /> -->
 </configure>
