@@ -1,8 +1,8 @@
 # encoding: utf-8
-# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# Copyright 2011–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
-from interfaces import ISpecimenCollectionFolder
+from interfaces import ISpecimenSystemFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from utils import setFacetedNavigation
@@ -109,7 +109,7 @@ def addFacetedSearch(setupTool):
     portal = getToolByName(setupTool, 'portal_url').getPortalObject()
     request = portal.REQUEST
     catalog = getToolByName(setupTool, 'portal_catalog')
-    results = [i.getObject() for i in catalog(object_provides=ISpecimenCollectionFolder.__identifier__)]
+    results = [i.getObject() for i in catalog(object_provides=ISpecimenSystemFolder.__identifier__)]
     if len(results) == 0:
         # wtf? catalog must be out of date, because the EDRN portal typically includes
         # one Specimen Collection, created above in ``addSampleSpecimenSets`` in fact!
@@ -129,3 +129,7 @@ def updateDiagnosisIndex(setupTool):
         catalog.delIndex('cancerDiagnosis')
     if 'diagnosis' not in indexes:
         catalog.addIndex('diagnosis', 'FieldIndex', {'indexed_attrs': 'diagnosis'})
+
+def upgradeSpecimens4To5(setupTool):
+    pass
+    
