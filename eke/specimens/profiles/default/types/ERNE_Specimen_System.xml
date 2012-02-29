@@ -38,8 +38,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <action title='Edit' action_id='edit' category='object' condition_expr='' url_expr='string:${object_url}/edit' visible='True'>
         <permission value='Modify portal content'/>
     </action>
-    <!-- <action title='Ingest' action_id='ingest' category='object' condition_expr='' url_expr='string:${object_url}/ingest'
+    <action title='Ingest' action_id='ingest' category='object' condition_expr='' url_expr='string:${object_url}/ingest'
         visible='True'>
         <permission value='Manage portal'/>
-    </action> -->
+    </action>
 </object>
