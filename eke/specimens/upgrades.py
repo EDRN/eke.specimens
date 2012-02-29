@@ -99,6 +99,26 @@ def addSampleSpecimenSets(setupTool):
     colon.invokeFactory('Case Control Subset', 'ademomas', title=u'Ademomas', subsetType='Control', numParticipants=50)
     colon.reindexObject()
 
+    breast = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'breast-reference-set')]
+    breast.setTitle('BREAST-REF')
+    breast.setDescription(u'Standard EDRN reference set for breast cancer.')
+    breast.fullName = 'Standard Specimen Reference Set: Breast'
+    breast.cancerLocations = ('Breast',)
+    breast.collectionType = ('3')
+    breast.setStorageType(('2', '3', '5'))
+    breast.setTotalNumSpecimens(1234)
+    breast.setProtocol(_getProtocolUID(portal, u'http://edrn.nci.nih.gov/data/protocols/121'))
+    breast.invokeFactory('Case Control Subset', 'dcis', title=u'DCIS', subsetType='Case', numParticipants=48)
+    breast.invokeFactory('Case Control Subset', 'lcis', title=u'LCIS', subsetType='Case', numParticipants=7)
+    breast.invokeFactory('Case Control Subset', 'invasive', title=u'Invasive', subsetType='Case', numParticipants=190)
+    breast.invokeFactory('Case Control Subset', 'normal-later', title=u'Normal-Later Cancer', subsetType='Case', numParticipants=15)
+    breast.invokeFactory('Case Control Subset', 'benign-later', title=u'Benign-Later Cancer', subsetType='Case', numParticipants=2)
+    breast.invokeFactory('Case Control Subset', 'normals', title=u'Normals', subsetType='Control', numParticipants=276)
+    breast.invokeFactory('Case Control Subset', 'atypia', title=u'Benign Disease Atypia', subsetType='Case', numParticipants=63)
+    breast.invokeFactory('Case Control Subset', 'non-atypia', title=u'Benign Disease Non-Atypia', subsetType='Case',
+        numParticipants=231)
+    breast.reindexObject()
+
     # colon.setTitle(u'Colon Reference Set')
     # colon.setDescription(COLON_SET_DESCRIPTION)
     # colon.shortName = 'GLNE'
