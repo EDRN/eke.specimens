@@ -14,15 +14,6 @@
             <tal:main-macro metal:define-macro='main' tal:define='
                 haveSystems view/haveSpecimenSystems;
             '>
-                <!-- tal:define='
-                    haveSpecimensAtSites view/haveSpecimensAtSites;
-                    contents             view/specimensAtSites;
-                    kssClassesView       context/@@kss_field_decorator_view;
-                    getKssClasses        nocall:kssClassesView/getKssClassesInlineEditable;
-                    templateId           template/getId;
-                    isManager            python:checkPermission("Manage portal", context);
-                    portalURL            context/@@plone_portal_state/portal_url;
-                ' -->
                 <div tal:replace='structure provider:plone.abovecontenttitle' />
                 <h1 class='documentFirstHeading'> 
                     <metal:field use-macro='python:context.widget("title", mode="view")'>
