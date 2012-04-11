@@ -1,15 +1,5 @@
-This package provides Plone 3 content objects for the EDRN Knowledge
+This package provides Plone content objects for the EDRN Knowledge
 Environment (EKE_)'s management and display of specimen data.
-
-
-Content Types
-=============
-
-The content types introduced in this package form a narrowing aggregation:
-
-Specimen System Folder
-    A folder that contains specimen information.  It contains objects of the
-    next type.
 
 
 The remainder of this document demonstrates the content types using a series
@@ -335,6 +325,32 @@ Lastly, it should show the attached files and the links::
     >>> browser.contents
     '...Attached Files...href="...my-new-file"...My New File...Links...My New Link...'
 
+Note that there's a specimen count appearing::
+
+    >>> browser.contents
+    '...Specimens:...127...'
+
+We learned via CA-926 that specimen count actually has no meaning for
+reference sets.  So, let's reset that value::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='totalNumSpecimens').value = u'0'
+    >>> browser.getControl(name='form.button.save').click()
+
+Now notice the specimen count::
+
+    >>> 'Specimens:' in browser.contents
+    False
+
+Right, it's gone!  But since the rest of the tests expect there to be some
+specimens, let's put that value back::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='totalNumSpecimens').value = u'127'
+    >>> browser.getControl(name='form.button.save').click()
+
+Moving on…
+
 
 ERNE
 ----
@@ -580,46 +596,43 @@ What does an Active ERNE Site look like?  See for yourself:
 Yes, just another attribute rundown.
 
 
-.. Searching
-.. ---------
-.. 
-.. The real centerpiece of ERNE is, of course, the nifty faceted display.  That
-.. happens automatically when you create a Specimen System Folder.  No, really::
-.. 
-..     >>> browser.open(portalURL + '/sticky-specimens')
-..     >>> browser.contents
-..     '...faceted-results...Anal Reference Set...'
-.. 
-.. The facets include the specimen system, diagnosis, storage, collection, and
-.. the site::
-.. 
-..     >>> browser.contents
-..     '...System...The Probed Collection...Diagnosis...With Cancer...Without Cancer...Storage...DNA...Collection...Ascites...Site...A Plain 2D Clinic...'
-.. 
-.. And the displayed results show a table with matching specimen sets, their
-.. collections, the number of specimens, organ site, and their storage type::
-.. 
-..     >>> browser.contents
-..     '...Set...System...Storage...Collected...Specimens...'
-..     >>> browser.contents
-..     '...Anal Reference Set...>The Probed Collection<...>Whole blood</td>...Blood...<td>3126</td>...'
-.. 
-.. There's a no-break space now between the pound-sign and specimens in the table
-.. heading::
-.. 
-..     >>> browser.contents
-..     '...<table...<thead>...<th>#&#x00a0;Specimens</th>...'
-.. 
-.. Heather also wants the selection boxes to be narrower::
-.. 
-..     >>> browser.contents
-..     '...#left-area...width: 17em;....left-area-js...margin-left: 17em;...'
-.. 
-.. Note that they're not so narrow as 15em, but as 17em, because Dan wants ERNE
-.. to be known as "EDRN Specimen System".
-.. 
-.. There has *got* to be a better way of doing those style changes, though.  See
-.. ``faceted_specimens_view.pt`` for explanation.
+Searching
+---------
+
+The real centerpiece of ERNE is, of course, the nifty faceted display.  That
+happens automatically when you create a Specimen System Folder.  No, really::
+
+    >>> browser.open(portalURL + '/sticky-specimens')
+    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
+    >>> browser.contents
+    '...faceted-results...ANAL-REF...'
+
+The facets include the set, system, storage, and specimen count::
+
+    >>> browser.contents
+    '...Set/Site...System...Storage...Specimens...'
+
+And the displayed results show a table with matching specimen sets::
+
+    >>> browser.contents
+    '...>ANAL-REF<...The Probed Collection...DNA, RNA...127...Dead Anus Set...Ernie...Whole blood, Serum...33...'
+
+There's a no-break space now between the pound-sign and specimens in the table
+heading::
+
+    >>> browser.contents
+    '...<table...<thead>...<th>#&#x00a0;Specimens</th>...'
+
+Heather also wants the selection boxes to be narrower::
+
+    >>> browser.contents
+    '...#left-area...width: 17em;....left-area-js...margin-left: 17em;...'
+
+Note that they're not so narrow as 15em, but as 17em, because Dan wants ERNE
+to be known as "EDRN Specimen System".
+
+There has *got* to be a better way of doing those style changes, though.  See
+``faceted_specimens_view.pt`` for explanation.
 
 
 RDF Ingest
