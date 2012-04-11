@@ -48,6 +48,7 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
         limit_display       python:limit_display and int(limit_display) or 100;
         more_url            more_url|request/more_url|string:folder_contents;
         folderContents      folderContents|nothing;
+        folderContents      python:context.sort_specimens(folderContents);
         fc                  folderContents;
         Batch               python:modules["Products.CMFPlone"].Batch;
         b_start             python:request.get("b_start", 0);
@@ -82,7 +83,8 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                     item_wf_state_class python:"state-" + normalizeString(item_wf_state);
                     oddrow              repeat/item/odd;
                     collection          item/getSystemName|string:?;
-                    specimenCount       item/getTotalNumSpecimens|string:?;
+                    specimenCount       item/getTotalNumSpecimens|string:&#x00a0;;
+                    specimenCount       python:specimenCount if specimenCount != 0 else "&#x00a0;";
                     storageType         item/getStorageType|nothing;
                     storageTypeLabel    python:nominal_view.getStorageTypeLabel(storageType);
                 '>
