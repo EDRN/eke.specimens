@@ -31,7 +31,7 @@
                     <label for='parent-fieldname-title' i18n:translate='label_title'>Short Name:</label>
                     <metal:field use-macro='python:context.widget("title", mode="view")'>ANUS-REF-1</metal:field>
                 </div>
-                <div>
+                <div tal:condition='context/getTotalNumSpecimens'>
                     <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Specimens:</label>
                     <metal:field use-macro='python:context.widget("totalNumSpecimens", mode="view")'>123</metal:field>
                 </div>
