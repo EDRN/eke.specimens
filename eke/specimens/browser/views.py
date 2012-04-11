@@ -87,10 +87,6 @@ class ERNESpecimenSystemView(SpecimenSystemView):
     __call__ = ViewPageTemplateFile('templates/ernespecimensystem.pt')
     
 
-# class SpecimenSetView(BrowserView):
-#     '''Abstract parent view for specimen sets.'''
-# 
-
 class GenericSpecimenSetView(BrowserView):
     '''Default view of a Generic Specimen Set.'''
     __call__ = ViewPageTemplateFile('templates/genericspecimenset.pt')
@@ -164,11 +160,3 @@ class ActiveERNESetView(ERNESetView):
     '''Default view of an Active ERNE Set.'''
     __call__ = ViewPageTemplateFile('templates/activeerneset.pt')
 
-# class SpecimenSetView(BrowserView):
-#     '''Default view of a Specimen Set.'''
-#     __call__ = ViewPageTemplateFile('templates/specimenset.pt')
-#     @memoize
-#     def storageTypeLabel(self):
-#         context = aq_inner(self.context)
-#         return getStorageTypeLabel(context.storageType, context)
-# 
