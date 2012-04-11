@@ -36,13 +36,6 @@ class ICaseControlSubset(Interface):
 
 class ISpecimenStatistics(Interface):
     '''Contains specimen statistics, such as specimen count.'''
-    # specimenCount = schema.Int(
-    #     title=_(u'Specimen Count'),
-    #     description=_(u'The number of specimens.'),
-    #     required=False,
-    #     default=0,
-    #     min=0
-    # )
     def getTotalNumSpecimens():
         '''Tells the total number of specimens in this collection.'''
 
