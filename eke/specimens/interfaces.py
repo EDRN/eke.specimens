@@ -140,6 +140,11 @@ class IGenericSpecimenSet(ISpecimenSet, IStoredSpecimens):
             description=_(u'What kind of specimen was collected from the participant.')
         ),
     )
+    isPRoBE = schema.Bool(
+        title=_(u'PRoBE'),
+        description=_(u'True (checked) if this set is a PRoBE set, false otherwise.'),
+        required=False,
+    )
     def getNumParticipants():
         '''Tell how many participants provided specimens in this set.'''
     def getNumCases():

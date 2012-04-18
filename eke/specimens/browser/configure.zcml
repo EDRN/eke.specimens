@@ -67,6 +67,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 
     <!-- Generic Specimen Set -->
     <browser:resource name='generic-specimen-set.gif' file='images/generic-specimen-set.gif'/>
+    <browser:resource name='probe-icon.png' file='images/probe-icon.png'/>
     <browser:page
         class='.views.GenericSpecimenSetView'
         for='..interfaces.IGenericSpecimenSet'

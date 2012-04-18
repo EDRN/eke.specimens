@@ -27,6 +27,12 @@
 
                 <div tal:replace='structure provider:plone.abovecontentbody' />
 
+                <div tal:condition='context/isPRoBE' class='PRoBE'>
+                    <img id='PRoBE' src='probe-icon.png' alt='This is a PRoBE specimen set.' i18n:attributes='alt'
+                        tal:attributes='src string:${context/++resource++probe-icon.png}'
+                    />
+                    <span i18n:translate='PRoBE'>PRoBE</span>
+                </div>
                 <div>
                     <label for='parent-fieldname-title' i18n:translate='label_title'>Short Name:</label>
                     <metal:field use-macro='python:context.widget("title", mode="view")'>ANUS-REF-1</metal:field>

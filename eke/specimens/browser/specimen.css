@@ -42,3 +42,17 @@
     float: left;
     width: 23em;
 }
+.PRoBE {
+    float: right;
+    background-color: #eee;
+    padding: 1em;
+    border: 1px solid #999;
+}
+.PRoBE span {
+    padding-top: 0.2em;
+    display: inline;
+    color: #767;
+    margin: 0;
+    font-weight: bold;
+    font-size: 120%;
+}

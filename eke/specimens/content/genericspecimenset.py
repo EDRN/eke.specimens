@@ -4,19 +4,15 @@
 
 '''Specimen set: content implementation.'''
 
-from Acquisition import aq_inner, aq_parent
 from base import SpecimenSetSchema, SpecimenSet
 from eke.specimens import ProjectMessageFactory as _
 from eke.specimens import STORAGE_VOCAB_NAME, COLLECTION_VOCAB_NAME
 from eke.specimens.config import PROJECTNAME
 from eke.specimens.interfaces import IGenericSpecimenSet, ICaseControlSubset
 from Products.Archetypes import atapi
-from Products.Archetypes.interfaces import IObjectPostValidation
-from Products.ATContentTypes.content import folder
 from Products.ATContentTypes.content.schemata import finalizeATCTSchema
-from zope.component import adapts
-from zope.interface import implements
 from Products.CMFCore.utils import getToolByName
+from zope.interface import implements
 
 GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
     atapi.StringField(
@@ -65,6 +61,16 @@ GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
             description=_(u'What kinds of specimens were collected from participants'),
         ),
     ),
+    atapi.BooleanField(
+        'isPRoBE',
+        required=False,
+        default=False,
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.BooleanWidget(
+            label=_(u'PRoBE'),
+            description=_(u'Check the box is this is a PRoBE set, otherwise leave it unchecked.'),
+        ),
+    ),
     atapi.ComputedField(
         'numParticipants',
         expression='context._computeNumParticipants()',
@@ -102,6 +108,7 @@ class GenericSpecimenSet(SpecimenSet):
     fullName        = atapi.ATFieldProperty('fullName')
     cancerLocations = atapi.ATFieldProperty('cancerLocations')
     collectionType  = atapi.ATFieldProperty('collectionType')
+    isPRoBE         = atapi.ATFieldProperty('isPRoBE')
     def _computeNumParticipants(self):
         factory = getToolByName(self, 'portal_factory')
         if factory.isTemporary(self): return 0

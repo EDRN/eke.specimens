@@ -20,6 +20,17 @@ This release addresses:
   * Multiple storage types for inactive ERNE sets
   * Open-ended generic reference sets
   * Separation of case and control populations into subsets
+* CA-926 - Improve Specimen Reference Sets based on feedback from Jackie
+  Dahlgren, including:
+  * Dropping the specimen count on the faceted Specimens tab for reference
+    sets
+  * Drop the specimen count on the Reference Set views
+  * On the faceted Specimens tab, sort reference sets specially:
+    alphabetically, except for Lung, which should be in the order: Set A
+    Rapid, Set A Panel Pre-Validation, Set A Phase II Validation, Set B, Set C
+  * Moving set-specific from the Resources tab to their matching Reference
+    Sets
+  * You can mark generic sets as PRoBE sets.
 
 
 1.1.2 — Dawn's Out, William's In
