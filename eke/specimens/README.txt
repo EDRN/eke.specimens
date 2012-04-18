@@ -349,6 +349,27 @@ specimens, let's put that value back::
     >>> browser.getControl(name='totalNumSpecimens').value = u'127'
     >>> browser.getControl(name='form.button.save').click()
 
+Also mentioned in CA-926, some generic sets may be highlighted as PRoBE sets.
+How a PRoBE set differs from any other set is beyond me, so for now, we just
+have an "is PRoBE" attribute; once we figure out the true differences, we can
+make a PRoBE subclass.  Notice that currently, this set is *not* a PRoBE set::
+
+    >>> 'PRoBE' in browser.contents
+    False
+
+So let's turn it into one::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='isPRoBE:boolean').value = True
+    >>> browser.getControl(name='form.button.save').click()
+
+Now check it out::
+
+    >>> 'PRoBE' in browser.contents
+    True
+
+Yes, as a PRoBE set, it gets a nice probing image and label.
+
 Moving on…
 
 
