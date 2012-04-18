@@ -6,6 +6,7 @@
 '''
 
 from zope.i18nmessageid import MessageFactory
+from pkg_resources import resource_filename
 
 ProjectMessageFactory = MessageFactory('eke.specimens')
 
@@ -37,3 +38,8 @@ def initialize(context):
             extra_constructors=(constructor,)
         ).initialize(context)
     
+
+def locateData(fn):
+    '''Locate a ZEXP data file.'''
+    return resource_filename(__name__, 'data/%s.zexp' % fn)
+
