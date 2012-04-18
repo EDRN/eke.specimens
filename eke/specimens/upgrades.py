@@ -6,6 +6,7 @@ from interfaces import ISpecimenSystemFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from utils import setFacetedNavigation
+from eke.specimens import locateData
 
 COLON_SET_DESCRIPTION = u'''The Early Detection Research Network and the Great Lakes-New England Clinical, Epidemiological and Validation Center (GLNE CEVC) announces the availability of serum, plasma and urine samples for the early detection for colon cancer.'''
 LUNG_SET_A_DESCRIPTION = u'''Reference set A focuses on pre-validation of biomarkers of diagnosis of lung cancer and target lung cancer diagnosed for individuals at high risk for lung cancer or abnormal chest x-ray (CXR) or chest computer tomography (CT) but outside of the context of a CT screening trial. The clinical question to be tested after pre-validation relates to whether a serum/plasma biomarker has added value to current clinical tests (CT scan and/or PET scan) for the diagnostic evaluation of pulmonary nodules and to whether such a biomarker could reduce the number, and the attendant cost, of unnecessary invasive tests (PET or tissue biopsy) or futile thoracotomies.'''
@@ -47,106 +48,11 @@ def addSampleSpecimenSets(setupTool):
     erne.setDescription(u'Early Detection Research Network (EDRN) Resource Network Exchange (ERNE) specimens.')
     erne.setText(u'<p>Includes sites running ERNE product servers as well as other EDRN and affiliate specimen collections.</p>')
 
-    # Create a collection for PRoBE
-    probe = specimens[specimens.invokeFactory('Specimen System', 'probe')]
-    probe.setTitle(u'PRoBE')
-    probe.setDescription(u'PRoBE sets.')
-    probe.setText(u'<p>We are not sure what <em>PRoBE</em> means yet.</p>')
-    
-    # Find some PRoBE protocol
-    probeProtocolUID = _getProtocolUID(portal, u'http://edrn.nci.nih.gov/data/protocols/337')
-    # Add a couple of PRoBE sets
-    probeSet = probe[probe.invokeFactory('Generic Specimen Set', 'lung-probed-set')]
-    probeSet.setTitle('PRoBE-LUNG')
-    probeSet.setDescription(u'Specimens acquired through lung PRoBing.')
-    probeSet.fullName = 'Standard PRoBE Set for Lung Biomarkers'
-    probeSet.cancerLocations = ('Lung',)
-    probeSet.collectionType = ('5', '16')
-    probeSet.setStorageType(('16',))
-    probeSet.setTotalNumSpecimens(51234)
-    probeSet.setProtocol(probeProtocolUID)
+    # Add reference sets and offline ERNE sites
+    specimens._importObjectFromFile(locateData('reference-sets'))
+    specimens._importObjectFromFile(locateData('offline-site-specimen-summaries'))
 
-    probeSet = probe[probe.invokeFactory('Generic Specimen Set', 'orally-probed-set')]
-    probeSet.setTitle('PRoBE-ESO')
-    probeSet.setDescription(u'Specimens acquired through esophageal PRoBing.')
-    probeSet.fullName = 'Standard PRoBE Set for Esophageal Cancer Markers'
-    probeSet.cancerLocations = ('Esophagus', 'Tongue')
-    probeSet.collectionType = ('14', '17')
-    probeSet.setStorageType(('8', '16'))
-    probeSet.setTotalNumSpecimens(49132)
-    probeSet.setProtocol(probeProtocolUID)
-
-    # Create a collection for reference sets
-    referenceSets = specimens[specimens.invokeFactory('Specimen System', 'reference-sets')]
-    referenceSets.setTitle(u'Reference Sets')
-    referenceSets.setDescription(u'Standard specimen reference sets that serve as sets of standard reference specimens.')
-    referenceSets.setText(u'<p>EDRN has access to the specimen <em>reference</em> sets listed below.</p>')
-
-    # Add three reference sets
-    colon = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'colon-reference-set')]
-    colon.setTitle(u'COLON CANCER REF')
-    colon.setDescription(u'Standard EDRN reference set for colon cancer.')
-    colon.fullName = u'Standard Specimen Reference Set: Colon'
-    colon.cancerLocations = (u'Colon',)
-    colon.collectionType = ('3', '20')
-    colon.setStorageType(('2', '3', '18'))
-    colon.setTotalNumSpecimens(1234)
-    colon.setProtocol(_getProtocolUID(portal, u'http://edrn.nci.nih.gov/data/protocols/251'))
-    colon.invokeFactory('Case Control Subset', 'cases', title=u'Cases', subsetType='Case', numParticipants=50)
-    colon.invokeFactory('Case Control Subset', 'normals', title=u'Normals', subsetType='Control', numParticipants=50)
-    colon.invokeFactory('Case Control Subset', 'ademomas', title=u'Ademomas', subsetType='Control', numParticipants=50)
-
-    breast = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'breast-reference-set')]
-    breast.setTitle(u'BREAST-REF')
-    breast.setDescription(u'Standard EDRN reference set for breast cancer.')
-    breast.fullName = u'Standard Specimen Reference Set: Breast'
-    breast.cancerLocations = (u'Breast',)
-    breast.collectionType = ('3')
-    breast.setStorageType(('2', '3', '5'))
-    breast.setTotalNumSpecimens(1234)
-    breast.setProtocol(_getProtocolUID(portal, u'http://edrn.nci.nih.gov/data/protocols/121'))
-    breast.invokeFactory('Case Control Subset', 'dcis', title=u'DCIS', subsetType='Case', numParticipants=48)
-    breast.invokeFactory('Case Control Subset', 'lcis', title=u'LCIS', subsetType='Case', numParticipants=7)
-    breast.invokeFactory('Case Control Subset', 'invasive', title=u'Invasive', subsetType='Case', numParticipants=190)
-    breast.invokeFactory('Case Control Subset', 'normal-later', title=u'Normal-Later Cancer', subsetType='Case', numParticipants=15)
-    breast.invokeFactory('Case Control Subset', 'benign-later', title=u'Benign-Later Cancer', subsetType='Case', numParticipants=2)
-    breast.invokeFactory('Case Control Subset', 'normals', title=u'Normals', subsetType='Control', numParticipants=276)
-    breast.invokeFactory('Case Control Subset', 'atypia', title=u'Benign Disease Atypia', subsetType='Case', numParticipants=63)
-    breast.invokeFactory('Case Control Subset', 'non-atypia', title=u'Benign Disease Non-Atypia', subsetType='Case',
-        numParticipants=231)
-
-    lung = referenceSets[referenceSets.invokeFactory('Generic Specimen Set', 'lung-set-a-rapid-set')]
-    lung.setTitle(u'LUNG REF Set A Rapid Set')
-    lung.setDescription(u'Standard EDRN reference set for rapid detection of lung cancer.')
-    lung.fullName = u'Standard Specimen Reference Set: Lung'
-    lung.cancerLocations = (u'Lung',)
-    lung.collectionType = ('Blood',)
-    lung.setStorageType(('2', '3'))
-    lung.setTotalNumSpecimens(1234)
-    lung.setProtocol(_getProtocolUID(portal, u'http://edrn.nci.nih.gov/data/protocols/115'))
-    lung.invokeFactory('Case Control Subset', 'cases', title=u'Cases', subsetType='Case', numParticipants=150)
-    lung.invokeFactory('Case Control Subset', 'controls', title=u'Controls', subsetType='Control', numParticipants=150)
-
-    # lungA = referenceSets[referenceSets.invokeFactory('Specimen Set', 'lung-reference-set-a')]
-    # lungA.setTitle(u'Lung Reference Set A')
-    # lungA.setDescription(LUNG_SET_A_DESCRIPTION)
-    # lungA.shortName = 'LungSetA'
-    # lungA.organs = ('Lung',)
-    # lungA.storageType = '16'
-    # lungA.specimenCount = 512
-    # lungA.numberCases = 356
-    # lungA.numberControls = 156
-    # lungA.diagnosis = 'With Cancer'
-    # lungB = referenceSets[referenceSets.invokeFactory('Specimen Set', 'lung-reference-set-b')]
-    # lungB.setTitle(u'Lung Reference Set B')
-    # lungB.setDescription(LUNG_SET_B_DESCRIPTION)
-    # lungB.shortName = 'LungSetB'
-    # lungB.organs = ('Lung',)
-    # lungB.storageType = '15'
-    # lungB.specimenCount = 233
-    # lungB.numberCases = 86
-    # lungB.numberControls = 147
-    # lungB.diagnosis = 'Without Cancer'
+    # Publish it all, add the facets, and we're outta here.
     _doPublish(specimens, getToolByName(portal, 'portal_workflow'))
     addFacetedSearch(setupTool)
 
