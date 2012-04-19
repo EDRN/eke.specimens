@@ -624,7 +624,6 @@ The real centerpiece of ERNE is, of course, the nifty faceted display.  That
 happens automatically when you create a Specimen System Folder.  No, really::
 
     >>> browser.open(portalURL + '/sticky-specimens')
-    >>> xxx = open('/tmp/log.html', 'w'); xxx.write(browser.contents); xxx.close()
     >>> browser.contents
     '...faceted-results...ANAL-REF...'
 
