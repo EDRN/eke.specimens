@@ -6,6 +6,7 @@
 
 # from base import CountsSchema
 from eke.specimens import ProjectMessageFactory as _
+from eke.specimens import safeInt
 from eke.specimens.config import PROJECTNAME
 from eke.specimens.interfaces import ISpecimenSystem, ISpecimenSet
 from Products.Archetypes import atapi
@@ -42,8 +43,6 @@ SpecimenSystemSchema = folder.ATFolderSchema.copy() + atapi.Schema(( # + CountsS
 ))
 SpecimenSystemSchema['title'].storage = atapi.AnnotationStorage()
 SpecimenSystemSchema['description'].storage = atapi.AnnotationStorage()
-# SpecimenSystemSchema['specimenCount'].modes = ('view',)
-# SpecimenSystemSchema['specimenCount'].widget.visible = {'edit': 'invisible', 'view': 'invisible'}
 
 finalizeATCTSchema(SpecimenSystemSchema, folderish=True, moveDiscussion=False)
 
@@ -60,16 +59,6 @@ class SpecimenSystem(folder.ATFolder):
         if factory.isTemporary(self): return 0
         catalog = getToolByName(self, 'portal_catalog')
         brains = catalog(path=dict(query='/'.join(self.getPhysicalPath()), depth=1), object_provides=ISpecimenSet.__identifier__)
-        return sum([int(i.getTotalNumSpecimens) for i in brains])
+        return sum([safeInt(i.getTotalNumSpecimens) for i in brains])
 
 atapi.registerType(SpecimenSystem, PROJECTNAME)
-
-# def updateSpecimenCount(context, event):
-#     '''Update specimen count of a Specimen System from the Specimen Sets it contains.'''
-#     if not ISpecimenSystem.providedBy(context): return
-#     factory = getToolByName(context, 'portal_factory')
-#     if factory.isTemporary(context): return
-#     catalog = getToolByName(context, 'portal_catalog')
-#     brains = catalog(path=dict(query='/'.join(context.getPhysicalPath()), depth=1), object_provides=ISpecimenSet.__identifier__)
-#     context.specimenCount = sum([int(i.specimenCount) for i in brains])
-#     context.reindexObject(idxs=['specimenCount'])
