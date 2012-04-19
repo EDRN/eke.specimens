@@ -43,3 +43,12 @@ def locateData(fn):
     '''Locate a ZEXP data file.'''
     return resource_filename(__name__, 'data/%s.zexp' % fn)
 
+def safeInt(s):
+    '''Safely yield an integer representation of ``s``.  If ``s`` can't be treated as an integer, yield zero.'''
+    try:
+        return int(s)
+    except (ValueError, TypeError):
+        return 0
+    
+
+
