@@ -134,26 +134,3 @@ class GenericSpecimenSet(SpecimenSet):
         return self._computeNumInSubset('Control')
 
 atapi.registerType(GenericSpecimenSet, PROJECTNAME)
-
-# class ContactInformationValidator(object):
-#     '''Ensures that contact information is provided if a specimen set is available for sharing.'''
-#     implements(IObjectPostValidation)
-#     adapts(ISpecimenSet)
-#     def __init__(self, context):
-#         self.context = context
-#     def _getValueFromRequest(self, request, field):
-#         return request.form.get(field, request.get(field, None))
-#     def __call__(self, request):
-#         isAvailable = self._getValueFromRequest(request, 'available')
-#         if isAvailable:
-#             for field in ('contactName', 'contactEmail'):
-#                 value = self._getValueFromRequest(request, field)
-#                 if not value: return {
-#                     field: _(u'A contact name and email address is required when specimens are available for sharing.')
-#                 }
-#         return None
-# 
-# def updateInformationProvidedBySite(context, event):
-#     '''Handle events that might update the site field.'''
-#     if ISpecimenSet.providedBy(context):
-#         context.updateInformationProvidedBySite()
