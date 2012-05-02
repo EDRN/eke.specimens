@@ -145,6 +145,16 @@ class IGenericSpecimenSet(ISpecimenSet, IStoredSpecimens):
         description=_(u'True (checked) if this set is a PRoBE set, false otherwise.'),
         required=False,
     )
+    contactName = schema.TextLine(
+        title=_(u'Contact Name'),
+        description=_(u'Optional name of a person to contact for information about this set.'),
+        required=False,
+    )
+    contactEmail = schema.TextLine(
+        title=_(u'Contact Email'),
+        description=_(u'Optional email address of a person to contact for information about this set.'),
+        required=False,
+    )
     def getNumParticipants():
         '''Tell how many participants provided specimens in this set.'''
     def getNumCases():

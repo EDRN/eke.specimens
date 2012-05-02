@@ -51,6 +51,24 @@
                     <metal:field use-macro='python:context.widget("protocol", mode="view")'>Anus Protocol</metal:field>
                 </div>
 
+                <tal:block define='contactName context/contactName; contactEmail context/contactEmail;'>
+                    <div tal:condition='python:contactName or contactEmail' tal:omit-tag=''>
+                        <label for='contactInformation' i18n:translate='label_contactInformation'>Contact Information:</label>
+                        <a tal:condition='contactEmail' id='contactInformation'
+                            tal:attributes='href string:mailto:${contactEmail}'>
+                            <span tal:condition='contactName' tal:omit-tag='' tal:content='contactName'>
+                                Sum Yung Gai
+                            </span>
+                            <span tal:condition='not:contactName' tal:omit-tag='' tal:content='contactEmail'>
+                                sum@yung.gai
+                            </span>
+                        </a>
+                        <span tal:condition='not:contactEmail' id='contactInformation' tal:content='contactName'>
+                            Sum Yung Gai
+                        </span>
+                    </div>
+                </tal:block>
+
                 <div>
                     <label for='parent-fieldname-cancerLocations' i18n:translate='label_cancerLocations'>Cancer Locations:</label>
                     <div id='parent-fieldname-cancerLocations' tal:content='view/getCancerLocations'>anus, rectum</div>

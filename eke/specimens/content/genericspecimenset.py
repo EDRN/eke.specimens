@@ -26,6 +26,27 @@ GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
             size=50,
         ),
     ),
+    atapi.StringField(
+        'contactName',
+        required=False,
+        searchable=False,
+        storage=atapi.AnnotationStorage(),
+        widget=atapi.StringWidget(
+            title=_(u'Contact Name'),
+            description=_(u'Optional name of a person to contact for information about this set.'),
+        ),
+    ),
+    atapi.StringField(
+        'contactEmail',
+        required=False,
+        searchable=False,
+        storage=atapi.AnnotationStorage(),
+        validators=('isEmail',),
+        widget=atapi.StringWidget(
+            title=_(u'Contact Email'),
+            description=_(u'Optional email address of a person to contact for information about this set.'),
+        ),
+    ),
     atapi.LinesField(
         'cancerLocations',
         required=False,
@@ -105,9 +126,11 @@ class GenericSpecimenSet(SpecimenSet):
     implements(IGenericSpecimenSet)
     portal_type     = 'Generic Specimen Set'
     schema          = GenericSpecimenSetSchema
-    fullName        = atapi.ATFieldProperty('fullName')
     cancerLocations = atapi.ATFieldProperty('cancerLocations')
     collectionType  = atapi.ATFieldProperty('collectionType')
+    contactEmail    = atapi.ATFieldProperty('contactEmail')
+    contactName     = atapi.ATFieldProperty('contactName')
+    fullName        = atapi.ATFieldProperty('fullName')
     isPRoBE         = atapi.ATFieldProperty('isPRoBE')
     def _computeNumParticipants(self):
         factory = getToolByName(self, 'portal_factory')

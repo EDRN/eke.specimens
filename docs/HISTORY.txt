@@ -13,6 +13,7 @@ This release addresses:
 * CA-845 - Make "Specimen Collections" compute total specimens
 * CA-844 - Combine PRoBE and Reference Sets in the "Specimens" tab
 * Numerous enhancements to the handling of specimens, including:
+
   * Generic specimen sets to treat PRoBE and Reference equivalently
   * File and link attachment to generic specimen sets
   * Representation of sets of specimens from inactive ERNE sites
@@ -20,17 +21,21 @@ This release addresses:
   * Multiple storage types for inactive ERNE sets
   * Open-ended generic reference sets
   * Separation of case and control populations into subsets
+
 * CA-926 - Improve Specimen Reference Sets based on feedback from Jackie
   Dahlgren, including:
-  * Dropping the specimen count on the faceted Specimens tab for reference
-    sets
+
+  * Dropping the specimen count on the faceted Specimens tab for reference sets
   * Drop the specimen count on the Reference Set views
   * On the faceted Specimens tab, sort reference sets specially:
     alphabetically, except for Lung, which should be in the order: Set A
-    Rapid, Set A Panel Pre-Validation, Set A Phase II Validation, Set B, Set C
+    Rapid, Set A Panel Pre-Validation, Set A Phase II Validation, Set B,
+    Set C
   * Moving set-specific from the Resources tab to their matching Reference
     Sets
   * You can mark generic sets as PRoBE sets.
+
+* CA-938 - Add specimen contact information to detail page of specimen sets
 
 
 1.1.2 — Dawn's Out, William's In
