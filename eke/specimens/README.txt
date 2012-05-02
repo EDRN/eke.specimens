@@ -177,6 +177,8 @@ So let's open the Specimen System we created above and add it there::
     >>> browser.getControl(name='collectionType:list').displayValue = ['Ascites', 'Stool']
     >>> browser.getControl(name='cancerLocations:lines').value = 'rectum\nanus\ncolon'
     >>> browser.getControl(name='storageType:list').displayValue = ['DNA', 'RNA']
+    >>> browser.getControl(name='contactName').value = u'Joe Zenderino'
+    >>> browser.getControl(name='contactEmail').value = u'zenderino@analspecimens.com'
     >>> browser.getControl(name='form.button.save').click()
     >>> 'anal-ref' in f.keys()
     True
@@ -201,6 +203,10 @@ So let's open the Specimen System we created above and add it there::
     ('9', '10')
     >>> f.cancerLocations
     ('rectum', 'anus', 'colon')
+    >>> f.contactName
+    'Joe Zenderino'
+    >>> f.contactEmail
+    'zenderino@analspecimens.com'
     >>> f.getSystemName()
     'The Probed Collection'
     >>> f.getNumParticipants()
@@ -309,7 +315,9 @@ attributes::
     >>> browser.contents
     '...Anal Reference Set...Official reference set...ANAL-REF...127...331...Public Safety...'
     >>> browser.contents
-    '...Public Safety...Cancer Locations...rectum, anus, colon...'
+    '...Public Safety...mailto:zenderino@analspecimens.com...Joe Zenderino...'
+    >>> browser.contents
+    '...Joe Zenderino...Cancer Locations...rectum, anus, colon...'
     >>> browser.contents
     '...rectum, anus, colon...Ascites, Stool...DNA, RNA...Heaps of specimens...'
 
@@ -369,6 +377,50 @@ Now check it out::
     True
 
 Yes, as a PRoBE set, it gets a nice probing image and label.
+
+CA-938 wanted contact information added to the set.  That's what the
+``contactName`` and ``contactEmail`` fields provide.  The email address
+becomes a mailto: hyperlink around the name::
+
+    >>> browser.contents
+    '...Contact Information:...<a id="contactInformation" href="mailto:zenderino@analspecimens.com">...Joe Zenderino...</a>...'
+
+Note that these fields are optional::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='contactName').value = u''
+    >>> browser.getControl(name='contactEmail').value = u''
+    >>> browser.getControl(name='form.button.save').click()
+    >>> 'Contact Information' in browser.contents
+    False
+
+See?  When they're blank, no contact information appears at all.  If you
+provide just the name, there's no hyperlink::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='contactName').value = u'Joe Zenderino'
+    >>> browser.getControl(name='contactEmail').value = u''
+    >>> browser.getControl(name='form.button.save').click()
+    >>> '<a id="contactInformation" href="mailto:' in browser.contents
+    False
+
+If you provide just the email address, it becomes both a mailto: hyperlink and
+the link text::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='contactName').value = u''
+    >>> browser.getControl(name='contactEmail').value = u'zenderino@analspecimens.com'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.contents
+    '...Contact Information:...<a...href="mailto:zenderino@analspecimens.com">...zenderino@analspecimens.com...</a>...'
+
+Finally, there's an email address validator on the email field::
+
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='contactEmail').value = u'Booger.'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.contents
+    '...Error...is not a valid email address...'
 
 Moving on…
 
