@@ -36,6 +36,7 @@ This release addresses:
   * You can mark generic sets as PRoBE sets.
 
 * CA-938 - Add specimen contact information to detail page of specimen sets
+* CA-937 - Add pagination to Specimen tab list of specimen sets on right
 
 
 1.1.2 — Dawn's Out, William's In

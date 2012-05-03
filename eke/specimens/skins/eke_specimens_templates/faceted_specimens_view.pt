@@ -48,7 +48,6 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
         limit_display       python:limit_display and int(limit_display) or 100;
         more_url            more_url|request/more_url|string:folder_contents;
         folderContents      folderContents|nothing;
-        folderContents      python:context.sort_specimens(folderContents);
         fc                  folderContents;
         Batch               python:modules["Products.CMFPlone"].Batch;
         b_start             python:request.get("b_start", 0);
