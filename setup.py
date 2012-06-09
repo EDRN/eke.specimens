@@ -35,6 +35,7 @@ _externalRequirements = [
     'Products.CMFPlone',
     'Pillow',
     'Products.DataGridField',
+    'zope.globalrequest',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',
