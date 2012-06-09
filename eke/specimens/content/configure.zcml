@@ -45,24 +45,4 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         for='..interfaces.ISpecimenSystemFolder Products.Archetypes.interfaces.event.IObjectInitializedEvent'
         handler='.specimensystemfolder.addFacetedNavigation'
     />
-    <!-- <subscriber
-        for='..interfaces.ISpecimenSet Products.Archetypes.interfaces.IObjectInitializedEvent'
-        handler='.specimenset.updateInformationProvidedBySite'
-    />
-    <subscriber
-        for='..interfaces.ISpecimenSet Products.Archetypes.interfaces.IObjectEditedEvent'
-        handler='.specimenset.updateInformationProvidedBySite'
-    />
-    <subscriber
-        provides='Products.Archetypes.interfaces.IObjectPostValidation'
-        factory='.specimenset.ContactInformationValidator'
-    />
-    <subscriber
-        for='..interfaces.ISpecimenCollection zope.container.interfaces.IContainerModifiedEvent'
-        handler='.specimencollection.updateSpecimenCount'
-    />
-    <subscriber
-        for='..interfaces.ISpecimenCollectionFolder zope.app.container.interfaces.IObjectAddedEvent'
-        handler='.specimencollectionfolder.addFacetedNavigation'
-    /> -->
 </configure>
