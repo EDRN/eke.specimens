@@ -4,11 +4,13 @@
 
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
+from eea.facetednavigation.settings.interfaces import IHidePloneRightColumn
+from eke.specimens import STORAGE_VOCAB_NAME, COLLECTION_VOCAB_NAME
 from eke.specimens.interfaces import ISpecimenSet
+from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.Portal import PloneSite
 from zope.component import getMultiAdapter
-from eke.specimens import STORAGE_VOCAB_NAME, COLLECTION_VOCAB_NAME
-from Products.CMFCore.utils import getToolByName
+from zope.interface import alsoProvides
 
 def view(self):
     return super(PloneSite, self).view()
@@ -103,3 +105,4 @@ def setFacetedNavigation(folder, request):
     criteria.add('path', 'bottom', 'default', title='Path Search', hidden=True, index='path', default=path)
     criteria.add('debug', 'top', 'default', title='Debug Criteria', user='kelly')
     IFacetedLayout(folder).update_layout('faceted_specimens_view')
+    alsoProvides(folder, IHidePloneRightColumn)
