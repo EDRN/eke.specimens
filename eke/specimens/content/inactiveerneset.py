@@ -38,6 +38,7 @@ InactiveERNESetSchema = ERNESpecimenSetSchema.copy() + atapi.Schema((
     atapi.ComputedField(
         'storageType',
         expression='context._computeStorageTypes()',
+        searchable=True,
         widget=atapi.ComputedWidget(
             label=_(u'Storage Types'),
             description=_(u'The ways in which specimens in this set are stored.'),
@@ -55,6 +56,7 @@ InactiveERNESetSchema = ERNESpecimenSetSchema.copy() + atapi.Schema((
         'specimensByStorageType',
         columns=('storageType', 'totalNumSpecimens'),
         allow_empty_rows=False,
+        searchable=True,
         widget=DataGridWidget(
             label=_(u'Stored Specimens'),
             description=_(u'The number of specimens stored by each storage type.'),

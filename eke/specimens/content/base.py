@@ -30,6 +30,7 @@ StoredSpecimensSchema = atapi.Schema(( # Corresponds to eke.specimens.interfaces
         storage=atapi.AnnotationStorage(),
         vocabulary_display_path_bound=-1,
         vocabulary_factory=STORAGE_VOCAB_NAME,
+        searchable=True,
         widget=atapi.SelectionWidget(
             label=_(u'Storage Type'),
             description=_(u'In what form the specimen was processed and stored.'),
@@ -70,6 +71,7 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + TextuallyEnhancedSchema.copy(
     atapi.ComputedField(
         'systemName',
         expression='context._computeSystemName()',
+        searchable=True,
         widget=atapi.ComputedWidget(
             label=_(u'System'),
             description=_(u'To what system this specimen set belongs.'),
@@ -90,7 +92,6 @@ SpecimenSetSchema['title'].widget.label = _(u'Short Name')
 SpecimenSetSchema['title'].widget.description = _(u'Enter a short, unique identifier for this specimen set.')
 SpecimenSetSchema['title'].storage = atapi.AnnotationStorage()
 SpecimenSetSchema['description'].storage = atapi.AnnotationStorage()
-
 
 class SpecimenSet(folder.ATFolder):
     '''Abstract set of specimens.  This is a base class.'''
@@ -145,6 +146,7 @@ ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
     atapi.ComputedField(
         'siteName',
         expression='context._computeSiteName()',
+        searchable=True,
         widget=atapi.ComputedWidget(
             label=_(u'Site Name'),
             description=_(u'At what site are these specimens curated.'),
@@ -154,6 +156,7 @@ ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
         'organs',
         required=False,
         storage=atapi.AnnotationStorage(),
+        searchable=True,
         widget=atapi.LinesWidget(
             label=_(u'Organs'),
             description=_(u'List (one per line) of the organs from which specimens were collected.'),
@@ -184,3 +187,4 @@ class ERNESpecimenSet(SpecimenSet):
     siteName       = atapi.ATFieldProperty('siteName')
     def _computeSiteName(self):
         return self.site.title if self.site is not None else u''
+

@@ -5,6 +5,12 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+1.1.5 — TBD
+-----------
+
+* CA-1008 - Add an open text search to specimens
+
+
 1.1.4 — Upgrades
 ----------------
 

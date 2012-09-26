@@ -29,7 +29,7 @@ GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
     atapi.StringField(
         'contactName',
         required=False,
-        searchable=False,
+        searchable=True,
         storage=atapi.AnnotationStorage(),
         widget=atapi.StringWidget(
             title=_(u'Contact Name'),
@@ -39,7 +39,7 @@ GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
     atapi.StringField(
         'contactEmail',
         required=False,
-        searchable=False,
+        searchable=True,
         storage=atapi.AnnotationStorage(),
         validators=('isEmail',),
         widget=atapi.StringWidget(
@@ -51,6 +51,7 @@ GenericSpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
         'cancerLocations',
         required=False,
         storage=atapi.AnnotationStorage(),
+        searchable=True,
         widget=atapi.LinesWidget(
             label=_(u'Cancer Locations'),
             description=_(u'List (one per line) of the locations where cancer was detected.'),
