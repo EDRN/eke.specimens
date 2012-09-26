@@ -706,6 +706,13 @@ to be known as "EDRN Specimen System".
 There has *got* to be a better way of doing those style changes, though.  See
 ``faceted_specimens_view.pt`` for explanation.
 
+Also, after a heated email from Christos Patriotis, Dan decided that ERNE
+specimen should have a free-text search::
+
+    >>> browser.contents
+    '...center-top-area...faceted-center-column...faceted-text-widget...Open Search...'
+
+
 
 RDF Ingest
 ----------
