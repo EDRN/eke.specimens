@@ -35,6 +35,7 @@ _contactInfo = {
     'http://edrn.nci.nih.gov/data/sites/81':  ('ander045@mc.duke.edu', 'Susan Anderson'),            # Duke Univ
     'http://edrn.nci.nih.gov/data/sites/83':  ('ehumphr3@jhmi.edu', 'Elizabeth Humphreys'),          # Johns Hopkins Urology
     'http://edrn.nci.nih.gov/data/sites/91':  ('ejq7@cdc.gov', 'Hao Tian'),                          # CDC
+    'http://edrn.nci.nih.gov/data/sites/593': ('cili@fhcrc.org', 'Christopher Li'),                  # CERC at FHCRC
 }
 
 class ERNESpecimenSystemViewIngestor(BrowserView):

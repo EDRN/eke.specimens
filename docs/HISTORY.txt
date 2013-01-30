@@ -5,6 +5,12 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+1.1.6 — TBD
+-----------
+
+* Added site 593 (CERC at FHCRC with PI Christopher Li)
+
+
 1.1.5 — Opened
 --------------
 

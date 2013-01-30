@@ -61,6 +61,7 @@ SITES = {
     'http://edrn.nci.nih.gov/data/sites/81':  'https://surg-oodt.mc.duke.edu:7576/erne/prod',    # Duke Univ
     'http://edrn.nci.nih.gov/data/sites/83':  'https://162.129.227.245:7576/erne/prod',          # Johns Hopkins Urology
     'http://edrn.nci.nih.gov/data/sites/91':  'https://cdc-erne.cdc.gov:7576/erne/prod',         # CDC
+    'http://edrn.nci.nih.gov/data/sites/593': 'https://cerc-vm1.fhcrc.org:7576/grid/prod',       # CERC at FHCRC
 }
 
 
