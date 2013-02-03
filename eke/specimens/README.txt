@@ -677,34 +677,7 @@ happens automatically when you create a Specimen System Folder.  No, really::
 
     >>> browser.open(portalURL + '/sticky-specimens')
     >>> browser.contents
-    '...faceted-results...ANAL-REF...'
-
-The facets include the set, system, storage, and specimen count::
-
-    >>> browser.contents
-    '...Set/Site...System...Storage...Specimens...'
-
-And the displayed results show a table with matching specimen sets::
-
-    >>> browser.contents
-    '...>ANAL-REF<...The Probed Collection...DNA, RNA...127...Dead Anus Set...Ernie...Whole blood, Serum...33...'
-
-There's a no-break space now between the pound-sign and specimens in the table
-heading::
-
-    >>> browser.contents
-    '...<table...<thead>...<th>#&#x00a0;Specimens</th>...'
-
-Heather also wants the selection boxes to be narrower::
-
-    >>> browser.contents
-    '...#left-area...width: 17em;....left-area-js...margin-left: 17em;...'
-
-Note that they're not so narrow as 15em, but as 17em, because Dan wants ERNE
-to be known as "EDRN Specimen System".
-
-There has *got* to be a better way of doing those style changes, though.  See
-``faceted_specimens_view.pt`` for explanation.
+    '...faceted-results...'
 
 Also, after a heated email from Christos Patriotis, Dan decided that ERNE
 specimen should have a free-text search::
