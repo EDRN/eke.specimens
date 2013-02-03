@@ -42,10 +42,6 @@ class SpecimenSummaryTest(unittest.TestCase):
 class IngestTest(unittest.TestCase):
     '''Unit tests of ingestion.'''
     layer = EKE_SPECIMENS_FIXTURE
-    def testBadURL(self):
-        '''Ensure ``getSpecimens`` returns no specimens for bad URLs'''
-        records = getSpecimens('bogus:url:to-no-where')
-        self.assertEquals(0, len(records))
     def testNormalSpecimens(self):
         '''Check if ``getSpecimens`` returns reasonable results on test data'''
         records = getSpecimens('testscheme://localhost/erne/prod', 'testscheme://localhost/erne/erneQuery')
