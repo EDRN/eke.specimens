@@ -10,6 +10,7 @@ the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 * Added site 593 (CERC at FHCRC with PI Christopher Li)
 * Compatible with Plone 4.2.4 and eea.facetednavigation 5.3.
+* CA-XXXX (FIXME) - Adds missing storage types
 
 
 1.1.5 — Opened

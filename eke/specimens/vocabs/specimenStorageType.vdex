@@ -166,4 +166,28 @@
 			<langstring language='en'>Red and white blood cell pellet</langstring>
 		</caption>
 	</term>
+	<term>
+		<termIdentifier>31</termIdentifier>
+		<caption>
+			<langstring language='en'>EDTA Plasma</langstring>
+		</caption>
+	</term>
+	<term>
+		<termIdentifier>32</termIdentifier>
+		<caption>
+			<langstring language='en'>Citrate Plasma</langstring>
+		</caption>
+	</term>
+	<term>
+		<termIdentifier>33</termIdentifier>
+		<caption>
+			<langstring language='en'>EDTA Cellular Fraction</langstring>
+		</caption>
+	</term>
+	<term>
+		<termIdentifier>34</termIdentifier>
+		<caption>
+			<langstring language='en'>Citrate Cellular Fraction</langstring>
+		</caption>
+	</term>
 </vdex>
