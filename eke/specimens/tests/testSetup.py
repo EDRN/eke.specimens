@@ -62,7 +62,18 @@ class SetupTest(unittest.TestCase):
         )
         for v in vocabs:
             self.failUnless(queryUtility(IVocabularyFactory, name=v) is not None, 'Vocabulary "%s" not available' % v)
-        
+    def testStorageVocabulary(self):
+        '''Ensure the storage vocab has the "missing" storage terms'''
+        factory = queryUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
+        vocab = factory(self.portal)
+        for ident, caption in (
+            (u'31', u'EDTA Plasma'),
+            (u'32', u'Citrate Plasma'),
+            (u'33', u'EDTA Cellular Fraction'),
+            (u'34', u'Citrate Cellular Fraction'),
+        ):
+            term = vocab.getTerm(ident)
+            self.assertEquals(caption, term.title)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
