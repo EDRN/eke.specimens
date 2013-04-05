@@ -176,7 +176,7 @@ So let's open the Specimen System we created above and add it there::
     >>> browser.getControl(name='fullName').value = u'Anal Reference Set'
     >>> browser.getControl(name='collectionType:list').displayValue = ['Ascites', 'Stool']
     >>> browser.getControl(name='cancerLocations:lines').value = 'rectum\nanus\ncolon'
-    >>> browser.getControl(name='storageType:list').displayValue = ['DNA', 'RNA']
+    >>> browser.getControl(name='storageType:list').displayValue = ['DNA from blood', 'RNA']
     >>> browser.getControl(name='contactName').value = u'Joe Zenderino'
     >>> browser.getControl(name='contactEmail').value = u'zenderino@analspecimens.com'
     >>> browser.getControl(name='form.button.save').click()
@@ -200,7 +200,7 @@ So let's open the Specimen System we created above and add it there::
     >>> f.collectionType
     ('1', '18')
     >>> f.getStorageType()
-    ('9', '10')
+    ('10', '40')
     >>> f.cancerLocations
     ('rectum', 'anus', 'colon')
     >>> f.contactName
@@ -319,7 +319,7 @@ attributes::
     >>> browser.contents
     '...Joe Zenderino...Cancer Locations...rectum, anus, colon...'
     >>> browser.contents
-    '...rectum, anus, colon...Ascites, Stool...DNA, RNA...Heaps of specimens...'
+    '...rectum, anus, colon...Ascites, Stool...RNA...DNA from blood...Heaps of specimens...'
 
 It should also have the case/control groups, followed by the matching
 protocol's abstract (if available), or description (if the abstract wasn't

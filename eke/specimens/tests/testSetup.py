@@ -67,10 +67,33 @@ class SetupTest(unittest.TestCase):
         factory = queryUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
         vocab = factory(self.portal)
         for ident, caption in (
-            (u'31', u'EDTA Plasma'),
-            (u'32', u'Citrate Plasma'),
-            (u'33', u'EDTA Cellular Fraction'),
-            (u'34', u'Citrate Cellular Fraction'),
+            (u'28', u'Cyst aspirate'),
+            (u'29', u'Blood spot card'),
+            (u'31', u'EDTA plasma'),
+            (u'32', u'Citrate plasma'),
+            (u'33', u'EDTA cellular fraction'),
+            (u'34', u'Citrate cellular fraction'),
+            (u'40', u'DNA from blood'),
+            (u'41', u'DNA from buccal cells'),
+            (u'42', u'Tissue slides'),
+            (u'45', u'Cell line'),
+            (u'50', u'Buccal cells'),
+            (u'51', u'Buffy coat'),
+            (u'52', u'DNA from buffy coat'),
+            (u'53', u'DNA from Lymphoblastoid cell lines'),
+            (u'54', u'DNA from tumor tissue, paraffin block'),
+            (u'55', u'Peripheral blood mononuclear cells (PBMC)'),
+            (u'56', u'Saliva'),
+            (u'57', u'Tumor tissue, paraffin block'),
+            (u'58', u'Tumor tissue, slide'),
+            (u'59', u'Induced sputum'),
+            (u'60', u'Spontaneous sputum'),
+            (u'61', u'Urine, pellet'),
+            (u'62', u'Urine, soluble'),
+            (u'63', u'Urine, cellular material'),
+            (u'64', u'Semen'),
+            (u'95', u'Other'),
+            (u'97', u'Other, specify:'),
         ):
             term = vocab.getTerm(ident)
             self.assertEquals(caption, term.title)
