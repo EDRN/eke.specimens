@@ -11,10 +11,18 @@
     </head>
     <body>
         <metal:content-core fill-slot='content-core'>
-            <div>
-                <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Total Specimens:</label>
-                <span id='parent-fieldname-totalNumSpecimens' tal:content='context/getTotalNumSpecimens'>123</span>
+            <div tal:define='
+                    cases    context/getNumCases|string:0;
+                    controls context/getNumControls|string:0;
+                    totalPpts python:int(cases)+int(controls);
+                '>
+                <label for='totalParticpants' i18n:translate='label_totalParticipants'>Total Participants:</label>
+                <span id='totalParticpants' tal:content='totalPpts'>123</span>
             </div>
+            <div>
+                <label for='parent-fieldname-diagnosis' i18n:translate='label_diagnosis'>Cancer Diagnosis:</label>
+                <metal:field use-macro='python:context.widget("diagnosis", mode="view")'>Death</metal:field>
+            </div>            
             <div>
                 <label for='parent-fieldname-protocol' i18n:translate='label_protocol'>Protocol:</label>
                 <metal:field use-macro='python:context.widget("protocol", mode="view")'>Anus Protocol</metal:field>
@@ -35,18 +43,6 @@
                 <label for='parent-fieldname-storageType' i18n:translate='label_storageType'>Storage Type:</label>
                 <metal:field use-macro='python:context.widget("storageType", mode="view")'>Mason jar</metal:field>
             </div>
-            <div>
-                <label for='parent-fieldname-numCases' i18n:translate='label_numCases'>Cases:</label>
-                <metal:field use-macro='python:context.widget("numCases", mode="view")'>1</metal:field>
-            </div>
-            <div>
-                <label for='parent-fieldname-numControls' i18n:translate='label_numControls'>Controls:</label>
-                <metal:field use-macro='python:context.widget("numControls", mode="view")'>2</metal:field>
-            </div>
-            <div>
-                <label for='parent-fieldname-diagnosis' i18n:translate='label_diagnosis'>Cancer Diagnosis:</label>
-                <metal:field use-macro='python:context.widget("diagnosis", mode="view")'>Death</metal:field>
-            </div>            
             <div tal:content='structure context/text'>
         		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
         		do eiusmod tempor incididunt ut labore et dolore magna aliqua.

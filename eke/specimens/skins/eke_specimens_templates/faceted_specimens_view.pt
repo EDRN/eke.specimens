@@ -62,7 +62,6 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
         <thead>
             <tr>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSetSite'>Set/Site</th>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingCollection'>System</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingStorage'>Storage</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
             </tr>
@@ -81,7 +80,6 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                     item_wf_state       item/review_state|python:context.portal_workflow.getInfoFor(item, "review_state", "");
                     item_wf_state_class python:"state-" + normalizeString(item_wf_state);
                     oddrow              repeat/item/odd;
-                    collection          item/getSystemName|string:?;
                     specimenCount       item/getTotalNumSpecimens|string:&#x00a0;;
                     specimenCount       python:specimenCount if specimenCount != 0 else "&#x00a0;";
                     storageType         item/getStorageType|nothing;
@@ -97,9 +95,6 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                                 '>
                                     Anally Probed Set
                                 </a>
-                            </td>
-                            <td tal:content='collection'>
-                                PRoBE
                             </td>
                             <td tal:content='storageTypeLabel'>
                                 Mucus
