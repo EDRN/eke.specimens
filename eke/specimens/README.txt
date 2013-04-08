@@ -662,9 +662,9 @@ What does an Active ERNE Site look like?  See for yourself:
 
     >>> browser.open(portalURL + '/sticky-specimens/ernie/live-anus-set')
     >>> browser.contents
-    '...Live Anus Set...actively producing anal samples...109...Public Safety...Dr Tongue...anus, colon...Seminal fluid...'
+    '...Live Anus Set...actively producing anal samples...74...With Cancer...Public Safety...Dr Tongue...anus, colon...'
     >>> browser.contents
-    '...Seminal fluid...Cells...32...42...With Cancer...Mr Chunks!...'
+    '...anus, colon...Seminal fluid...Cells...Mr Chunks!...'
 
 Yes, just another attribute rundown.
 
