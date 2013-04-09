@@ -22,21 +22,6 @@ _diagnoses = SimpleVocabulary.fromItems((
     ('Without Cancer', 'Without Cancer'),
 ))
 
-StoredSpecimensSchema = atapi.Schema(( # Corresponds to eke.specimens.interfaces.IStoredSpecimens
-    atapi.StringField(
-        'storageType',
-        enforceVocabulary=True,
-        required=False,
-        storage=atapi.AnnotationStorage(),
-        vocabulary_display_path_bound=-1,
-        vocabulary_factory=STORAGE_VOCAB_NAME,
-        searchable=True,
-        widget=atapi.SelectionWidget(
-            label=_(u'Storage Type'),
-            description=_(u'In what form the specimen was processed and stored.'),
-        ),
-    ),
-))
 TextuallyEnhancedSchema = atapi.Schema(( # Corresponds to eke.specimens.interfaces.ITextuallyEnhanced
     atapi.TextField(
         'text',
