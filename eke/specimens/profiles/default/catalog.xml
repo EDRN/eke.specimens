@@ -4,9 +4,6 @@ Copyright 2010-2011 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <object name='portal_catalog' meta_type='Plone Catalog Tool'>
-    <index name='getTotalNumSpecimens' meta_type='FieldIndex'>
-        <indexed_attr value='getTotalNumSpecimens'/>
-    </index>
     <index name='getNumParticipants' meta_type='FieldIndex'>
         <indexed_attr value='getNumParticipants'/>
     </index>
@@ -28,7 +25,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='siteName' meta_type='FieldIndex'>
         <indexed_attr value='siteName' />
     </index>
-    <column value='getTotalNumSpecimens'/>
     <column value='getNumParticipants'/>
     <column value='getStorageType'/>
     <column value='getSystemName'/>

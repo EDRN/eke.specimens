@@ -6,6 +6,10 @@
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='eke.specimens'>
+<!--
+Copyright 2013 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
     <head>
         <title>Specimen System</title>
     </head>
@@ -14,15 +18,6 @@
             <tal:main-macro metal:define-macro='main' tal:define='
                 haveSets view/haveSpecimenSets;
             '>
-                <!-- tal:define='
-                    haveSpecimensAtSites view/haveSpecimensAtSites;
-                    contents             view/specimensAtSites;
-                    kssClassesView       context/@@kss_field_decorator_view;
-                    getKssClasses        nocall:kssClassesView/getKssClassesInlineEditable;
-                    templateId           template/getId;
-                    isManager            python:checkPermission("Manage portal", context);
-                    portalURL            context/@@plone_portal_state/portal_url;
-                ' -->
                 <div tal:replace='structure provider:plone.abovecontenttitle' />
                 <h1 class='documentFirstHeading'> 
                     <metal:field use-macro='python:context.widget("title", mode="view")'>
@@ -48,7 +43,7 @@
                     <thead>
                         <tr>
                             <th i18n:translate='ekeSpecimensSpecColFoldTableHeadingSetName'>Set</th>
-                            <th i18n:translate='ekeSpecimensSpecColFoldTableHeadingNumSpecimens'>Number of Specimens</th>
+                            <th i18n:translate='ekeSpecimensSpecColFoldTableHeadingParticipants'>Participants</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +54,7 @@
                                     Nifty Set
                                 </a>
                             </td>
-                            <td tal:content='specimenSet/specimenCount'>
+                            <td tal:content='specimenSet/numParticipants'>
                                 42
                             </td>
                         </tr>

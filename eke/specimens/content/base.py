@@ -62,16 +62,6 @@ SpecimenSetSchema = folder.ATFolderSchema.copy() + TextuallyEnhancedSchema.copy(
             description=_(u'To what system this specimen set belongs.'),
         ),
     ),
-    atapi.IntegerField(
-        'totalNumSpecimens',
-        storage=atapi.AnnotationStorage(),
-        default=0,
-        required=False,
-        widget=atapi.IntegerWidget(
-            label=_(u'Total Specimens'),
-            description=_(u'Total number of specimens stored.'),
-        ),
-    ),
 ))
 SpecimenSetSchema['title'].widget.label = _(u'Short Name')
 SpecimenSetSchema['title'].widget.description = _(u'Enter a short, unique identifier for this specimen set.')

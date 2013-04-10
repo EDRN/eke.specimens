@@ -6,6 +6,10 @@
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='eke.specimens'>
+<!--
+Copyright 2013 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
     <head>
         <title>Specimen System Folder</title>
     </head>
@@ -39,7 +43,7 @@
                     <thead>
                         <tr>
                             <th i18n:translate='ekeSpecimensTabHeadCollecName'>System</th>
-                            <th i18n:translate='ekeSpecimensTabHeadNumSpecs'>Number of Specimens</th>
+                            <th i18n:translate='ekeSpecimensTabHeadParticipants'>Participants</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,7 +54,7 @@
                                     Nifty System
                                 </a>
                             </td>
-                            <td tal:content='system/specimenCount' style='text-align: right;'>
+                            <td tal:content='system/getNumParticipants' style='text-align: right;'>
                                 42
                             </td>
                         </tr>

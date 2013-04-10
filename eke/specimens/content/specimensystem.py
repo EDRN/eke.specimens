@@ -32,9 +32,9 @@ SpecimenSystemSchema = folder.ATFolderSchema.copy() + atapi.Schema(( # + CountsS
         ),
     ),
     atapi.ComputedField(
-        'totalNumSpecimens',
+        'numParticipants',
         searchable=False,
-        expression='context._computeTotalNumSpecimens()',
+        expression='context._computeNumParticipants()',
         widget=atapi.ComputedWidget(
             label=_(u'Total Specimens'),
             description=_(u'The total number of specimens across all specimens sets in this system.'),
@@ -54,11 +54,11 @@ class SpecimenSystem(folder.ATFolder):
     title             = atapi.ATFieldProperty('title')
     description       = atapi.ATFieldProperty('description')
     text              = atapi.ATFieldProperty('text')
-    def _computeTotalNumSpecimens(self):
+    def _computeNumParticipants(self):
         factory = getToolByName(self, 'portal_factory')
         if factory.isTemporary(self): return 0
         catalog = getToolByName(self, 'portal_catalog')
         brains = catalog(path=dict(query='/'.join(self.getPhysicalPath()), depth=1), object_provides=ISpecimenSet.__identifier__)
-        return sum([safeInt(i.getTotalNumSpecimens) for i in brains])
+        return sum([safeInt(i.getNumParticipants) for i in brains])
 
 atapi.registerType(SpecimenSystem, PROJECTNAME)

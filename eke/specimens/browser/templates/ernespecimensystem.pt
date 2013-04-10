@@ -6,15 +6,20 @@
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='eke.specimens'>
+<!--
+Copyright 2013 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
     <head>
         <title>ERNE Specimen System</title>
     </head>
     <body>
         <metal:content-core fill-slot='content-core'>
             <div>
-                <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Total Specimens:</label>
-                <span id='parent-fieldname-totalNumSpecimens' tal:content='context/getTotalNumSpecimens'>123</span>
+                <label for='getNumParticipants' i18n:translate='label_getNumParticipants'>Participants:</label>
+                <span id='getNumParticipants' tal:content='context/getNumParticipants'>123</span>
             </div>
+            
             <div tal:content='structure context/text'>
         		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
         		do eiusmod tempor incididunt ut labore et dolore magna aliqua.

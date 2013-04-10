@@ -6,7 +6,7 @@
 
 from base import ERNESpecimenSet, ERNESpecimenSetSchema
 from eke.specimens import ProjectMessageFactory as _
-from eke.specimens import STORAGE_VOCAB_NAME
+from eke.specimens import STORAGE_VOCAB_NAME, safeInt
 from eke.specimens.config import PROJECTNAME
 from eke.specimens.interfaces import IActiveERNESet
 from Products.Archetypes import atapi
@@ -62,6 +62,14 @@ ActiveERNESetSchema = ERNESpecimenSetSchema.copy() + atapi.Schema((
             description=_(u'Either with cancer, or not.'),
         ),
     ),
+    atapi.ComputedField(
+        'numParticipants',
+        expression='context._computeNumParticipants()',
+        widget=atapi.ComputedWidget(
+            label=_(u'Participants'),
+            description=_(u'Total number of participants providing specimens.'),
+        ),
+    ),
 ))
 
 finalizeATCTSchema(ActiveERNESetSchema, folderish=True, moveDiscussion=True)
@@ -74,5 +82,7 @@ class ActiveERNESet(ERNESpecimenSet):
     numCases    = atapi.ATFieldProperty('numCases')
     numControls = atapi.ATFieldProperty('numControls')
     diagnosis   = atapi.ATFieldProperty('diagnosis')
+    def _computeNumParticipants(self):
+        return safeInt(self.numCases) + safeInt(self.numControls)
 
 atapi.registerType(ActiveERNESet, PROJECTNAME)

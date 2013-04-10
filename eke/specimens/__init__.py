@@ -8,7 +8,10 @@
 from zope.i18nmessageid import MessageFactory
 from pkg_resources import resource_filename
 
-ProjectMessageFactory = MessageFactory('eke.specimens')
+PACKAGE_NAME = __name__
+PROFILE_ID = 'profile-' + PACKAGE_NAME + ':default'
+
+ProjectMessageFactory = MessageFactory(PACKAGE_NAME)
 
 STORAGE_VOCAB_NAME    = u'https://www.compass.fhcrc.org/edrns/cgi-bin/pilot/cde/CDEDetailed.asp?cdeid=529'
 ORGAN_VOCAB_NAME      = u'https://www.compass.fhcrc.org/edrns/cgi-bin/pilot/cde/CDEDetailed.asp?cdeid=581'

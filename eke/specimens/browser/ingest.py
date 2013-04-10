@@ -8,6 +8,7 @@
 from Acquisition import aq_inner
 from eke.site.interfaces import ISite
 from eke.study.interfaces import IProtocol
+from eke.specimens import safeInt
 from eke.specimens.interfaces import IERNESpecimenSystem, IActiveERNESet
 from plone.i18n.normalizer.interfaces import IIDNormalizer
 from Products.CMFCore.utils import getToolByName
@@ -110,9 +111,9 @@ class ERNESpecimenSystemViewIngestor(BrowserView):
                 protocolUID = self.lookupProtocol(catalog, summary.protocolID)
                 if protocolUID is not None:
                     s.setProtocol(protocolUID)
-                s.setTotalNumSpecimens(summary.specimenCount)
+                numParticipants = safeInt(summary.numberCases) + safeInt(summary.numberControls)
                 s.setTitle(siteAbbrevName)
-                s.setDescription(u'%d Specimens from Participants %s at %s' % (summary.specimenCount, s.diagnosis, site.title))
+                s.setDescription(u'Specimens from %d Participants %s at %s' % (numParticipants, s.diagnosis, site.title))
                 s.setSite(site.UID())
                 s.setStorageType(summary.storageType)
                 s.diagnosis      = u'With Cancer' if summary.diagnosis else u'Without Cancer'

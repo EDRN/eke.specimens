@@ -42,5 +42,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='eke.specimens.upgrades.nullUpgradeStep'
         sortkey='1'
     />
+    <genericsetup:upgradeStep
+        source='5'
+        destination='6'
+        title='Specimens Upgrade Step (5→6): Catalog'
+        description='Re-setup catalog indexes/metadata since we have "participants" instead of "specimen count" as pivotal.'
+        profile='eke.specimens:default'
+        handler='eke.specimens.upgrades.setupCatalog'
+        sortkey='1'
+    />
 
 </configure>

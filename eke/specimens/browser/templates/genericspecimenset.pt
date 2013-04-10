@@ -6,6 +6,10 @@
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='eke.specimens'>
+<!--
+Copyright 2013 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
     <head>
         <title>Specimen Collection Folder</title>
     </head>
@@ -36,10 +40,6 @@
                 <div>
                     <label for='parent-fieldname-title' i18n:translate='label_title'>Short Name:</label>
                     <metal:field use-macro='python:context.widget("title", mode="view")'>ANUS-REF-1</metal:field>
-                </div>
-                <div tal:condition='context/getTotalNumSpecimens'>
-                    <label for='parent-fieldname-totalNumSpecimens' i18n:translate='label_totalNumSpecimens'>Specimens:</label>
-                    <metal:field use-macro='python:context.widget("totalNumSpecimens", mode="view")'>123</metal:field>
                 </div>
                 <div>
                     <label for='parent-fieldname-getNumParticipants' i18n:translate='label_getNumParticipants'>Participants:</label>
@@ -85,7 +85,6 @@
 
                 <div tal:content='structure context/text'>Lorem.</div>
                 
-
                 <div class='caseControlSubset'>
                     <h2 i18n:translate='ekeSpecimensGenericSpecSetHeadingCases'>Cases</h2>
                     <table>

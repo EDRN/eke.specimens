@@ -6,7 +6,8 @@ from interfaces import ISpecimenSystemFolder
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.WorkflowCore import WorkflowException
 from utils import setFacetedNavigation
-from eke.specimens import locateData
+from eke.specimens import locateData, PACKAGE_NAME, PROFILE_ID
+import logging
 
 COLON_SET_DESCRIPTION = u'''The Early Detection Research Network and the Great Lakes-New England Clinical, Epidemiological and Validation Center (GLNE CEVC) announces the availability of serum, plasma and urine samples for the early detection for colon cancer.'''
 LUNG_SET_A_DESCRIPTION = u'''Reference set A focuses on pre-validation of biomarkers of diagnosis of lung cancer and target lung cancer diagnosed for individuals at high risk for lung cancer or abnormal chest x-ray (CXR) or chest computer tomography (CT) but outside of the context of a CT screening trial. The clinical question to be tested after pre-validation relates to whether a serum/plasma biomarker has added value to current clinical tests (CT scan and/or PET scan) for the diagnostic evaluation of pulmonary nodules and to whether such a biomarker could reduce the number, and the attendant cost, of unnecessary invasive tests (PET or tissue biopsy) or futile thoracotomies.'''
@@ -82,3 +83,8 @@ def updateDiagnosisIndex(setupTool):
     if 'diagnosis' not in indexes:
         catalog.addIndex('diagnosis', 'FieldIndex', {'indexed_attrs': 'diagnosis'})
 
+def setupCatalog(setupTool, logger=None):
+    if logger is None: logger = logging.getLogger(PACKAGE_NAME)
+    logger.info('Running catalog import-step from profile')
+    setupTool.runImportStepFromProfile(PROFILE_ID, 'catalog')
+    logger.info('Catalog import-step from profile ran')

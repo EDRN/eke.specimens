@@ -36,8 +36,8 @@ class ICaseControlSubset(Interface):
 
 class ISpecimenStatistics(Interface):
     '''Contains specimen statistics, such as specimen count.'''
-    def getTotalNumSpecimens():
-        '''Tells the total number of specimens in this collection.'''
+    def getNumParticipants():
+        '''Tells the total number of participants who have specimens to this collection.'''
 
 class IStoredSpecimens(Interface):
     '''A mix-in interface that provides a schema field for the specimen storage type.'''

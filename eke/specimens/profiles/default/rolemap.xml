@@ -40,20 +40,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
             <role name='Owner' />
             <role name='Contributor' />
         </permission>
-        <!-- <permission name='EKE: Add Specimens at Site in Protocol' acquire='True'>
-            <role name='Manager' />
-            <role name='Owner' />
-            <role name='Contributor' />
-        </permission>
-        <permission name='EKE: Add Specimens in Protocol' acquire='True'>
-            <role name='Manager' />
-            <role name='Owner' />
-            <role name='Contributor' />
-        </permission>
-        <permission name='EKE: Add Specimen Record' acquire='True'>
-            <role name='Manager' />
-            <role name='Owner' />
-            <role name='Contributor' />
-        </permission> -->
     </permissions>
 </rolemap>

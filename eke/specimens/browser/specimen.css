@@ -56,3 +56,6 @@
     font-weight: bold;
     font-size: 120%;
 }
+.numericCell {
+    text-align: right;
+}

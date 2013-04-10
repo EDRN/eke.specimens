@@ -5,6 +5,10 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="eke.specimens">
+<!--
+Copyright 2013 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
 <body>
 <metal:content-core fill-slot="content-core">
 <metal:block define-macro="content-core"
@@ -63,7 +67,8 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
             <tr>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSetSite'>Set/Site</th>
                 <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingStorage'>Storage</th>
-                <th i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingSpecimenCount'>#&#x00a0;Specimens</th>
+                <th style='text-align: right;'
+                    i18n:translate='ekeSpecimensFacetedSpecimensViewTableHeadingPptCount'>#&#x00a0;Participants</th>
             </tr>
         </thead>
         <tbody metal:define-slot='entries'>
@@ -80,8 +85,8 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                     item_wf_state       item/review_state|python:context.portal_workflow.getInfoFor(item, "review_state", "");
                     item_wf_state_class python:"state-" + normalizeString(item_wf_state);
                     oddrow              repeat/item/odd;
-                    specimenCount       item/getTotalNumSpecimens|string:&#x00a0;;
-                    specimenCount       python:specimenCount if specimenCount != 0 else "&#x00a0;";
+                    pptCount            python:context.compute_participants(item);
+                    pptCount            python:pptCount if pptCount != 0 else "&#x00a0;";
                     storageType         item/getStorageType|nothing;
                     storageTypeLabel    python:nominal_view.getStorageTypeLabel(storageType);
                 '>
@@ -99,7 +104,7 @@ style_slot, or how to fill a slot from within a called slot.  Fsck XHTML. >.<
                             <td tal:content='storageTypeLabel'>
                                 Mucus
                             </td>
-                            <td style='text-align: right;' tal:content='specimenCount'>
+                            <td style='text-align: right;' tal:content='pptCount'>
                                 432
                             </td>
                         </tr>

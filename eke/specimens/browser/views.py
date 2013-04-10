@@ -7,7 +7,7 @@ EDRN Knowledge Environment Specimens: views for content types.
 '''
 
 from Acquisition import aq_inner
-from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME
+from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME, safeInt
 from eke.specimens.interfaces import ISpecimenSystem, ISpecimenSet, ICaseControlSubset
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
@@ -15,6 +15,23 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
+
+def computeParticipants(brain):
+    '''For some stupid reason, the "getNumParticipants" column gets hosed after a catalog rebuild, even
+    though reindexing an individual specimen set re-populates the column just fine. WTF?'''
+    value = safeInt(brain.getNumParticipants)
+    if not value:
+        # Is the value really zero?
+        specimenSet = brain.getObject()
+        actualValue = specimenSet.getNumParticipants()
+        if actualValue == 0:
+            # It really is zero. Wow.
+            return 0
+        # Ah ha. Reindex this individual specimen set so the "getNumParticipants" column gets fixed.
+        specimenSet.reindexObject()
+        return actualValue
+    # Oh goodness gracious me, the column had a useful value!
+    return value
 
 def getStorageTypeLabel(storageType, context):
     if isinstance(storageType, basestring):
@@ -54,7 +71,7 @@ class SpecimenSystemFolderView(BrowserView):
             sort_on='sortable_title'
         )
         return [dict(
-            title=i.Title, description=i.Description, specimenCount=i.getTotalNumSpecimens, url=i.getURL()
+            title=i.Title, description=i.Description, numParticipants=computeParticipants(i), url=i.getURL()
         ) for i in results]
     def getStorageTypeLabel(self, storageType):
         context = aq_inner(self.context)
@@ -78,7 +95,7 @@ class SpecimenSystemView(BrowserView):
         return [dict(
             title=i.Title,
             description=i.Description,
-            specimenCount=i.getTotalNumSpecimens,
+            numParticipants=computeParticipants(i),
             url=i.getURL()
         ) for i in results]
 
@@ -117,7 +134,7 @@ class GenericSpecimenSetView(BrowserView):
             subsetType=kind,
             sort_on='sortable_title'
         )
-        return [dict(title=i.Title, numParticipants=i.getNumParticipants) for i in brains]
+        return [dict(title=i.Title, numParticipants=computeParticipants(i)) for i in brains]
     def getTotalParticipants(self, kind):
         return sum([int(i['numParticipants']) for i in self.getSubsets(kind)])
     def totalCases(self):

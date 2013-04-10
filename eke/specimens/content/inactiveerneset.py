@@ -45,24 +45,24 @@ InactiveERNESetSchema = ERNESpecimenSetSchema.copy() + atapi.Schema((
         ),
     ),
     atapi.ComputedField(
-        'totalNumSpecimens',
-        expression='context._computeTotalNumSpecimens()',
+        'numParticipants',
+        expression='context._computeNumParticipants()',
         widget=atapi.ComputedWidget(
-            label=_(u'Specimens'),
-            description=_(u'Total number of specimens stored.'),
+            label=_(u'Participants'),
+            description=_(u'Total number of participants providing specimens.'),
         ),
     ),
     DataGridField(
         'specimensByStorageType',
-        columns=('storageType', 'totalNumSpecimens'),
+        columns=('storageType', 'numParticipants'),
         allow_empty_rows=False,
         searchable=True,
         widget=DataGridWidget(
             label=_(u'Stored Specimens'),
-            description=_(u'The number of specimens stored by each storage type.'),
+            description=_(u'The number of participants by each storage type.'),
             columns={
                 'storageType': SelectColumn(_(u'Storage Type'), 'getStorageTypeDisplayList'),
-                'totalNumSpecimens': Column(_(u'Number Specimens'), default=0),
+                'numParticipants': Column(_(u'Number Participants'), default=0),
             },
         ),
     ),
@@ -83,9 +83,9 @@ class InactiveERNESet(ERNESpecimenSet):
     def _computeStorageTypes(self):
         field = self.getField('specimensByStorageType')
         return field.getColumn(self, 'storageType')
-    def _computeTotalNumSpecimens(self):
+    def _computeNumParticipants(self):
         field = self.getField('specimensByStorageType')
-        return sum([asInt(i) for i in field.getColumn(self, 'totalNumSpecimens')])
-        
+        return sum([asInt(i) for i in field.getColumn(self, 'numParticipants')])
+
 
 atapi.registerType(InactiveERNESet, PROJECTNAME)
