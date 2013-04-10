@@ -132,17 +132,17 @@ So, let's open up the Specimen System Folder we made above and add one there::
     'Collection of specimens obtained through probing.'
     >>> f.text
     '<p>Warning: some specimens from <strong>unwilling</strong> participants.</p>'
-    >>> f.getTotalNumSpecimens()
+    >>> f.getNumParticipants()
     0
 
-See that?  The ``totalNumSpecimens`` field already knew it was zero since it
+See that?  The ``numParticpants`` field already knew it was zero since it
 computes its value based on contained Specimen Set objects (thank you CA-845).
 No Specimen Sets means a zero count.  As such, it's not even an editable
 field::
 
     >>> browser.open(portalURL + '/sticky-specimens')
     >>> browser.getLink(id='specimen-system').click()
-    >>> 'totalNumSpecimens' in browser.contents
+    >>> 'numParticipants' in browser.contents
     False
 
 Let's add a Specimen Set to this system and see what happens, below.
@@ -170,7 +170,6 @@ So let's open the Specimen System we created above and add it there::
     >>> l.click()
     >>> browser.getControl(name='title').value = u'ANAL-REF'
     >>> browser.getControl(name='description').value = u'Official reference set from the anus.'
-    >>> browser.getControl(name='totalNumSpecimens').value = u'127'
     >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='text').value = u'<p>Heaps of specimens from the booty.</p>'
     >>> browser.getControl(name='fullName').value = u'Anal Reference Set'
@@ -187,8 +186,6 @@ So let's open the Specimen System we created above and add it there::
     'ANAL-REF'
     >>> f.description
     'Official reference set from the anus.'
-    >>> f.getTotalNumSpecimens()
-    127
     >>> f.protocol.title
     'Public Safety'
     >>> f.text
@@ -233,13 +230,11 @@ As are the numbers of participants, cases, and controls::
     >>> 'numControls' in browser.contents
     False
 
-We'll see more about cases and control in just a moment.  First, let's see if
-the Specimen System updated its total::
+And thanks to Christos, we don't even count the number of specimens
+(CA-1084)::
 
-    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens()
-    127
-    >>> portal['sticky-specimens']['the-probed-collection'].getTotalNumSpecimens() == f.getTotalNumSpecimens()
-    True
+    >>> 'totalNumSpecimens' in browser.contents
+    False
 
 Great!  What else can you do with a General Specimen Set?  You can add files
 to it::
@@ -308,12 +303,24 @@ That's right!  The case/control totals are computed from the case/control
 subsets added to the General Specimen Set, and they in turn update the total
 number of participants.
 
+But more than that, the total number of participants in the entire system gets
+updated::
+
+    >>> f.reindexObject()
+    >>> probedCollection = portal['sticky-specimens']['the-probed-collection']
+    >>> probedCollection.reindexObject()
+    >>> import transaction; transaction.commit()
+    >>> probedCollection.getNumParticipants()
+    331
+    >>> portal['sticky-specimens']['the-probed-collection'].getNumParticipants() == f.getNumParticipants()
+    True
+
 When you look at a Generic Specimen Set, you should see its various
 attributes::
 
     >>> browser.open(portalURL + '/sticky-specimens/the-probed-collection/anal-ref')
     >>> browser.contents
-    '...Anal Reference Set...Official reference set...ANAL-REF...127...331...Public Safety...'
+    '...Anal Reference Set...Official reference set...ANAL-REF...331...Public Safety...'
     >>> browser.contents
     '...Public Safety...mailto:zenderino@analspecimens.com...Joe Zenderino...'
     >>> browser.contents
@@ -333,29 +340,10 @@ Lastly, it should show the attached files and the links::
     >>> browser.contents
     '...Attached Files...href="...my-new-file"...My New File...Links...My New Link...'
 
-Note that there's a specimen count appearing::
+Note that there's no specimen count appearing::
 
-    >>> browser.contents
-    '...Specimens:...127...'
-
-We learned via CA-926 that specimen count actually has no meaning for
-reference sets.  So, let's reset that value::
-
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='totalNumSpecimens').value = u'0'
-    >>> browser.getControl(name='form.button.save').click()
-
-Now notice the specimen count::
-
-    >>> 'Specimens:' in browser.contents
+    >>> '...Specimens:' in browser.contents
     False
-
-Right, it's gone!  But since the rest of the tests expect there to be some
-specimens, let's put that value back::
-
-    >>> browser.getLink('Edit').click()
-    >>> browser.getControl(name='totalNumSpecimens').value = u'127'
-    >>> browser.getControl(name='form.button.save').click()
 
 Also mentioned in CA-926, some generic sets may be highlighted as PRoBE sets.
 How a PRoBE set differs from any other set is beyond me, so for now, we just
@@ -469,10 +457,10 @@ So, let's open up the Specimen System Folder we made above and add one there::
     "Ernie's specimens."
     >>> f.text
     '<p>Warning: may solely be comprised of felt or plastic.</p>'
-    >>> f.getTotalNumSpecimens()
+    >>> f.getNumParticipants()
     0
 
-As before, the folder starts out with zero specimens since there's nothing
+As before, the folder starts out with zero participants since there's nothing
 inside of it to contribute to the total.
 
 No problem, though, let's add some specimens…
@@ -532,7 +520,7 @@ But we can add it to the ERNE Specimen System we made above::
     '18'
     >>> e.contactName
     'Joe Proctologist'
-    >>> e.getTotalNumSpecimens()
+    >>> e.getNumParticipants()
     0
     >>> len(e.getStorageType()) == 0
     True
@@ -541,8 +529,8 @@ But we can add it to the ERNE Specimen System we made above::
     >>> e.getSiteName()
     u"Dr Tongue's 3D Clinic"
 
-Again, zero specimens to start out.  Why?  Because that value's computed from
-stored specimens.
+Again, zero participants to start out.  Why?  Because that value's computed
+from stored specimens.
 
 The stored specimens use the Products.DataGridField field-and-widget
 combination to edit and display that data.  However, because it uses
@@ -551,18 +539,18 @@ browser.
 
 However, we can manually set the field and see if computed values make sense::
 
-    >>> values = [dict(storageType='1', totalNumSpecimens='11'), dict(storageType='2', totalNumSpecimens='22')]
+    >>> values = [dict(storageType='1', numParticipants='11'), dict(storageType='2', numParticipants='22')]
     >>> e.setSpecimensByStorageType(values)
-    >>> e.getTotalNumSpecimens()
+    >>> e.getNumParticipants()
     33
     >>> e.getStorageType()
     ('1', '2')
     >>> e.reindexObject()
-    >>> import transaction; transaction.commit()
+    >>> transaction.commit()
 
 And check out the system::
 
-    >>> portal['sticky-specimens']['ernie'].getTotalNumSpecimens()
+    >>> portal['sticky-specimens']['ernie'].getNumParticipants()
     33
 
 Viewing one is simplistic::
@@ -607,7 +595,6 @@ But we can add it to the ERNE Specimen System we made above::
     True
     >>> l.click()
     >>> browser.getControl(name='title').value = u'Live Anus Set'
-    >>> browser.getControl(name='totalNumSpecimens').value = u'109'
     >>> browser.getControl(name='description').value = u'An active ERNE set actively producing anal samples!'
     >>> browser.getControl(name='protocol:list').displayValue = ['Public Safety']
     >>> browser.getControl(name='text').value = u'<p>Producing <em>more</em> samples than Mr Chunks!</p>'
@@ -642,21 +629,21 @@ But we can add it to the ERNE Specimen System we made above::
     42
     >>> e.diagnosis
     'With Cancer'
-    >>> e.getTotalNumSpecimens()
-    109
+    >>> e.getNumParticipants()
+    74
     >>> e.getSystemName()
     'Ernie'
     >>> e.getSiteName()
     u"Dr Tongue's 3D Clinic"
 
-Notice the "Ernie" container's specimen count now::
+Notice the "Ernie" container's participant count now::
 
     >>> portal['sticky-specimens']['ernie'].reindexObject()
-    >>> portal['sticky-specimens']['ernie'].getTotalNumSpecimens()
-    142
+    >>> portal['sticky-specimens']['ernie'].getNumParticipants()
+    107
 
-The 109 specimens in the active set boosted the count of the container up from
-just 32.
+The 74 participants in the active set boosted the count of the container up
+from just 33.
 
 What does an Active ERNE Site look like?  See for yourself:
 
