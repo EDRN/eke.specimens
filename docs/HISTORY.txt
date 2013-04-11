@@ -5,8 +5,8 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
-1.1.6 — TBD
------------
+1.1.6 — We'll Never Get Specimens Right
+---------------------------------------
 
 * Added site 593 (CERC at FHCRC with PI Christopher Li)
 * Compatible with Plone 4.2.4 and eea.facetednavigation 5.3.
