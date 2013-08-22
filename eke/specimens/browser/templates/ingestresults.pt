@@ -35,9 +35,6 @@
                     </li>
                 </ul>
 
-                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
-                    Any related items
-                </div>
                 <div tal:replace='structure provider:plone.belowcontentbody' />
             </tal:main-macro>
         </metal:main>

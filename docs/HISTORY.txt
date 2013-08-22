@@ -5,6 +5,21 @@ What follows is a history of changes from release to release.  Within each
 description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+1.1.7 — Like a Boss
+-------------------
+
+• Made compatible with Plone 4.3.
+• Made compatible with eea.facetednavigation 5.9
+• Work around vocabulary lookup caused by interaction of
+  collection.vdexvocabulary-0.1.1 and Plone-4.3.
+• Use z3c.autoinclude
+• Fix content-core macros
+• Remove obsolete calls to document_relateditems
+• Remove monkey-patching and use proper technique to introduce custom faceted
+  render pages
+
+
+
 1.1.6 — We'll Never Get Specimens Right
 ---------------------------------------
 

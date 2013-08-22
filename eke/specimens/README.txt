@@ -326,7 +326,7 @@ attributes::
     >>> browser.contents
     '...Joe Zenderino...Cancer Locations...rectum, anus, colon...'
     >>> browser.contents
-    '...rectum, anus, colon...Ascites, Stool...RNA...DNA from blood...Heaps of specimens...'
+    '...rectum, anus, colon...Ascites, Stool...DNA from blood...RNA...Heaps of specimens...'
 
 It should also have the case/control groups, followed by the matching
 protocol's abstract (if available), or description (if the abstract wasn't

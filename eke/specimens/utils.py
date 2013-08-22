@@ -12,12 +12,6 @@ from Products.CMFPlone.Portal import PloneSite
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 
-def view(self):
-    return super(PloneSite, self).view()
-
-def patchMacrosDict(scope, original, replacement):
-    scope.view.__dict__['macros'] = {}
-
 def setFacetedNavigation(folder, request):
     subtyper = getMultiAdapter((folder, request), name=u'faceted_subtyper')
     if subtyper.is_faceted or not subtyper.can_enable: return

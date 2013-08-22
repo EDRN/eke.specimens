@@ -18,7 +18,6 @@ _author      = 'Andrew Hart'
 _authorEmail = 'andrew.hart@jpl.nasa.gov'
 _license     = 'Proprietary'
 _namespaces  = ['eke']
-_entryPoints = {}
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers eke knowledge specimen erne'
 # TODO: when we migrate from Archetypes to Dexterity, add the following dependencies:
@@ -26,6 +25,9 @@ _keywords    = 'web zope plone edrn cancer biomarkers eke knowledge specimen ern
 # * 'plone.app.referenceablebehavior',
 # * 'plone.app.relationfield',
 # Note: plone.app.referenceablebehavior requires Plone >= 4.1.
+_entryPoints     = {
+    'z3c.autoinclude.plugin': ['target=plone'],
+}
 _extras = {
     'test': ['plone.app.testing']
 }

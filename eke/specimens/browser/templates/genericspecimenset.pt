@@ -75,12 +75,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
                 </div>
 
                 <div>
-                    <label for='parent-fieldname-collectionType' i18n:translate='label_collectionType'>Collection Types:</label>
-                    <metal:field use-macro='python:context.widget("collectionType", mode="view")'>Stool</metal:field>
+                    <label for='field-collectionTypes' i18n:translate='label_collectionTypes'>Collection Types:</label>
+                    <p id='field-collectionTypes' tal:content='view/collectionTypes'>Feces, urine</p>
                 </div>
                 <div>
-                    <label for='parent-fieldname-storageType' i18n:translate='label_storageType'>Storage Types:</label>
-                    <metal:field use-macro='python:context.widget("storageType", mode="view")'>DNA, RNA</metal:field>
+                    <label for='field-storageTypes' i18n:translate='label_storageTypes'>Storage Types:</label>
+                    <p id='field-storageTypes' tal:content='view/storageTypes'>DNA, RNA</p>
                 </div>
 
                 <div tal:content='structure context/text'>Lorem.</div>
@@ -166,10 +166,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
                     </li>
                 </ul>
 
-
-                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
-                    Any related items
-                </div>
                 <div tal:replace='structure provider:plone.belowcontentbody' />
 
             </tal:main-macro>

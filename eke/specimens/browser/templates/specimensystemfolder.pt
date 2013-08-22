@@ -14,23 +14,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <title>Specimen System Folder</title>
     </head>
     <body>
-        <metal:main fill-slot='main'>
-            <tal:main-macro metal:define-macro='main' tal:define='
+        <metal:main fill-slot='content-core'>
+            <tal:main-macro metal:define-macro='content-core' tal:define='
                 haveSystems view/haveSpecimenSystems;
             '>
-                <div tal:replace='structure provider:plone.abovecontenttitle' />
-                <h1 class='documentFirstHeading'> 
-                    <metal:field use-macro='python:context.widget("title", mode="view")'>
-                        Title
-                    </metal:field>
-                </h1>
-
-                <div tal:replace='structure provider:plone.belowcontenttitle' />
-                <p class='documentDescription'>
-                    <metal:field use-macro='python:context.widget("description", mode="view")'>Description.</metal:field>
-                </p>
-                <div tal:replace='structure provider:plone.abovecontentbody' />
-
                 <div tal:replace='structure context/text'>
                     Body Text
                 </div>
@@ -60,12 +47,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
                         </tr>
                     </tbody>
                 </table>
-
-                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
-                    Any related items
-                </div>
-                <div tal:replace='structure provider:plone.belowcontentbody' />
-
             </tal:main-macro>
         </metal:main>
     </body>

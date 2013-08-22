@@ -7,7 +7,7 @@ EDRN Knowledge Environment Specimens: views for content types.
 '''
 
 from Acquisition import aq_inner
-from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME, safeInt
+from eke.specimens import STORAGE_VOCAB_NAME, ORGAN_VOCAB_NAME, COLLECTION_VOCAB_NAME, safeInt
 from eke.specimens.interfaces import ISpecimenSystem, ISpecimenSet, ICaseControlSubset
 from plone.memoize.instance import memoize
 from Products.CMFCore.utils import getToolByName
@@ -157,7 +157,27 @@ class GenericSpecimenSetView(BrowserView):
         catalog = getToolByName(context, 'portal_catalog')
         brains = catalog(portal_type='Link',path=dict(query='/'.join(context.getPhysicalPath()),depth=1),sort_on='sortable_title')
         return [dict(title=i.Title, description=i.Description, url=i.getURL()) for i in brains]
-    
+    @memoize
+    def collectionTypes(self):
+        context = aq_inner(self.context)
+        vf = getUtility(IVocabularyFactory, name=COLLECTION_VOCAB_NAME)
+        v = vf(context)
+        captions = []
+        for ident in context.collectionType:
+            captions.append(v.getTerm(ident).title)
+        captions.sort()
+        return u', '.join(captions)
+    @memoize
+    def storageTypes(self):
+        context = aq_inner(self.context)
+        vf = getUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
+        v = vf(context)
+        captions = []
+        for ident in context.getStorageType():
+            captions.append(v.getTerm(ident).title)
+        captions.sort()
+        return u', '.join(captions)
+
 
 class CaseControlSubsetView(BrowserView):
     '''Default view of a Case Control Subset.'''
@@ -168,12 +188,27 @@ class ERNESetView(BrowserView):
     def getOrgans(self):
         context = aq_inner(self.context)
         return u', '.join(context.organs)
+    @memoize
+    def collectionType(self):
+        context = aq_inner(self.context)
+        vf = getUtility(IVocabularyFactory, name=COLLECTION_VOCAB_NAME)
+        v = vf(context)
+        return v.getTerm(context.collectionType).title
+    
 
 class InactiveERNESetView(ERNESetView):
     '''Default view of an Inactive ERNE Set.'''
     __call__ = ViewPageTemplateFile('templates/inactiveerneset.pt')
+    
 
 class ActiveERNESetView(ERNESetView):
     '''Default view of an Active ERNE Set.'''
     __call__ = ViewPageTemplateFile('templates/activeerneset.pt')
+    @memoize
+    def storageType(self):
+        context = aq_inner(self.context)
+        vf = getUtility(IVocabularyFactory, name=STORAGE_VOCAB_NAME)
+        v = vf(context)
+        return v.getTerm(context.getStorageType()).title
+    
 

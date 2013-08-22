@@ -11,7 +11,7 @@ from eke.study.interfaces import IProtocol
 from eke.specimens import ProjectMessageFactory as _
 
 from zope import schema
-from zope.app.container.constraints import contains
+from zope.container.constraints import contains
 from zope.interface import Interface
 
 class ICaseControlSubset(Interface):
