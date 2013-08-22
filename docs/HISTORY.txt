@@ -17,6 +17,8 @@ the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 • Remove obsolete calls to document_relateditems
 • Remove monkey-patching and use proper technique to introduce custom faceted
   render pages
+• Alphabetize storage types and collection types
+• Use refactored base.cfg
 
 
 
