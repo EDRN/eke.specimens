@@ -9,6 +9,7 @@ the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 -----------
 
 • Fix CA-1159: Specimens tab shows error
+• Fix CA-1114: Christopher Li Site Disappears after Specimen Ingest
 
 
 1.1.7 — Like a Boss
