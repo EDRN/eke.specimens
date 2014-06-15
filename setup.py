@@ -16,7 +16,7 @@ _url         = 'http://cancer.jpl.nasa.gov/products/eke-specimens'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
 _author      = 'Andrew Hart'
 _authorEmail = 'andrew.hart@jpl.nasa.gov'
-_license     = 'Proprietary'
+_license     = 'ALv2'
 _namespaces  = ['eke']
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers eke knowledge specimen erne'
@@ -45,7 +45,7 @@ _classifiers = [
     'Framework :: Plone',
     'Intended Audience :: Healthcare Industry',
     'Intended Audience :: Science/Research',
-    'License :: Other/Proprietary License',
+    'License :: OSI Approved :: Apache Software License',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Topic :: Internet :: WWW/HTTP',

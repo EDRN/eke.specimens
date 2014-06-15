@@ -1,0 +1,11 @@
+.DS_Store
+._*
+dist
+build
+parts
+var
+eggs
+develop-eggs
+*.log
+*.py[co]
+*.sublime-workspace
