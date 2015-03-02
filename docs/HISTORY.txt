@@ -6,6 +6,12 @@ description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.10 — TBD
+------------
+
+• CA-1300
+
+
 1.1.9 — I Had Some Chicken; Pass Me the FLOSS
 ---------------------------------------------
 

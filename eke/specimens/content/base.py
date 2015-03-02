@@ -87,7 +87,7 @@ def specimenSystemNamesVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
     items = list(catalog.uniqueValuesFor('getSystemName'))
     items.sort()
-    return SimpleVocabulary.fromItems([(i, i) for i in items])
+    return SimpleVocabulary.fromItems([(i.decode('utf-8'), i.decode('utf-8')) for i in items])
 directlyProvides(specimenSystemNamesVocabularyFactory, IVocabularyFactory)
 
 def diagnosesVocabularyFactory(context):
@@ -97,10 +97,15 @@ directlyProvides(diagnosesVocabularyFactory, IVocabularyFactory)
 def sitesWithSpecimensVocabulary(context):
     catalog = getToolByName(context, 'portal_catalog')
     results = catalog(object_provides=IERNESpecimenSet.__identifier__)
-    siteNames = set([i.siteName for i in results if i.siteName])
-    siteNames = list(siteNames)
-    siteNames.sort()
-    return SimpleVocabulary.fromItems([(i, i) for i in siteNames])
+    class _Site(object):
+        def __init__(self, uid, name):
+            self.uid, self.name = uid, name
+        def __cmp__(self, other):
+            return cmp(self.name, other.name)
+    sites = frozenset([_Site(i.UID, i.siteName.decode('utf-8')) for i in results])
+    sites = list(sites)    
+    sites.sort()
+    return SimpleVocabulary([SimpleVocabulary.createTerm(i.uid, i.uid, i.name) for i in sites])    
 directlyProvides(sitesWithSpecimensVocabulary, IVocabularyFactory)
 
 ERNESpecimenSetSchema = SpecimenSetSchema.copy() + atapi.Schema((
