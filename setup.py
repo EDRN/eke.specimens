@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'eke.specimens'
-_version     = '1.1.10'
+_version     = '1.1.11'
 _description = 'ERNE Specimen Management for the EDRN Knowledge Environment'
 _author      = 'Andrew Hart'
 _authorEmail = 'andrew.hart@jpl.nasa.gov'
