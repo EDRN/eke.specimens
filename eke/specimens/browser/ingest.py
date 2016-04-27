@@ -62,7 +62,9 @@ class ERNESpecimenSystemViewIngestor(BrowserView):
     def lookupProtocol(self, catalog, protocolID):
         '''Find the UID of the protocol with the given protocolID, or None if not found'''
         results = catalog(identifier=_protocolPrefix + unicode(protocolID), object_provides=IProtocol.__identifier__)
-        if len(results) == 0: return None
+        if len(results) == 0:
+            import pdb;pdb.set_trace()
+            return None
         return results[0].UID
     def __call__(self):
         '''Do the ingest.'''
