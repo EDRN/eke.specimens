@@ -103,6 +103,5 @@ def setFacetedNavigation(folder, request):
         index='SearchableText',
     )
     criteria.add('path', 'bottom', 'default', title='Path Search', hidden=True, index='path', default=path)
-    criteria.add('debug', 'top', 'default', title='Debug Criteria', user='kelly')
     IFacetedLayout(folder).update_layout('faceted_specimens_view')
     alsoProvides(folder, IHidePloneRightColumn)

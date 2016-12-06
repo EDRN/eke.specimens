@@ -6,6 +6,12 @@ description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.11 — user='kelly'
+---------------------
+
+• CA-1447: Faceted debug criteria causing test failures
+
+
 1.1.10 — Bug Fixes
 ------------------
 
