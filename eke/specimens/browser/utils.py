@@ -11,7 +11,10 @@ import urllib, urllib2, logging
 
 _logger = logging.getLogger(__name__)
 
-_erneWS = 'http://ginger.fhcrc.org/edrn/erneQuery'
+
+# Goodbye, ginger. You served us for many fine years.
+# _erneWS = 'http://ginger.fhcrc.org/edrn/erneQuery'
+_erneWS = 'http://localhost:8081/p3/erneQuery'
 
 _units = {
     '1':  u'mcl',
@@ -48,20 +51,20 @@ _ethnicities = {
 
 # Site identifier to ERNE identifier
 SITES = {
-    'http://edrn.nci.nih.gov/data/sites/167': 'https://telepath-d340.upmc.edu:7576/erne/prod',   # Pittsburgh
-    'http://edrn.nci.nih.gov/data/sites/84':  'https://edrn.med.nyu.edu:7576/grid/prod',         # NYU
-    'http://edrn.nci.nih.gov/data/sites/189': 'https://ucsf-97-101.ucsf.edu:7576/erne/prod',     # UCSF
-    'http://edrn.nci.nih.gov/data/sites/202': 'https://erne.fccc.edu:7576/erne/prod',            # Fox Chase
-    'http://edrn.nci.nih.gov/data/sites/203': 'https://profiler.med.cornell.edu:7576/erne/prod', # Beth Israel
-    'http://edrn.nci.nih.gov/data/sites/408': 'https://erne.ucsd.edu:7576/erne/prod',            # UCSD
-    'http://edrn.nci.nih.gov/data/sites/67':  'https://kepler.dartmouth.edu:7576/erne/prod',     # GLNE Dartmouth
-    'http://edrn.nci.nih.gov/data/sites/70':  'https://edrn.partners.org:7576/erne/prod',        # Brigham & Women's
-    'http://edrn.nci.nih.gov/data/sites/73':  'https://supergrover.uchsc.edu:7576/erne/prod',    # Colorado
-    'http://edrn.nci.nih.gov/data/sites/80':  'https://edrn.creighton.edu:7576/erne/prod',       # Creighton Univ
-    'http://edrn.nci.nih.gov/data/sites/81':  'https://surg-oodt.mc.duke.edu:7576/erne/prod',    # Duke Univ
-    'http://edrn.nci.nih.gov/data/sites/83':  'https://162.129.227.245:7576/erne/prod',          # Johns Hopkins Urology
-    'http://edrn.nci.nih.gov/data/sites/91':  'https://cdc-erne.cdc.gov:7576/erne/prod',         # CDC
-    'http://edrn.nci.nih.gov/data/sites/593': 'https://cerc-vm1.fhcrc.org:7576/grid/prod',       # CERC at FHCRC
+    # 'http://edrn.nci.nih.gov/data/sites/167': 'https://telepath-d340.upmc.edu:7576/erne/prod',   # Pittsburgh
+    # 'http://edrn.nci.nih.gov/data/sites/84':  'https://edrn.med.nyu.edu:7576/grid/prod',         # NYU
+    # 'http://edrn.nci.nih.gov/data/sites/189': 'https://ucsf-97-101.ucsf.edu:7576/erne/prod',     # UCSF
+    # 'http://edrn.nci.nih.gov/data/sites/202': 'https://erne.fccc.edu:7576/erne/prod',            # Fox Chase
+    # 'http://edrn.nci.nih.gov/data/sites/203': 'https://profiler.med.cornell.edu:7576/erne/prod', # Beth Israel
+    # 'http://edrn.nci.nih.gov/data/sites/408': 'https://erne.ucsd.edu:7576/erne/prod',            # UCSD
+    # 'http://edrn.nci.nih.gov/data/sites/67':  'https://kepler.dartmouth.edu:7576/erne/prod',     # GLNE Dartmouth
+    # 'http://edrn.nci.nih.gov/data/sites/70':  'https://edrn.partners.org:7576/erne/prod',        # Brigham & Women's
+    # 'http://edrn.nci.nih.gov/data/sites/73':  'https://supergrover.uchsc.edu:7576/erne/prod',    # Colorado
+    # 'http://edrn.nci.nih.gov/data/sites/80':  'https://edrn.creighton.edu:7576/erne/prod',       # Creighton Univ
+    # 'http://edrn.nci.nih.gov/data/sites/81':  'https://surg-oodt.mc.duke.edu:7576/erne/prod',    # Duke Univ
+    # 'http://edrn.nci.nih.gov/data/sites/83':  'https://162.129.227.245:7576/erne/prod',          # Johns Hopkins Urology
+    # 'http://edrn.nci.nih.gov/data/sites/91':  'https://cdc-erne.cdc.gov:7576/erne/prod',         # CDC
+    # 'http://edrn.nci.nih.gov/data/sites/593': 'https://cerc-vm1.fhcrc.org:7576/grid/prod',       # CERC at FHCRC
 }
 
 
@@ -152,6 +155,7 @@ def getSpecimens(erneID, erneWS=_erneWS):
     records, available, email = [], None, None
     try:
         con = urllib2.urlopen(erneWS, urllib.urlencode(params))
+        # con = urllib2.urlopen('file:/Users/kelly/Documents/Clients/JPL/Cancer/ERNE/Development/dartmouth/out')
         stats = {}
         for erneRecord in con.read().split('$'):
             fields = erneRecord.split('\t')
