@@ -5,7 +5,7 @@
 '''EDRN Knowledge Environment Specimens: test the setup of this package.
 '''
 
-import unittest2 as unittest
+import unittest
 from eke.specimens.testing import EKE_SPECIMENS_INTEGRATION_TESTING
 from Products.CMFCore.utils import getToolByName
 from zope.component import queryUtility

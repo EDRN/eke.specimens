@@ -5,7 +5,7 @@
 '''EDRN Knowledge Environment Specimens: test the ingest of specimen data.
 '''
 
-import unittest2 as unittest
+import unittest
 from eke.specimens.testing import EKE_SPECIMENS_FIXTURE
 from eke.specimens.browser.utils import getSpecimens, ERNESpecimenSummary
 

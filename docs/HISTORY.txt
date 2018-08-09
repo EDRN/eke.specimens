@@ -6,6 +6,14 @@ description, you can find more details about cited issue numbers by visiting
 the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.12 — Plone 4.3.9 Upgrade
+----------------------------
+
+• CA-1592
+• CA-1593
+• CA-1594
+
+
 1.1.11 — user='kelly'
 ---------------------
 

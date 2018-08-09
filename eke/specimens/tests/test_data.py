@@ -5,7 +5,7 @@
 '''EDRN Knowledge Environment Specimens: test data files.
 '''
 
-import unittest2 as unittest
+import unittest
 from eke.specimens import locateData
 import os.path
 

@@ -5,7 +5,7 @@
 '''EDRN Knowledge Environment Specimens: miscellaneous tests.
 '''
 
-import unittest2 as unittest
+import unittest
 from eke.specimens import safeInt
 import os.path
 
