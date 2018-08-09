@@ -84,6 +84,8 @@ class ERNESpecimenSystemViewIngestor(BrowserView):
             object_provides=IActiveERNESet.__identifier__,
             path=dict(query='/'.join(erne.getPhysicalPath()), depth=1)
         )
+        # I have no idea what I was thinking here … maybe debugging a single set of data?
+        # erne.manage_delObjects([i.id for i in results if i.id and i.Title != 'UMICH'])
         erne.manage_delObjects([i.id for i in results if i.id])
         
         # For each site:
@@ -123,9 +125,12 @@ class ERNESpecimenSystemViewIngestor(BrowserView):
                 s.numControls    = summary.numberControls
                 s.collectionType = summary.collectionType
                 s.organs         = (getOrganLabel(summary.organ, context),)
-                s.reindexObject()
+                # TODO: We should probably find a better approach here:
+                try:
+                    s.reindexObject()
+                except UnicodeDecodeError as ex:
+                    pass
             log.append('Created %d sets for site %s' % (recordNum, siteAbbrevName))
         self._doPublish(erne, wfTool)
         self.results = log
         return self.render and self.template() or None
-            
